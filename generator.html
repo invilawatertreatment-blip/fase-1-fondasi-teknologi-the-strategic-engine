@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invila™ Internal Link Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+    </style>
+</head>
+<body class="p-6 md:p-12 flex justify-center items-center min-h-screen">
+    <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-slate-200 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-2 bg-blue-600"></div>
+        <h2 class="text-2xl font-black text-slate-800 mb-1 tracking-tight">Link Generator</h2>
+        <p class="text-sm text-slate-500 mb-6 font-medium">Internal Tool for Sales Team Invila™</p>
+        <div class="space-y-4">
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1 uppercase tracking-wider">Nama Prospek</label>
+                <input type="text" id="input-name" placeholder="Contoh: Beni" class="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1 uppercase tracking-wider">Jabatan (Role)</label>
+                <select id="input-role" class="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all font-medium">
+                    <option value="FM">FM (Fokus Operasional/Mesin)</option>
+                    <option value="CFO">CFO (Fokus Keuangan/EBITDA)</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1 uppercase tracking-wider">Perusahaan</label>
+                <input type="text" id="input-comp" placeholder="Contoh: KIW" class="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+            </div>
+        </div>
+        <div class="mt-8 p-4 bg-slate-100 border border-slate-200 rounded-xl">
+            <label class="block text-[10px] font-bold text-slate-400 mb-2 uppercase tracking-widest">Generated Smart Link:</label>
+            <textarea id="output-link" readonly class="w-full p-2 text-sm bg-transparent border-none text-blue-700 font-medium break-all resize-none h-24 outline-none focus:ring-0"></textarea>
+        </div>
+        <div class="mt-4 flex gap-3">
+            <button onclick="copyLink()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-black uppercase tracking-wider text-sm py-4 px-4 rounded-xl transition-transform active:scale-95 shadow-lg shadow-blue-500/30">Copy Link</button>
+            <a id="btn-test" href="#" target="_blank" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold uppercase tracking-wider text-sm py-4 px-6 rounded-xl transition-all text-center flex items-center justify-center">Test</a>
+        </div>
+        <p id="copy-msg" class="text-emerald-600 text-sm text-center mt-4 hidden font-bold bg-emerald-50 py-2 rounded-lg">✓ Link disalin ke clipboard!</p>
+    </div>
+
+    <script>
+        // RUBAHAN UTAMA: Link sekarang mengarah ke folder gateway/
+        const baseUrl = "https://zerocapexwaterinfrastructure.com/gateway/";
+
+        function generateLink() {
+            const name = document.getElementById('input-name').value.trim() || "Prospek";
+            const role = document.getElementById('input-role').value;
+            const comp = document.getElementById('input-comp').value.trim() || "Perusahaan";
+
+            const finalUrl = `${baseUrl}?name=${encodeURIComponent(name)}&role=${encodeURIComponent(role)}&comp=${encodeURIComponent(comp)}`;
+            
+            document.getElementById('output-link').value = finalUrl;
+            document.getElementById('btn-test').href = finalUrl;
+        }
+
+        document.getElementById('input-name').addEventListener('input', generateLink);
+        document.getElementById('input-role').addEventListener('change', generateLink);
+        document.getElementById('input-comp').addEventListener('input', generateLink);
+
+        function copyLink() {
+            const linkText = document.getElementById('output-link');
+            linkText.select();
+            document.execCommand("copy");
+            
+            const msg = document.getElementById('copy-msg');
+            msg.classList.remove('hidden');
+            setTimeout(() => msg.classList.add('hidden'), 2500);
+        }
+
+        generateLink();
+    </script>
+</body>
+</html>

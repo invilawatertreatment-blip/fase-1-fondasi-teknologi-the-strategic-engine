@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Invila™ | Sovereign Industrial Water Infrastructure</title>
+    
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { 
+                        mckNavy: '#001b44', invilaGold: '#C5A059', 
+                        successGreen: '#059669', legacyRed: '#9f1239', paper: '#f8fafc',
+                        scadaBg: '#020617', scadaAccent: '#10b981', scadaCyan: '#06b6d4'
+                    },
+                    fontFamily: { 
+                        sans: ['Inter', 'sans-serif'], 
+                        serif: ['Playfair Display', 'serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #ffffff; overflow-x: hidden; scroll-behavior: smooth; }
+        .hidden-element { display: none !important; }
+        
+        .fade-in-section { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; will-change: opacity, transform; }
+        .fade-in-section.is-visible { opacity: 1; transform: none; }
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+        /* SCADA Real-Time Animations */
+        @keyframes blink { 0%, 100% { opacity: 1; box-shadow: 0 0 8px #10b981; } 50% { opacity: 0.3; box-shadow: none;} }
+        .scada-blink { animation: blink 1.5s infinite; }
+        .scada-scanline { background: linear-gradient(to bottom, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 51%); background-size: 100% 4px; }
+        
+        /* PDF Stage Strict McKinsey Layout (A4 Presisi) */
+        .pdf-stage { position: absolute; left: -9999px; top: 0; z-index: -50; width: 210mm; opacity: 0; pointer-events: none; }
+        .pdf-page { width: 210mm; height: 297mm; padding: 20mm; background: #ffffff; color: #001b44; position: relative; box-sizing: border-box; display: flex; flex-direction: column; justify-content: flex-start; }
+    </style>
+</head>
+<body class="antialiased text-black">
+
+    <nav class="fixed top-0 w-full z-[100] backdrop-blur-md border-b border-slate-200 bg-white/95 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 h-20 md:h-24 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <img src="logo-invila-navy.png" alt="Invila" class="h-8 md:h-10 object-contain">
+                <div class="border-l border-slate-300 pl-4">
+                    <h1 class="text-xl md:text-2xl font-bold text-mckNavy uppercase tracking-tighter font-serif leading-none">INVILA&trade;</h1>
+                    <p class="text-[8px] md:text-[9px] font-bold text-mckNavy/70 uppercase tracking-widest mt-1">Water as a Service</p>
+                </div>
+            </div>
+            <a href="#strategic-engine" class="bg-mckNavy text-white px-6 py-2.5 text-[9px] md:text-[10px] font-bold uppercase tracking-widest border border-mckNavy hover:bg-invilaGold hover:text-mckNavy transition-all rounded-sm">
+                Diagnostic Audit
+            </a>
+        </div>
+    </nav>
+
+    <section class="relative min-h-[85dvh] w-full flex flex-col justify-center items-center pt-32 pb-16 px-6 bg-slate-50 border-b border-slate-200">
+        <div class="absolute inset-0 z-0 opacity-5" style="background-image: radial-gradient(#001b44 1px, transparent 1px); background-size: 30px 30px;"></div>
+        <div class="relative z-10 text-center max-w-4xl fade-in-section is-visible">
+            <p class="font-bold tracking-[0.4em] uppercase text-[9px] mb-6 text-slate-500 border-b border-slate-300 inline-block pb-2">Corporate Utility Restructuring</p>
+            <h2 class="text-4xl md:text-6xl font-bold text-mckNavy font-serif leading-[1.1] tracking-tight mb-8">
+                Hentikan Kebocoran <span class="italic text-invilaGold">EBITDA</span> dari Sektor Utilitas Pabrik Anda.
+            </h2>
+            <p class="text-base md:text-xl text-slate-600 font-light leading-relaxed mb-12">
+                Kami mengakuisisi 100% risiko pengeluaran modal (CapEx) dan merestrukturisasi biaya utilitas kawasan menjadi satu Tarif Pasti <i class="font-medium text-mckNavy">(Single-Rate Guarantee)</i>.
+            </p>
+            <a href="#strategic-engine" class="inline-block bg-mckNavy text-white px-10 py-4 text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-invilaGold hover:text-mckNavy transition-colors rounded-sm shadow-sm">
+                Akses Matriks Likuiditas &rarr;
+            </a>
+        </div>
+    </section>
+
+    <section id="strategic-engine" class="bg-white py-24 px-4 relative fade-in-section">
+        <div class="max-w-7xl mx-auto">
+            
+            <div class="text-center mb-16 max-w-3xl mx-auto">
+                <h4 class="text-mckNavy font-bold tracking-[0.4em] uppercase text-[10px] border-b border-slate-200 inline-block pb-2 mb-4">Harmonisasi Kepentingan Eksekutif</h4>
+                <h2 class="text-3xl md:text-5xl font-bold text-mckNavy font-serif mb-6">Operasional Aman, Likuiditas Terjaga.</h2>
+                <p class="text-sm md:text-base text-slate-600 font-light leading-relaxed">Invila WaaS menyelaraskan dua mandat terbesar korporasi: Kepastian suplai air dan <i>Uptime</i> bagi <strong class="text-mckNavy">Factory Manager</strong>, serta proteksi arus kas dan eliminasi aset mati bagi <strong class="text-mckNavy">Direktur Keuangan (CFO)</strong>.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+                
+                <div class="bg-scadaBg rounded-sm border border-slate-800 p-6 md:p-8 shadow-2xl relative overflow-hidden flex flex-col justify-between">
+                    <div class="absolute inset-0 scada-scanline pointer-events-none opacity-20"></div>
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-scadaAccent to-transparent opacity-50"></div>
+                    
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-end border-b border-slate-800 pb-4 mb-6">
+                            <div>
+                                <p class="text-slate-500 text-[9px] font-bold uppercase tracking-widest mb-1">Factory Manager Desk</p>
+                                <p class="text-white text-sm font-bold tracking-widest font-mono">LIVE SCADA TELEMETRY</p>
+                            </div>
+                            <span class="text-scadaAccent font-bold text-[10px] tracking-widest flex items-center gap-2">
+                                <span class="w-2 h-2 bg-scadaAccent rounded-full scada-blink"></span> ONLINE
+                            </span>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-3 mb-6 font-mono">
+                            <div class="bg-[#0b1221] border border-slate-800 p-4 rounded-sm">
+                                <p class="text-[9px] text-slate-500 uppercase tracking-widest mb-1">Influent Flow Rate</p>
+                                <p class="text-2xl text-white font-bold"><span id="ui-scada-flow">1500.0</span> <span class="text-[10px] text-slate-500">m³/d</span></p>
+                            </div>
+                            <div class="bg-[#0b1221] border border-slate-800 p-4 rounded-sm">
+                                <p class="text-[9px] text-slate-500 uppercase tracking-widest mb-1">Membrane (ΔP)</p>
+                                <p class="text-2xl text-scadaAccent font-bold"><span id="ui-scada-press">0.82</span> <span class="text-[10px] text-slate-500">BAR</span></p>
+                            </div>
+                            <div class="bg-[#0b1221] border border-slate-800 p-4 rounded-sm">
+                                <p class="text-[9px] text-slate-500 uppercase tracking-widest mb-1">Product Water TDS</p>
+                                <p class="text-2xl text-scadaCyan font-bold"><span id="ui-scada-tds">18.2</span> <span class="text-[10px] text-slate-500">PPM</span></p>
+                            </div>
+                            <div class="bg-[#0b1221] border border-slate-800 p-4 rounded-sm">
+                                <p class="text-[9px] text-slate-500 uppercase tracking-widest mb-1">SLA Uptime Guarantee</p>
+                                <p class="text-2xl text-white font-bold">99.98 <span class="text-[10px] text-slate-500">%</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="font-mono text-[9px] text-slate-500 border-t border-slate-800 pt-4 relative z-10">
+                        <p class="text-scadaAccent mb-1">> Predictive AI: No Anomalies Detected. Auto-dosing standby.</p>
+                        <div class="flex justify-between">
+                            <span>Node: INV-CORE-01</span>
+                            <span id="ui-scada-time">SYNC: 00:00:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-paper rounded-sm border border-slate-300 p-6 md:p-8 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center border-b border-slate-300 pb-4 mb-6">
+                            <div>
+                                <p class="text-mckNavy/50 text-[9px] font-bold uppercase tracking-widest mb-1">CFO / Finance Desk</p>
+                                <p class="text-mckNavy text-sm font-bold tracking-widest font-serif uppercase">Financial Engine</p>
+                            </div>
+                            <img src="logo-invila-navy.png" class="h-6 opacity-30" alt="">
+                        </div>
+                        
+                        <div class="space-y-4 mb-6">
+                            <div class="bg-white p-4 border border-slate-300 focus-within:border-mckNavy transition-colors rounded-sm">
+                                <label class="block text-[10px] font-bold text-mckNavy/70 uppercase mb-2 tracking-widest">Kapasitas Debit Air (m³/hari)</label>
+                                <input type="number" id="gate-flow" value="1500" oninput="runFinancialEngine()" class="w-full bg-transparent text-mckNavy font-bold text-2xl outline-none font-mono">
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-white p-4 border border-slate-300 focus-within:border-legacyRed transition-colors rounded-sm">
+                                    <label class="block text-[9px] font-bold text-legacyRed/80 uppercase mb-2 tracking-widest">Tarif Dasar PDAM (Rp/m³)</label>
+                                    <input type="number" id="gate-legacy" value="14600" oninput="runFinancialEngine()" class="w-full bg-transparent text-legacyRed font-bold text-xl outline-none font-mono">
+                                </div>
+                                <div class="bg-white p-4 border-2 border-mckNavy focus-within:border-invilaGold transition-colors relative rounded-sm">
+                                    <label class="block text-[9px] font-bold text-mckNavy uppercase mb-2 tracking-widest">Tarif WaaS Invila (Rp/m³)</label>
+                                    <input type="number" id="gate-waas" value="5500" oninput="runFinancialEngine()" class="w-full bg-transparent text-mckNavy font-bold text-xl outline-none font-mono">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-5 border border-slate-200 text-center border-t-4 border-t-mckNavy mb-6 shadow-sm rounded-sm">
+                            <p class="text-[9px] font-bold text-mckNavy/60 uppercase tracking-widest mb-1">EBITDA Recovery (Proyeksi 5 Tahun)</p>
+                            <h2 id="ui-5year" class="text-3xl font-bold text-successGreen font-serif">Rp 0</h2>
+                        </div>
+                    </div>
+
+                    <button onclick="executeStrategicDownload()" id="btn-pdf" class="w-full bg-mckNavy text-white py-4 rounded-sm font-bold uppercase tracking-[0.2em] text-[10px] hover:bg-invilaGold hover:text-mckNavy transition-all shadow-sm border border-mckNavy">
+                        Cetak Executive Memorandum (PDF) &rarr;
+                    </button>
+                    <p id="status-msg" class="text-[9px] text-center mt-3 uppercase tracking-widest text-successGreen font-bold hidden">Mengenkripsi Dokumen Rahasia & Merekam Audit...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-white py-10 px-6 border-t border-slate-200 text-center">
+        <h1 class="text-xl font-bold text-mckNavy uppercase tracking-tighter font-serif">INVILA&trade;</h1>
+        <p class="text-[8px] font-bold text-slate-400 uppercase tracking-[0.4em] mt-2">Strategic Desk | PT Invila Tirta Nusantara © 2026</p>
+    </footer>
+
+    <div class="pdf-stage">
+        <div id="pdf-page-1" class="pdf-page">
+            
+            <div class="border-b-2 border-mckNavy pb-5 mb-8 flex justify-between items-end">
+                <div class="flex items-center gap-4">
+                    <img src="logo-invila-navy.png" class="h-10 object-contain" alt="Invila Logo">
+                    <div class="border-l border-slate-300 pl-4">
+                        <h1 class="text-[20px] font-bold text-mckNavy uppercase tracking-tighter font-serif leading-none mb-1">INVILA&trade;</h1>
+                        <p class="text-[8px] font-bold text-invilaGold uppercase tracking-widest leading-none">Corporate Advisory Memorandum</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="text-[8px] font-bold text-slate-500 uppercase tracking-widest mb-1">Strictly Confidential</p>
+                    <p id="pdf-ref-num" class="text-[10px] font-bold text-mckNavy uppercase tracking-widest font-mono">REF: AUTOGEN</p>
+                    <p id="pdf-date" class="text-[8px] text-slate-500 mt-1 font-mono uppercase">DATE</p>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-mckNavy uppercase tracking-tight font-serif mb-2">Restrukturisasi Utilitas & Proteksi Likuiditas</h2>
+                <p class="text-[11px] leading-relaxed text-mckNavy/80 border-l-2 border-invilaGold pl-3 text-justify">
+                    Dokumen ini memvalidasi kelayakan finansial pengalihan infrastruktur pengolahan air fasilitas Anda menuju kerangka kerja <strong>Water as a Service (WaaS) berbasis Zero CapEx</strong>. Fokus utama evaluasi ini adalah demonstrasi akurasi matematis atas penghapusan <i>Sunk Cost</i> dan pemulihan batas EBITDA.
+                </p>
+            </div>
+
+            <h3 class="text-[10px] font-bold text-mckNavy uppercase tracking-widest mb-2 border-b border-slate-200 pb-1">I. Data Input (Baseline Parameter)</h3>
+            <div class="bg-slate-50 border border-slate-300 p-4 flex justify-between mb-6">
+                <div class="w-1/3">
+                    <p class="text-[8px] font-bold text-slate-500 uppercase tracking-widest mb-1">Kapasitas Debit Air</p>
+                    <p id="pdf-in-flow" class="text-sm font-bold text-mckNavy font-mono">0 m³/hari</p>
+                </div>
+                <div class="w-1/3 border-l border-slate-300 pl-4">
+                    <p class="text-[8px] font-bold text-slate-500 uppercase tracking-widest mb-1">Tarif Dasar PDAM</p>
+                    <p id="pdf-in-legacy" class="text-sm font-bold text-legacyRed font-mono">Rp 0 /m³</p>
+                </div>
+                <div class="w-1/3 border-l border-slate-300 pl-4">
+                    <p class="text-[8px] font-bold text-slate-500 uppercase tracking-widest mb-1">Tarif WaaS Invila</p>
+                    <p id="pdf-in-tariff" class="text-sm font-bold text-successGreen font-mono">Rp 0 /m³</p>
+                </div>
+            </div>
+
+            <h3 class="text-[10px] font-bold text-mckNavy uppercase tracking-widest mb-2 border-b border-slate-200 pb-1">II. Traceable Calculation Matrix (Rumus Transparan)</h3>
+            <table class="w-full text-left trace-table mb-8 border-collapse">
+                <thead>
+                    <tr class="bg-mckNavy text-white">
+                        <th class="w-1/3 !text-white !border-white/20">Metrik Kalkulasi</th>
+                        <th class="w-1/3 !text-white !border-white/20">Rumus Eksekusi (Formula)</th>
+                        <th class="w-1/3 !text-white !border-white/20">Hasil Analitik</th>
+                    </tr>
+                </thead>
+                <tbody class="text-mckNavy">
+                    <tr class="bg-slate-50">
+                        <td class="font-bold">Gross Margin Efisiensi</td>
+                        <td class="text-[9px] font-mono text-slate-500">Tarif PDAM - Tarif Invila WaaS</td>
+                        <td class="font-bold text-successGreen font-mono" id="pdf-out-margin">Rp 0</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold">Annual EBITDA Recovery</td>
+                        <td class="text-[9px] font-mono text-slate-500">Margin Efisiensi &times; Debit &times; 365 Hari</td>
+                        <td class="font-bold text-successGreen font-mono" id="pdf-out-annual">Rp 0</td>
+                    </tr>
+                    <tr class="bg-slate-50">
+                        <td class="font-bold">Sunk Cost Avoided (CapEx)</td>
+                        <td class="text-[9px] font-mono text-slate-500">100% Investasi Ditanggung Invila</td>
+                        <td class="font-bold text-mckNavy font-mono" id="pdf-out-capex">Rp 0</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="flex gap-4 mt-auto mb-8">
+                <div class="w-2/3 border border-slate-300 bg-slate-50 p-5">
+                    <p class="text-[9px] font-bold uppercase tracking-widest mb-1 text-mckNavy">5-Year Accumulative EBITDA Recovery</p>
+                    <p class="text-[8px] text-slate-500 mb-2 italic">Proyeksi penghematan pasti (EBITDA) selama 60 bulan operasional.</p>
+                    <p id="pdf-out-5year" class="text-3xl font-bold font-serif text-successGreen">Rp 0</p>
+                </div>
+                <div class="w-1/3 bg-mckNavy p-5 text-white flex flex-col justify-center items-center text-center border border-mckNavy">
+                    <p class="text-[8px] font-bold uppercase tracking-widest mb-1 text-invilaGold">Return on Investment</p>
+                    <p class="text-2xl font-bold font-serif text-white">Infinite</p>
+                    <p class="text-[7px] text-white/50 mt-1 uppercase tracking-widest">(Capital Awal = Rp 0)</p>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-300 pt-3 flex justify-between text-[7px] font-bold text-mckNavy/40 uppercase tracking-widest">
+                <p>Confidential Advisory Memorandum</p>
+                <p>Page 1 of 2</p>
+            </div>
+        </div>
+
+        <div id="pdf-page-2" class="pdf-page">
+            <div>
+                <div class="border-b border-mckNavy/20 pb-4 mb-6 flex justify-between items-end">
+                    <h1 class="text-lg font-bold text-mckNavy uppercase tracking-tighter font-serif leading-none">INVILA&trade;</h1>
+                    <p class="text-[8px] font-bold text-mckNavy/50 uppercase tracking-widest">III. Visualisasi & Kerangka Operasional</p>
+                </div>
+
+                <div class="border border-slate-300 p-5 mb-8 bg-slate-50">
+                    <p class="text-[9px] font-bold uppercase text-mckNavy text-center tracking-widest mb-4">Grafik Beban Kumulatif (Legacy PDAM vs WaaS Invila)</p>
+                    <div class="relative w-full h-[220px]">
+                        <canvas id="pdfChart"></canvas>
+                    </div>
+                </div>
+
+                <h3 class="text-[10px] font-bold text-mckNavy uppercase tracking-widest mb-2 border-b border-slate-200 pb-1">IV. Jaminan Factory Manager (Operational Protocol)</h3>
+                <div class="text-[10px] text-mckNavy/80 leading-relaxed text-justify space-y-3 mb-8 border-l-2 border-mckNavy pl-3">
+                    <p><strong class="font-bold">Zero-Downtime Integration:</strong> Peralihan menuju pasokan air Invila dibangun secara modular paralel (Bypass). Klien dipastikan beroperasi 100% normal tanpa *shutdown* pabrik selama instalasi.</p>
+                    <p><strong class="font-bold">SCADA Real-Time Control & SLA 99.98%:</strong> Anomali *Pressure* dan kualitas *Influent* dimitigasi instan oleh AI guna memastikan kontinuitas produksi. Beban perawatan rutin dan onderdil sepenuhnya ditanggung Invila.</p>
+                    <p><strong class="font-bold">Transfer of Asset (B.O.T):</strong> Di akhir masa kontrak, seluruh fasilitas pengolahan bernilai miliaran rupiah ini secara legal dihibahkan menjadi aset sah milik pabrik Anda.</p>
+                </div>
+            </div>
+
+            <div class="mt-auto border-t-2 border-mckNavy pt-5 flex justify-between items-end">
+                <div class="flex items-center gap-4">
+                    <img src="QR Code Irfon Calculator Respond Zero Capex.png" alt="QR Code" class="w-16 h-16 object-contain p-1 border border-slate-300 bg-white">
+                    <div>
+                        <p class="text-[9px] font-bold text-mckNavy uppercase tracking-widest">Tindak Lanjut & Site Audit</p>
+                        <p class="text-[8px] text-mckNavy/60 mt-1 font-mono font-bold">Scan QR / Hubungi WhatsApp:<br>+62 858 9013 5859 (Irfon Desman)</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="text-[7px] font-bold text-mckNavy/50 uppercase tracking-widest mb-1">Technical Engineering Validator:</p>
+                    <p class="text-[12px] font-bold text-mckNavy uppercase tracking-widest font-serif">Piator Simbolon</p>
+                    <p class="text-[8px] font-bold text-invilaGold uppercase tracking-widest">Lead Water & Strategic Engineer</p>
+                </div>
+            </div>
+            
+            <div class="mt-4 border-t border-slate-300 pt-3 flex justify-between text-[7px] font-bold text-mckNavy/40 uppercase tracking-widest">
+                <p>Not for Public Distribution</p>
+                <p>Page 2 of 2</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =========================================================================
+        // URL WEBHOOK GOOGLE APPS SCRIPT ANDA (WAJIB DIGANTI SETELAH SETUP BACKEND)
+        // =========================================================================
+        const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbw-CONTOH_GANTI_URL_INI/exec";
+
+        let chartInstance = null;
+        let globalRef = "";
+
+        // Formatter Angka Finance
+        function fmtNum(n) { return new Intl.NumberFormat('id-ID').format(Math.round(n)); }
+        function fmtRp(n) { return 'Rp ' + fmtNum(n); }
+        function fmtM(n) { 
+            if (n >= 1e9) return 'Rp ' + (n / 1e9).toFixed(2) + ' Miliar';
+            if (n >= 1e6) return 'Rp ' + (n / 1e6).toFixed(1) + ' Juta';
+            return fmtRp(n);
+        }
+
+        // Auto Generate Document Numbering
+        function generateDocRef() {
+            const d = new Date();
+            const dateCode = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+            const timeCode = `${String(d.getHours()).padStart(2,'0')}${String(d.getMinutes()).padStart(2,'0')}`;
+            const rand = Math.floor(100 + Math.random() * 900);
+            globalRef = `INV-SAV/${dateCode}-${timeCode}-${rand}`;
+            
+            document.getElementById('pdf-ref-num').innerText = `REF: ${globalRef}`;
+            document.getElementById('pdf-date').innerText = `DATE: ${d.toLocaleDateString('en-GB')}`;
+            return globalRef;
+        }
+
+        // Live SCADA Simulator (Untuk Tabel FM)
+        function initSCADA() {
+            setInterval(() => {
+                let f = parseFloat(document.getElementById('gate-flow').value) || 1500;
+                let flw = (f + (Math.random() * 2 - 1)).toFixed(1);
+                let prs = (0.8 + (Math.random() * 0.04 - 0.02)).toFixed(2);
+                let tds = (18.0 + (Math.random() * 0.4 - 0.2)).toFixed(1);
+                
+                if(document.getElementById('ui-scada-flow')) document.getElementById('ui-scada-flow').innerText = flw;
+                if(document.getElementById('ui-scada-press')) document.getElementById('ui-scada-press').innerText = prs;
+                if(document.getElementById('ui-scada-tds')) document.getElementById('ui-scada-tds').innerText = tds;
+                
+                const time = new Date().toLocaleTimeString('en-GB');
+                if(document.getElementById('ui-scada-time')) document.getElementById('ui-scada-time').innerText = "SYNC: " + time;
+            }, 2000);
+        }
+
+        // Core Mathematical Engine
+        function runFinancialEngine() {
+            const flow = parseFloat(document.getElementById('gate-flow').value) || 0;
+            const pdam = parseFloat(document.getElementById('gate-legacy').value) || 0;
+            const invila = parseFloat(document.getElementById('gate-waas').value) || 0;
+
+            const margin = pdam - invila;
+            const annual = margin * flow * 365;
+            const fiveYear = annual * 5;
+            const capex = (flow / 86.4) * 250000000; // Asumsi Rumus Standar Invila
+
+            // 1. Update UI Calculator Gateway (Web)
+            document.getElementById('ui-5year').innerText = fmtM(fiveYear);
+            document.getElementById('dash-5year').innerText = fmtM(fiveYear);
+            document.getElementById('dash-capex').innerText = fmtM(capex);
+            document.getElementById('dash-annual').innerText = fmtM(annual);
+
+            // 2. Update PDF Traceable Matrix
+            document.getElementById('pdf-in-flow').innerText = fmtNum(flow) + " m³/hari";
+            document.getElementById('pdf-in-legacy').innerText = fmtRp(pdam) + " /m³";
+            document.getElementById('pdf-in-tariff').innerText = fmtRp(invila) + " /m³";
+            
+            document.getElementById('pdf-out-margin').innerText = fmtRp(margin) + " / m³";
+            document.getElementById('pdf-out-annual').innerText = fmtRp(annual) + " / Tahun";
+            document.getElementById('pdf-out-capex').innerText = fmtM(capex);
+            document.getElementById('pdf-out-5year').innerText = fmtM(fiveYear);
+
+            updatePDFChart(flow, pdam, invila);
+        }
+
+        // Chart.js Configuration
+        function updatePDFChart(flow, pdam, invila) {
+            const labels = ['Tahun 1', 'Tahun 2', 'Tahun 3', 'Tahun 4', 'Tahun 5'];
+            let lAcc = 0; let wAcc = 0;
+            const lData = []; const wData = [];
+            
+            for(let i=1; i<=5; i++) {
+                lAcc += (flow * 365 * pdam);
+                wAcc += (flow * 365 * invila);
+                lData.push(lAcc); wData.push(wAcc);
+            }
+
+            if (chartInstance) chartInstance.destroy();
+            const ctx = document.getElementById('pdfChart').getContext('2d');
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        { label: 'Sunk Cost PDAM Kawasan', data: lData, borderColor: '#9f1239', borderWidth: 2, tension: 0, pointRadius: 0 },
+                        { label: 'Efisiensi Invila WaaS', data: wData, borderColor: '#001b44', backgroundColor: '#f1f5f9', fill: true, borderWidth: 3, tension: 0, pointRadius: 0 }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false, animation: false,
+                    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 9, family: 'Inter', weight: 'bold' } } } },
+                    scales: { y: { ticks: { font: { size: 8 }, callback: val => 'Rp ' + (val/1e9).toFixed(1) + 'M' } } }
+                }
+            });
+        }
+
+        // SILENT INTELLIGENCE TRACKER (Webhook Trigger)
+        function triggerSalesRadar() {
+            const flow = document.getElementById('gate-flow').value;
+            const pdam = document.getElementById('gate-legacy').value;
+            const invila = document.getElementById('gate-waas').value;
+            const ebitda = document.getElementById('dash-annual').innerText;
+
+            try {
+                fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Penting agar tidak diblokir browser klien
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        event: 'PDF_DOWNLOAD',
+                        ref: globalRef,
+                        flow: flow,
+                        pdam: pdam,
+                        invila: invila,
+                        ebitda: ebitda,
+                        timestamp: new Date().toLocaleString('id-ID')
+                    })
+                });
+            } catch(e) { console.log("Tracker silent mode."); }
+        }
+
+        // Eksekutor Generate PDF
+        async function executeStrategicDownload() {
+            const btn = document.getElementById('btn-pdf');
+            const alertMsg = document.getElementById('status-msg');
+            
+            btn.classList.add("opacity-50", "pointer-events-none");
+            btn.innerHTML = "Memproses Kalkulasi...";
+            alertMsg.classList.remove("hidden");
+
+            generateDocRef(); // Buat nomor baru tiap kali cetak
+            triggerSalesRadar(); // Tembak data ke WA Pak Irfon
+
+            setTimeout(async () => {
+                try {
+                    const { jsPDF } = window.jspdf;
+                    const doc = new jsPDF('p', 'mm', 'a4');
+                    
+                    const canvas1 = await html2canvas(document.getElementById('pdf-page-1'), { scale: 3, useCORS: true });
+                    doc.addImage(canvas1.toDataURL('image/jpeg', 1.0), 'JPEG', 0, 0, 210, 297);
+
+                    doc.addPage();
+                    const canvas2 = await html2canvas(document.getElementById('pdf-page-2'), { scale: 3, useCORS: true });
+                    doc.addImage(canvas2.toDataURL('image/jpeg', 1.0), 'JPEG', 0, 0, 210, 297);
+                    
+                    // Simpan PDF dengan nama dinamis
+                    const fileNameClean = globalRef.replace(/\//g, '-');
+                    doc.save(`Advisory_Invila_${fileNameClean}.pdf`);
+                } catch (error) {
+                    alert("Gagal merender dokumen. Pastikan koneksi stabil.");
+                } finally {
+                    btn.innerHTML = "Cetak Memorandum Audit (PDF) &rarr;";
+                    btn.classList.remove("opacity-50", "pointer-events-none");
+                    alertMsg.classList.add("hidden");
+                }
+            }, 500); // Jeda singkat agar UI merender sempurna
+        }
+
+        window.onload = () => { 
+            runFinancialEngine(); 
+            initSCADA(); 
+            generateDocRef(); 
+            
+            // Fader Animasi Scroll
+            const faders = document.querySelectorAll('.fade-in-section');
+            const obs = new IntersectionObserver((entries, observer) => {
+                entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('is-visible'); observer.unobserve(e.target); } });
+            }, { threshold: 0.1 });
+            faders.forEach(f => obs.observe(f));
+        };
+    </script>
+</body>
+</html>

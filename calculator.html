@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>INVILA™ | Strategic Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Noto+Serif:wght@900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body { background-color: #060b14; color: #ffffff; font-family: 'Inter', sans-serif; height: 100dvh; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        
+        /* BRANDING GUIDELINES */
+        .font-brand { font-family: 'Noto Serif', serif; line-height: 1; }
+        .tm-style { 
+            display: inline-block;
+            font-size: 0.55em; 
+            font-family: 'Inter', sans-serif; 
+            margin-left: 4px;
+            font-weight: 900;
+            line-height: 1;
+            transform: translateY(0.15em); 
+        }
+        .tagline-blue { color: #3b82f6; font-weight: 700; text-transform: uppercase; }
+        .italic-gray { color: #94a3b8; font-style: italic; font-family: 'Noto Serif', serif; margin: 0 6px; }
+        .zero-capex { color: #60a5fa; font-weight: 900; text-transform: uppercase; }
+
+        /* PDF STAGE STYLING */
+        .pdf-tagline-blue { color: #2563eb; }
+        .pdf-zero-capex { color: #1e3a8a; }
+        .pdf-stage { position: absolute; left: -9999px; top: 0; z-index: -10; opacity: 0; }
+        .pdf-page { width: 210mm; height: 297mm; padding: 20mm; background: white; color: #001b44; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+    </style>
+</head>
+<body class="p-4">
+
+    <div class="w-full max-w-md bg-[#0c1322] border border-slate-800 rounded-[2.5rem] p-6 shadow-2xl flex flex-col justify-between h-[92dvh] max-h-[750px]">
+        <div>
+            <div class="mb-8">
+                <div class="flex items-start gap-4 mb-2">
+                    <img src="logo-invila-white.png" alt="Logo" class="h-14 mt-1"> <div class="flex flex-col">
+                        <h1 class="font-brand text-white text-4xl flex items-start">INVILA<span class="tm-style">™</span></h1>
+                        <div class="flex items-baseline text-[10px] whitespace-nowrap mt-1">
+                            <span class="tagline-blue">Water as a Service</span>
+                            <span class="italic-gray">by</span>
+                            <span class="zero-capex">Zero CapEx</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6 text-center border-t border-white/10 pt-4">
+                    <h2 class="text-xl font-black text-[#C5A059] uppercase tracking-tighter italic">STRATEGIC ENGINE</h2>
+                </div>
+            </div>
+
+            <div class="space-y-4 mb-6">
+                <div class="bg-[#151b2b] p-4 rounded-2xl border border-slate-700">
+                    <label class="block text-[9px] font-bold text-[#C5A059] uppercase mb-1 tracking-widest">Requirement (m³/day)</label>
+                    <input type="number" id="flow" value="2000" oninput="updateAll()" class="w-full bg-transparent text-white font-black text-2xl outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-[#151b2b] p-4 rounded-2xl border border-slate-700">
+                        <label class="block text-[9px] font-bold text-[#C5A059] uppercase mb-1">PDAM Legacy</label>
+                        <input type="number" id="legacy" value="14600" oninput="updateAll()" class="w-full bg-transparent text-white font-black text-xl outline-none">
+                    </div>
+                    <div class="bg-[#001b44] p-4 rounded-2xl border border-[#C5A059]/50 text-right">
+                        <label class="block text-[9px] font-bold text-[#C5A059] uppercase mb-1">Invila Tariff</label>
+                        <input type="number" id="tariff" value="5500" oninput="updateAll()" class="w-full bg-transparent text-[#C5A059] font-black text-xl outline-none text-right">
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-[#001b44] p-6 rounded-[2rem] border border-slate-700 text-center mb-6 shadow-inner">
+                <p class="text-[#C5A059] text-[10px] font-black uppercase tracking-widest mb-1">Annual EBITDA Recovery</p>
+                <h2 id="dash-annual" class="text-4xl font-black text-white tracking-tighter py-1">Rp 0</h2>
+                <div class="mt-4 pt-4 border-t border-white/10 flex justify-between text-[8px] font-bold uppercase tracking-widest">
+                    <div class="text-left"><p class="text-white/50">CapEx Offset</p><p id="dash-capex">Rp 0</p></div>
+                    <div class="text-right"><p class="text-white/50">5-Year Saving</p><p id="dash-5year" class="text-emerald-400">Rp 0</p></div>
+                </div>
+            </div>
+
+            <button onclick="generatePDF()" id="btn-pdf" class="w-full bg-[#C5A059] text-[#060b14] py-5 rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg active:scale-95 transition-all">
+                Generate Strategic Advisory
+            </button>
+        </div>
+
+        <div class="text-center pt-2">
+            <p class="text-[9px] font-bold text-white uppercase tracking-widest leading-none">Irfon Desman, S.E., M.B.A. & Piator Simbolon</p>
+        </div>
+    </div>
+
+    <div class="pdf-stage">
+        <div id="pdf-page-1" class="pdf-page">
+            <div class="flex justify-between items-start border-b-4 border-[#001b44] pb-8 mb-10">
+                <div class="flex items-start gap-6">
+                    <img src="logo-invila-white.png" style="filter: brightness(0); height: 60px; margin-top: 14px;">
+                    <div class="flex flex-col">
+                        <h1 class="font-brand text-[#001b44] text-5xl flex items-start">INVILA<span class="tm-style" style="color:#001b44;">™</span></h1>
+                        <div class="flex items-baseline text-xl whitespace-nowrap mt-1">
+                            <span class="pdf-tagline-blue font-bold uppercase" style="font-family:'Inter', sans-serif;">Water as a Service</span>
+                            <span class="italic-gray text-xl">by</span>
+                            <span class="pdf-zero-capex font-black uppercase" style="font-family:'Inter', sans-serif;">Zero CapEx</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <h2 class="text-2xl font-black text-[#001b44] uppercase tracking-tighter italic">ADVISORY REPORT</h2>
+                    <p class="text-xs font-bold text-slate-300 mt-8">REF: 001/INV-SAV/2026</p>
+                </div>
+            </div>
+
+            <h2 class="text-3xl font-black text-[#001b44] mb-4 uppercase">Executive Saving Analysis</h2>
+            <p class="text-sm text-slate-600 mb-8 leading-relaxed italic border-l-4 border-[#C5A059] pl-4 text-justify">
+                "Laporan ini divalidasi untuk memberikan gambaran pemulihan biaya utilitas (EBITDA Recovery) melalui model operasional kedaulatan air mandiri (WaaS)."
+            </p>
+
+            <div class="bg-slate-50 p-8 rounded-3xl mb-8 border border-slate-200 text-center">
+                <div class="flex justify-between">
+                    <div class="w-1/3 border-r border-slate-200"><p class="text-[10px] font-bold text-slate-500 uppercase mb-2">Volume Harian</p><p id="pdf-flow" class="text-2xl font-black text-[#001b44]">0</p></div>
+                    <div class="w-1/3 border-r border-slate-200"><p class="text-[10px] font-bold text-slate-500 uppercase mb-2">Tarif PDAM</p><p id="pdf-legacy" class="text-2xl font-black text-[#001b44]">0</p></div>
+                    <div class="w-1/3"><p class="text-[10px] font-bold text-slate-500 uppercase mb-2">Tarif WaaS</p><p id="pdf-tariff" class="text-2xl font-black text-[#001b44]">0</p></div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="flex justify-between items-center p-8 bg-[#001b44] text-white rounded-3xl">
+                    <p class="text-xs font-black uppercase tracking-widest text-[#C5A059]">Annual EBITDA Recovery</p>
+                    <p id="pdf-annual" class="text-4xl font-black text-[#C5A059]">Rp 0</p>
+                </div>
+                <div class="flex justify-between items-center p-8 border-2 border-slate-100 rounded-3xl bg-slate-50/50">
+                    <p class="text-xs font-black uppercase tracking-widest text-slate-400">CapEx Offset Value</p>
+                    <p id="pdf-capex" class="text-3xl font-black text-[#001b44]">Rp 0</p>
+                </div>
+            </div>
+
+            <div class="mt-auto border-t-4 border-[#001b44] pt-8 flex justify-between">
+                <div class="w-1/2 text-center border-r border-slate-100">
+                    <p class="text-[9px] font-black uppercase text-slate-400 mb-6 tracking-widest">Technical Validation</p>
+                    <p class="text-md font-black text-[#001b44] uppercase leading-none">PIATOR SIMBOLON</p>
+                    <p class="text-[9px] font-bold text-[#C5A059] uppercase tracking-widest mt-1">Senior Lead System Architect</p>
+                </div>
+                <div class="w-1/2 text-center">
+                    <p class="text-[9px] font-black uppercase text-slate-400 mb-6 tracking-widest">Strategic Approval</p>
+                    <p class="text-md font-black text-[#001b44] uppercase leading-none">Irfon Desman, S.E., M.B.A.</p>
+                    <p class="text-[9px] font-bold text-[#C5A059] uppercase tracking-widest mt-1">Strategic Manager</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function fmt(n) {
+            if (n >= 1e9) return 'Rp ' + (n / 1e9).toFixed(2) + ' Miliar';
+            return 'Rp ' + Math.round(n).toLocaleString('id-ID');
+        }
+        function updateAll() {
+            const v = parseFloat(document.getElementById('flow').value) || 0;
+            const l = parseFloat(document.getElementById('legacy').value) || 0;
+            const t = parseFloat(document.getElementById('tariff').value) || 0;
+            const annualSaving = (l - t) * v * 365;
+            const capex = (v / 86.4) * 250000000;
+            document.getElementById('dash-annual').innerText = fmt(annualSaving);
+            document.getElementById('dash-capex').innerText = fmt(capex);
+            document.getElementById('dash-5year').innerText = fmt(annualSaving * 5);
+            document.getElementById('pdf-flow').innerHTML = `${v.toLocaleString('id-ID')} m<sup style="font-size: 10px;">3</sup>`;
+            document.getElementById('pdf-legacy').innerText = `Rp ${l.toLocaleString('id-ID')}`;
+            document.getElementById('pdf-tariff').innerText = `Rp ${t.toLocaleString('id-ID')}`;
+            document.getElementById('pdf-annual').innerText = fmt(annualSaving);
+            document.getElementById('pdf-capex').innerText = fmt(capex);
+        }
+        async function generatePDF() {
+            const btn = document.getElementById('btn-pdf');
+            btn.innerText = "Processing Official Document...";
+            btn.disabled = true;
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF('p', 'mm', 'a4');
+                const canvas = await html2canvas(document.getElementById('pdf-page-1'), { scale: 3, useCORS: true });
+                doc.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 210, 297);
+                doc.save(`INVILA_Strategic_Advisory_2026.pdf`);
+            } catch (e) { console.error(e); alert("System busy."); }
+            finally { btn.innerText = "Generate Strategic Advisory"; btn.disabled = false; }
+        }
+        window.onload = updateAll;
+    </script>
+</body>
+</html>
