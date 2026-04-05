@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>INVILA™ | Internal Link Generator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #020617; color: #f8fafc; font-family: 'Inter', sans-serif; }
@@ -21,9 +21,7 @@
                 <p class="text-xs font-bold text-slate-500 tracking-widest mt-1">SMART LINK GENERATOR - RESTRICTED ACCESS</p>
             </div>
             <div class="text-right">
-                <span class="inline-block px-3 py-1 bg-red-500/10 text-red-500 border border-red-500/20 rounded-full text-[10px] font-black uppercase tracking-widest">
-                    Live Ops
-                </span>
+                <span class="inline-block px-3 py-1 bg-red-500/10 text-red-500 border border-red-500/20 rounded-full text-[10px] font-black uppercase tracking-widest text-white">Live Ops</span>
             </div>
         </div>
 
@@ -33,17 +31,22 @@
                 
                 <div>
                     <label class="block text-xs font-bold text-slate-300 mb-1">Nama Perusahaan (Client)</label>
-                    <input type="text" id="gen_company" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white glow-input outline-none transition-all" placeholder="Contoh: PT Hassia Pacific" required>
+                    <input type="text" id="gen_company" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white glow-input outline-none transition-all" placeholder="PT Hassia Pacific">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">Alamat Lengkap</label>
+                    <textarea id="gen_addr" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white glow-input outline-none transition-all h-20 resize-none" placeholder="Masukkan alamat untuk surat penawaran..."></textarea>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-bold text-slate-300 mb-1">Nama Target</label>
-                        <input type="text" id="gen_name" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white glow-input outline-none transition-all" placeholder="Deni Sumargo">
+                        <input type="text" id="gen_name" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white glow-input outline-none transition-all" placeholder="Nama PIC">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-300 mb-1">Jabatan (Role)</label>
-                        <input type="text" id="gen_role" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white glow-input outline-none transition-all" placeholder="CFO / FM">
+                        <input type="text" id="gen_role" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white glow-input outline-none transition-all" placeholder="Kosongkan jika ingin diisi klien">
                     </div>
                 </div>
             </div>
@@ -53,15 +56,15 @@
                 
                 <div>
                     <label class="block text-xs font-bold text-slate-300 mb-1">Tampilan Tujuan (Routing)</label>
-                    <select id="gen_view" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white glow-input outline-none appearance-none">
-                        <option value="executive">EXECUTIVE VIEW (Fokus Finansial / CFO)</option>
+                    <select id="gen_view" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white glow-input outline-none">
                         <option value="technical">TECHNICAL VIEW (Fokus SCADA / FM)</option>
+                        <option value="executive">EXECUTIVE VIEW (Fokus Finansial / CFO)</option>
                     </select>
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold text-slate-300 mb-1">Masa Berlaku Tautan (Time-Bomb)</label>
-                    <select id="gen_expire" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white glow-input outline-none appearance-none">
+                    <label class="block text-xs font-bold text-slate-300 mb-1">Masa Berlaku Tautan</label>
+                    <select id="gen_expire" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white glow-input outline-none">
                         <option value="24">24 Jam (Urgent)</option>
                         <option value="48" selected>48 Jam (Standar)</option>
                         <option value="168">7 Hari (Long-Term)</option>
@@ -70,76 +73,50 @@
             </div>
         </div>
 
-        <button onclick="generateLink()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-black uppercase tracking-[0.2em] text-xs py-4 rounded-xl shadow-lg shadow-blue-900/50 transition-all active:scale-95 mb-8">
+        <button onclick="generateLink()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-black uppercase tracking-[0.2em] text-xs py-4 rounded-xl shadow-lg transition-all active:scale-95 mb-8">
             Inject Parameters & Generate Link
         </button>
 
         <div id="result_area" class="hidden border-t border-slate-800 pt-6">
             <h3 class="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-3">Encrypted Payload Ready</h3>
             <div class="flex items-center gap-3">
-                <input type="text" id="final_link" readonly class="w-full bg-black/50 border border-emerald-900/50 rounded-xl p-4 text-xs font-mono text-emerald-400 outline-none selection:bg-emerald-900">
-                <button onclick="copyLink()" id="btn_copy" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-4 px-6 rounded-xl transition-all whitespace-nowrap">
-                    COPY
-                </button>
+                <input type="text" id="final_link" readonly class="w-full bg-black/50 border border-emerald-900/50 rounded-xl p-4 text-xs font-mono text-emerald-400 outline-none">
+                <button onclick="copyLink()" id="btn_copy" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-4 px-6 rounded-xl transition-all">COPY</button>
             </div>
-            <p class="text-[10px] text-slate-500 mt-3 font-mono" id="token_info"></p>
         </div>
     </div>
 
     <script>
-        // Sesuaikan dengan URL Github Pages Bapak
         const BASE_URL = "https://invilawatertreatment-blip.github.io/fase-1-fondasi-teknologi-the-strategic-engine/gateway/index.html";
-
-        function generateToken() {
-            return Math.random().toString(36).substr(2, 8) + Math.random().toString(36).substr(2, 8);
-        }
 
         function generateLink() {
             const company = document.getElementById('gen_company').value.trim();
+            const addr = document.getElementById('gen_addr').value.trim();
             const name = document.getElementById('gen_name').value.trim();
             const role = document.getElementById('gen_role').value.trim();
             const view = document.getElementById('gen_view').value;
             const expireHours = parseInt(document.getElementById('gen_expire').value);
 
-            if (!company) {
-                alert("Nama Perusahaan (Client) wajib diisi!");
-                return;
-            }
+            if (!company) { alert("Nama Perusahaan wajib diisi!"); return; }
 
-            // Sanitasi spasi menjadi underscore untuk URL yang rapi
             const safeCompany = encodeURIComponent(company.replace(/\s+/g, '_'));
+            const safeAddr = encodeURIComponent(addr.replace(/\s+/g, '_'));
             const safeName = encodeURIComponent(name.replace(/\s+/g, '_'));
             const safeRole = encodeURIComponent(role.replace(/\s+/g, '_'));
-            
-            // Kalkulasi Bom Waktu (Epoch Timestamp)
             const expireTime = Date.now() + (expireHours * 60 * 60 * 1000);
-            const token = generateToken();
+            const token = Math.random().toString(36).substr(2, 10);
 
-            // Susun Smart Link
-            const finalUrl = `${BASE_URL}?view=${view}&client=${safeCompany}&nama=${safeName}&role=${safeRole}&token=${token}&expire=${expireTime}`;
+            const finalUrl = `${BASE_URL}?view=${view}&client=${safeCompany}&addr=${safeAddr}&nama=${safeName}&role=${safeRole}&token=${token}&expire=${expireTime}`;
 
-            // Tampilkan Hasil
             document.getElementById('final_link').value = finalUrl;
             document.getElementById('result_area').classList.remove('hidden');
-            
-            document.getElementById('token_info').innerHTML = 
-                `> AUTH_TOKEN: ${token.toUpperCase()} <br> > EXPIRES_AT: ${new Date(expireTime).toLocaleString('id-ID')}`;
-            
-            // Reset tombol copy
-            const btnCopy = document.getElementById('btn_copy');
-            btnCopy.innerText = "COPY";
-            btnCopy.className = "bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-4 px-6 rounded-xl transition-all whitespace-nowrap";
         }
 
         function copyLink() {
             const linkInput = document.getElementById('final_link');
             linkInput.select();
-            linkInput.setSelectionRange(0, 99999); // Untuk HP
             navigator.clipboard.writeText(linkInput.value);
-
-            const btnCopy = document.getElementById('btn_copy');
-            btnCopy.innerText = "COPIED!";
-            btnCopy.className = "bg-slate-700 text-white font-bold text-xs py-4 px-6 rounded-xl transition-all whitespace-nowrap";
+            document.getElementById('btn_copy').innerText = "COPIED!";
         }
     </script>
 </body>
