@@ -13,7 +13,7 @@
     <style>
         /* ==================== UI WEB PREMIUM (GOLD & NAVY PATTERN) ==================== */
         body { background-color: #060b14; color: #ffffff; font-family: 'Inter', sans-serif; min-height: 100dvh; display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem; }
-        html { scroll-behavior: smooth; } /* Efek scroll halus dari Hero ke Kalkulator */
+        html { scroll-behavior: smooth; }
         
         .font-brand { font-family: 'Noto Serif', serif; line-height: 1; }
         .tm-style { display: inline-block; font-size: 0.55em; font-family: 'Inter', sans-serif; margin-left: 4px; font-weight: 900; transform: translateY(0.15em); }
@@ -135,18 +135,26 @@
                     <div class="data-box"><p class="box-label">ROI Impact</p><p class="box-val text-emerald-600">INFINITE</p></div>
                 </div>
             </div>
-            <div class="mck-footer"><p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Invila Strategic Advisory For <span id="foot_name">Client</span></p></div>
+            <div class="mck-footer">
+                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">PAGE 1 OF 2 &nbsp;|&nbsp; INVILA STRATEGIC ADVISORY FOR <span id="foot_name">CLIENT</span></p>
+            </div>
         </div>
 
         <div id="pdf-page-2" class="a4-page">
             <div class="pdf-content flex flex-col h-full">
                 <div class="mck-header">
-                    <div class="flex items-center gap-4"><img src="logo-invila-white.png" style="height: 40px; filter: invert(100%);" crossorigin="anonymous"></div>
+                    <div class="flex items-center gap-4">
+                        <img src="logo-invila-white.png" style="height: 40px; filter: invert(100%);" crossorigin="anonymous">
+                        <div>
+                            <h2 class="font-bold text-[#00205B] text-xl leading-none" style="font-family:'Noto Serif',serif;">INVILA™</h2>
+                        </div>
+                    </div>
                     <div class="text-right">
                         <h2 class="font-brand font-black text-[#00205B] text-xl uppercase">Financial Projection</h2>
                         <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">WATER AS A SERVICE by ZERO CapEX</p>
                     </div>
                 </div>
+
                 <div class="mt-20 flex-grow flex flex-col items-center justify-center">
                     <p class="text-sm font-black uppercase tracking-[0.3em] text-[#00205B] mb-6">Projected 5-Year Financial Impact</p>
                     <div class="inline-block border-4 border-[#00205B] rounded-3xl px-24 py-16 bg-[#f8fafc] text-center">
@@ -154,6 +162,7 @@
                         <p class="font-serif-lux font-black text-6xl text-[#00205B] tracking-tighter" id="pdf_5year">Rp 0</p>
                     </div>
                 </div>
+                
                 <div class="mt-auto flex justify-between items-center bg-[#f1f5f9] p-8 rounded-2xl border border-slate-200">
                     <div class="flex items-center gap-6">
                         <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https://wa.me/6285219493322" style="width: 90px; height: 90px; border-radius: 8px;" crossorigin="anonymous">
@@ -165,6 +174,9 @@
                     </div>
                 </div>
             </div>
+            <div class="mck-footer">
+                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">PAGE 2 OF 2 &nbsp;|&nbsp; INVILA STRATEGIC ADVISORY FOR <span id="foot_name_2">CLIENT</span></p>
+            </div>
         </div>
     </div>
 
@@ -173,7 +185,6 @@
         function fmtRp(n) { return 'Rp ' + Math.round(n).toLocaleString('id-ID'); }
         
         function updateAll() {
-            // Auto inject tanggal presisi
             const dateOptions = { day: '2-digit', month: 'long', year: 'numeric' };
             document.getElementById('pdf_date').innerText = `Date: ${new Date().toLocaleDateString('id-ID', dateOptions)}`;
 
@@ -187,7 +198,10 @@
             const capex = (v / 86.4) * 250000000;
             const annualSaving = (legacyRate - ti) * v * 365;
             
+            // Sync Nama Client di Footer Halaman 1 & 2
             document.getElementById('foot_name').innerText = name.toUpperCase();
+            document.getElementById('foot_name_2').innerText = name.toUpperCase();
+            
             document.getElementById('table_legacy').innerText = fmtRp(legacyRate) + " / m³";
             document.getElementById('table_waas').innerText = fmtRp(ti) + " / m³";
             document.getElementById('table_ebitda').innerText = "+ " + fmtMiliar(annualSaving) + "/thn";
