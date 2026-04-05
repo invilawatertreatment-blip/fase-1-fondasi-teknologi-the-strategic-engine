@@ -49,16 +49,24 @@
 </head>
 <body class="bg-grid-slate min-h-screen flex flex-col justify-center py-10 px-4 md:px-8 font-sans relative">
 
+    <div id="expired_screen" class="hidden fixed inset-0 z-50 bg-[#060b14] flex-col items-center justify-center p-6 text-center">
+        <img src="logo-invila-white.png" class="h-16 mb-6 opacity-50" alt="INVILA">
+        <h2 class="text-2xl font-black text-red-500 uppercase tracking-widest mb-4">Akses Kedaluwarsa</h2>
+        <p class="text-sm text-slate-400 max-w-md leading-relaxed mb-8">Tautan Dokumen Strategis ini telah dikunci demi keamanan data dan konfidensialitas penawaran. Silakan hubungi Strategic Advisor Anda untuk meminta akses baru.</p>
+        <button onclick="window.location.reload()" class="bg-slate-800 text-white px-6 py-3 rounded-xl font-bold text-xs border border-slate-700 uppercase tracking-widest hover:bg-slate-700 active:scale-95 transition-all">Refresh Status</button>
+    </div>
+
     <div class="fixed top-[-10%] right-[-5%] w-[400px] h-[400px] bg-successGreen/5 blur-[150px] rounded-full pointer-events-none z-0"></div>
     <div class="fixed bottom-[-10%] left-[-5%] w-[400px] h-[400px] bg-brandGold/5 blur-[150px] rounded-full pointer-events-none z-0"></div>
 
-    <div class="max-w-[1300px] mx-auto w-full relative z-10 flex flex-col items-center">
+    <div id="main_ui_container" class="max-w-[1300px] mx-auto w-full relative z-10 flex flex-col items-center transition-all">
         
-        <div class="text-center mb-10 w-full">
+        <div id="header_section" class="text-center mb-10 w-full transition-all">
             <div class="inline-flex items-center gap-3 bg-luxuryPanel border border-white/10 px-5 py-2 rounded-full mb-5 shadow-sm">
                 <span class="w-2 h-2 bg-brandGold rounded-full animate-pulse shadow-[0_0_8px_#C5A059]"></span>
                 <span class="text-brandGold font-bold tracking-[0.25em] uppercase text-[10px] md:text-xs">CFO Strategic Desk</span>
             </div>
+            <img src="logo-invila-white.png" class="h-12 mx-auto mb-6" alt="INVILA">
             <h1 class="text-4xl md:text-6xl font-bold text-white font-serif leading-tight mb-3 tracking-tight">
                 EBITDA Recovery <span class="italic text-brandGold">Simulator.</span>
             </h1>
@@ -67,7 +75,7 @@
             </p>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch w-full mb-10">
+        <div id="calculator" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch w-full mb-10 transition-all">
             <div class="lg:col-span-5 glass-panel p-6 md:p-8 border-t-4 border-slate-500 rounded-xl flex flex-col shadow-xl">
                 <div class="border-b border-white/10 pb-4 mb-6">
                     <h3 class="text-base md:text-lg font-bold text-white font-serif tracking-widest uppercase">I. Operational Input</h3>
@@ -92,18 +100,26 @@
                         </div>
                     </div>
 
-                    <div class="relative luxury-input-group bg-[#081221] border border-slate-600 rounded-lg overflow-hidden shadow-inner">
-                        <label class="block text-[10px] font-bold text-legacyRed uppercase tracking-widest px-4 pt-3 pb-1">Tarif Retribusi Limbah</label>
-                        <div class="flex items-center">
-                            <span class="pl-4 pb-2 pt-1 text-slate-500 font-bold text-base h-full flex items-end">Rp</span>
-                            <input type="number" id="inp-waste" value="14000" oninput="runEngine()" class="w-full bg-transparent text-legacyRed font-bold text-2xl md:text-3xl px-4 pb-3 outline-none font-mono text-right tracking-wider">
-                            <span class="pr-4 pb-2 pt-1 text-slate-500 font-bold text-sm h-full flex items-end">/ m³</span>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="relative luxury-input-group bg-[#081221] border border-slate-600 rounded-lg overflow-hidden shadow-inner flex flex-col justify-center">
+                            <label class="block text-[9px] font-bold text-legacyRed uppercase tracking-widest px-3 pt-3 pb-1">Tarif Limbah / m³</label>
+                            <div class="flex items-center">
+                                <span class="pl-3 pb-2 pt-1 text-slate-500 font-bold text-sm h-full flex items-end">Rp</span>
+                                <input type="number" id="inp-waste" value="14000" oninput="runEngine()" class="w-full bg-transparent text-legacyRed font-bold text-xl px-2 pb-3 outline-none font-mono text-right tracking-wider">
+                            </div>
                         </div>
-                        <div class="bg-black/20 px-4 py-3 border-t border-slate-700/50">
-                            <p class="text-[9px] text-slate-400 font-medium italic text-justify leading-tight">
-                                *Biarkan Rp 0 jika pabrik beroperasi Stand-Alone di luar Kawasan Industri (Jawa Tengah, dsb).
-                            </p>
+                        <div class="relative luxury-input-group bg-[#081221] border border-slate-600 rounded-lg overflow-hidden shadow-inner flex flex-col justify-center">
+                            <label class="block text-[9px] font-bold text-legacyRed uppercase tracking-widest px-3 pt-3 pb-1">Wastewater Factor</label>
+                            <div class="flex items-center">
+                                <input type="number" id="inp-waste-factor" value="85" oninput="runEngine()" class="w-full bg-transparent text-legacyRed font-bold text-xl px-3 pb-3 outline-none font-mono text-right tracking-wider">
+                                <span class="pr-3 pb-2 pt-1 text-slate-500 font-bold text-sm h-full flex items-end">%</span>
+                            </div>
                         </div>
+                    </div>
+                    <div class="bg-black/20 px-4 py-2 border border-slate-700/50 rounded-lg">
+                        <p class="text-[9px] text-slate-400 font-medium italic text-justify leading-tight">
+                            *Isi Tarif Limbah Rp 0 jika beroperasi Non-Kawasan. Faktor limbah menyesuaikan regulasi kawasan setempat.
+                        </p>
                     </div>
 
                     <div class="relative luxury-input-group bg-[#081221] border border-slate-600 rounded-lg overflow-hidden shadow-inner">
@@ -118,7 +134,6 @@
 
             <div class="lg:col-span-3 glass-panel p-6 md:p-8 border-t-4 border-brandGold rounded-xl flex flex-col shadow-xl">
                 <h3 class="text-base md:text-lg font-bold text-brandGold font-serif tracking-widest mb-6 uppercase border-b border-white/10 pb-3">II. Invila™ Logic</h3>
-                
                 <div class="space-y-4 flex-grow">
                     <div class="relative luxury-input-group bg-[#081221] border border-slate-700 rounded-lg overflow-hidden shadow-inner">
                         <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest px-4 pt-3 pb-0">Target Recycling</label>
@@ -128,16 +143,7 @@
                             <span class="pr-4 pb-2 pt-1 text-slate-500 font-bold text-sm h-full flex items-end">%</span>
                         </div>
                     </div>
-
-                    <div class="relative luxury-input-group bg-[#081221] border border-slate-700 rounded-lg overflow-hidden shadow-inner">
-                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest px-4 pt-3 pb-0">Wastewater Factor</label>
-                        <p class="text-[8px] text-slate-500 font-serif italic px-4 pb-1">Beban Buang</p>
-                        <div class="flex items-center">
-                            <input type="number" id="inp-waste-factor" value="85" oninput="runEngine()" class="w-full bg-transparent text-white font-bold text-2xl md:text-3xl px-4 pb-3 outline-none font-mono text-right tracking-wider">
-                            <span class="pr-4 pb-2 pt-1 text-slate-500 font-bold text-sm h-full flex items-end">%</span>
-                        </div>
-                    </div>
-
+                    
                     <div class="relative luxury-input-group bg-brandGold/10 border border-brandGold/40 rounded-lg overflow-hidden shadow-inner mt-4">
                         <div class="absolute -right-4 -top-4 w-12 h-12 bg-brandGold/20 blur-xl rounded-full"></div>
                         <label class="block text-[10px] font-bold text-brandGold uppercase tracking-widest px-4 pt-4 pb-2 text-center relative z-10">Invila™ WaaS Target</label>
@@ -151,7 +157,7 @@
                 
                 <div class="mt-4 border-t border-white/10 pt-4">
                     <p class="text-[9px] text-slate-400 italic leading-relaxed text-justify">
-                        *Seluruh parameter WaaS dapat disesuaikan. Faktor limbah dikalibrasi mengikuti regulasi kawasan industri setempat.
+                        *Parameter ini mendisrupsi biaya air primer dan meruntuhkan dasar tagihan Surcharge Limbah kawasan.
                     </p>
                 </div>
             </div>
@@ -189,7 +195,7 @@
             </div>
         </div>
 
-        <div class="w-full flex justify-center pb-12">
+        <div id="btn_wrapper" class="w-full flex justify-center pb-12 transition-all">
             <button onclick="executeStrategicDownload()" id="btn-pdf" class="w-full max-w-md bg-brandGold text-[#001b44] py-5 rounded-xl font-black uppercase tracking-[0.15em] text-xs hover:bg-white active:scale-95 transition-all shadow-[0_10px_30px_-10px_rgba(197,160,89,0.6)] cursor-pointer flex flex-col items-center justify-center gap-2 border-2 border-brandGold relative overflow-hidden group">
                 <span class="absolute top-0 left-0 w-full h-1 bg-white/50 group-hover:bg-[#001b44]/10 transition-colors"></span>
                 <div class="flex items-center gap-2 relative z-10">
@@ -200,18 +206,23 @@
             </button>
         </div>
 
-        <div class="text-center mt-2 text-slate-600 text-[10px] font-bold uppercase tracking-[0.4em] pb-10">
+        <div id="footer_text" class="text-center mt-2 text-slate-600 text-[10px] font-bold uppercase tracking-[0.4em] pb-10 transition-all">
             <p>Invila™ Corporate Advisory | Strictly Confidential | &copy; 2026</p>
+            <p id="status-msg" class="text-[10px] text-center uppercase tracking-widest text-successGreen font-bold hidden animate-pulse mt-3">Menyiapkan Dokumen Board-Level...</p>
         </div>
 
     </div>
+
+    <input type="hidden" id="client_name" value="CFO Lead">
+    <input type="hidden" id="attn_name" value="CFO">
+    <input type="hidden" id="attn_role" value="Executive">
 
     <div class="pdf-stage">
         
         <div id="pdf-page-1" class="pdf-page">
             <div class="border-b-4 border-mckNavy pb-4 mb-6 flex justify-between items-end">
                 <div class="flex items-center gap-4">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/1x1.png" class="h-8 w-8 object-contain" alt="" onerror="this.style.display='none'">
+                    <img src="logo-invila-white.png" class="h-12 object-contain" alt="Invila Logo">
                     <div class="border-l-4 border-[#C5A059] pl-4">
                         <h1 class="text-[24px] font-black text-mckNavy uppercase tracking-tighter font-serif leading-none mb-1">THE STRATEGIC FINANCIAL MEMO</h1>
                         <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest leading-none">Invila™ EBITDA Recovery Dashboard</p>
@@ -352,13 +363,14 @@
                         </p>
                     </div>
                     <div class="w-[70px] h-[70px] bg-slate-50 border border-slate-300 p-1 rounded-lg shadow-sm flex-shrink-0">
-                        <img src="../QR-Irfon.png" class="w-full h-full object-contain" alt="QR Code" onerror="this.style.display='none'">
+                        <img src="QR-Irfon.png" class="w-full h-full object-contain" alt="QR Code">
                     </div>
                 </div>
             </div>
 
-            <div class="border-t border-slate-300 pt-2 text-[7px] font-bold text-slate-400 uppercase tracking-widest text-center mt-4">
-                Strictly Confidential | Page 2 of 2
+            <div class="border-t border-slate-300 pt-2 flex justify-between items-center mt-4">
+                <p class="text-[7px] font-bold text-slate-400 uppercase tracking-widest">Strictly Confidential | Page 2 of 2</p>
+                <img src="logo-invila-white.png" class="h-4 object-contain opacity-50" alt="Logo">
             </div>
         </div>
     </div>
@@ -417,13 +429,11 @@
         }
 
         function runEngine() {
-            // Tarik seluruh Input Dinamis
             const vol = parseFloat(document.getElementById('inp-flow').value) || 0;
             const pdam = parseFloat(document.getElementById('inp-pdam').value) || 0;
             const waste = parseFloat(document.getElementById('inp-waste').value) || 0;
             const days = parseFloat(document.getElementById('inp-days').value) || 0;
             
-            // Konversi input ke rasio (dibagi 100)
             const wasteFactor = (parseFloat(document.getElementById('inp-waste-factor').value) || 0) / 100;
             const recycleRate = (parseFloat(document.getElementById('inp-recycle').value) || 0) / 100;
             const waasTariff = parseFloat(document.getElementById('inp-waas').value) || 0;
@@ -451,9 +461,6 @@
 
             renderPdfChart(exWaterCostMonthly, exWasteCostMonthly, inWaterTotalMonthly, inWasteCostMonthly);
 
-            // ====================================================
-            // DYNAMIC NARRATIVE LOGIC
-            // ====================================================
             if (waste === 0) {
                 setTxt('pdf-narrative-leakage', `Fasilitas saat ini terkunci dalam ketergantungan absolut pada pasokan air komersial dengan harga premium. Ketiadaan kemandirian pasokan (<i>Water Sovereignty</i>) ini menciptakan in-efisiensi Harga Pokok Produksi (HPP) senilai <strong class="text-legacyRed font-mono">${fmtRp(exTotalMonthly)}/bulan</strong>, yang mengekspos perusahaan pada pembengkakan OPEX dan risiko gangguan operasional tanpa <i>hedge</i> yang memadai.`);
                 setTxt('pdf-narrative-solution', `Model <strong class="text-mckNavy">Invila™ WaaS</strong> mengeksekusi <i>Tariff Arbitrage</i> dengan mensubstitusi ${Math.round(recycleRate * 100)}% pasokan air melalui infrastruktur daur ulang mandiri (Tarif Tetap <strong class="text-successGreen font-mono">Rp ${numFormat(waasTariff)}/m³</strong>). Dieksekusi melalui <i>Asset-Light Strategy</i> (Zero CapEx) dan murni <i>Off-Balance Sheet</i>, manuver ini menyuntikkan likuiditas ke Laba Bersih perusahaan sejak Hari Pertama.`);
@@ -495,11 +502,46 @@
             setTxt('pdf-v-pct', `TURUN ${reductionPct}%`);
         }
 
+        // --- TIME-BOMB PROTOCOL ---
+        function parseURLParameters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const pExpire = urlParams.get('expire');
+            if (pExpire && Date.now() > parseInt(pExpire)) {
+                document.getElementById('header_section').classList.add('hidden');
+                document.getElementById('calculator').classList.add('hidden');
+                document.getElementById('btn_wrapper').classList.add('hidden');
+                document.getElementById('footer_text').classList.add('hidden');
+                
+                const expScreen = document.getElementById('expired_screen');
+                expScreen.classList.remove('hidden');
+                expScreen.classList.add('flex');
+                
+                setTimeout(() => {
+                    const company = encodeURIComponent(urlParams.get('client') ? urlParams.get('client').replace(/_/g, ' ') : "Unknown");
+                    const targetUrl = `${WEBHOOK_URL}?company=${company}&action=Buka%20Link%20(EXPIRED)`;
+                    fetch(targetUrl, { mode: 'no-cors' }).catch(e => console.log(e));
+                }, 500);
+                return true; 
+            }
+            
+            const pClient = urlParams.get('client');
+            const pNama = urlParams.get('nama');
+            const pRole = urlParams.get('role');
+
+            if (pClient) document.getElementById('client_name').value = decodeURIComponent(pClient).replace(/_/g, ' ');
+            if (pNama) document.getElementById('attn_name').value = decodeURIComponent(pNama).replace(/_/g, ' ');
+            if (pRole) document.getElementById('attn_role').value = decodeURIComponent(pRole).replace(/_/g, ' ');
+
+            return false;
+        }
+
         function triggerSalesRadar() {
             try {
-                const company = "CFO_DASHBOARD_LEAD";
+                const clientName = document.getElementById('client_name').value || "CFO_LEAD";
+                const roleName = document.getElementById('attn_role').value || "Executive";
                 const ebitda = document.getElementById('out-annual').innerText;
-                const targetUrl = `${WEBHOOK_URL}?company=${company}&nama=CFO&role=Executive&action=Cetak%20PDF%20(${ebitda})`;
+                
+                const targetUrl = `${WEBHOOK_URL}?company=${encodeURIComponent(clientName)}&nama=CFO&role=${encodeURIComponent(roleName)}&action=Cetak%20PDF%20(${ebitda})`;
                 fetch(targetUrl, { mode: 'no-cors' }).catch(e => console.log(e));
             } catch(e) {}
         }
@@ -541,7 +583,17 @@
             }, 1000); 
         }
 
-        window.addEventListener('DOMContentLoaded', runEngine);
+        window.addEventListener('DOMContentLoaded', () => {
+            const isExpired = parseURLParameters();
+            if (isExpired) return;
+            
+            runEngine();
+            setTimeout(() => {
+                const clientName = document.getElementById('client_name').value || "Unknown";
+                const targetUrl = `${WEBHOOK_URL}?company=${encodeURIComponent(clientName)}&action=Buka%20Link`;
+                fetch(targetUrl, { mode: 'no-cors' }).catch(e => console.log(e));
+            }, 1000);
+        });
     </script>
 </body>
 </html>
