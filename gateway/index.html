@@ -9,20 +9,36 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
-        body { background-color: #060b14; color: #ffffff; font-family: 'Inter', sans-serif; min-height: 100dvh; display: flex; align-items: center; justify-content: center; }
+        /* Pengaturan Flex-col agar Kartu Hero dan Kartu Kalkulator tersusun vertikal di tengah */
+        body { background-color: #060b14; color: #ffffff; font-family: 'Inter', sans-serif; min-height: 100dvh; display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem; }
+        html { scroll-behavior: smooth; } /* Efek scroll halus saat tombol diklik */
+        
         .font-brand { font-family: 'Noto Serif', serif; line-height: 1; }
         .tm-style { display: inline-block; font-size: 0.55em; font-family: 'Inter', sans-serif; margin-left: 4px; font-weight: 900; transform: translateY(0.15em); }
         .glass-card { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); }
-        .pdf-stage { position: absolute; left: -9999px; top: 0; z-index: -50; opacity: 0; }
+        
+        /* The PDF Engine Stage */
+        .pdf-stage { position: absolute; left: -9999px; top: 0; z-index: -50; opacity: 0; pointer-events: none; }
         .pdf-page { width: 210mm; height: 297mm; padding: 25mm; background: white; color: #001b44; display: flex; flex-direction: column; position: relative; }
         .letter-text { font-size: 11pt; line-height: 1.6; color: #000; text-align: justify; }
     </style>
 </head>
-<body class="p-6">
+<body>
 
-    <div class="w-full max-w-2xl glass-card rounded-[3rem] p-10 shadow-2xl my-10">
+    <div class="w-full max-w-2xl glass-card rounded-[3rem] p-10 shadow-2xl mt-10 mb-8 text-center">
+        <img src="logo-invila-white.png" class="h-16 mx-auto mb-6" alt="INVILA" onerror="this.src='logo-invila-white.png'">
+        <h2 class="font-brand text-3xl text-white mb-4">INVILA<span class="tm-style">™</span> GATEWAY</h2>
+        <p class="text-sm text-slate-300 leading-relaxed mb-8">
+            Kami mengakuisisi 100% risiko pengeluaran modal (CapEx) dan merestrukturisasi biaya utilitas air bersih menjadi satu Tarif Pasti (Single-Rate Guarantee).
+        </p>
+        <a href="#calculator" class="inline-block bg-blue-600 text-white py-4 px-8 rounded-[2rem] font-black uppercase tracking-[0.2em] text-xs shadow-2xl hover:bg-blue-500 active:scale-95 transition-all">
+            Akses Matriks Likuiditas →
+        </a>
+    </div>
+
+    <div id="calculator" class="w-full max-w-2xl glass-card rounded-[3rem] p-10 shadow-2xl mb-10 scroll-mt-10">
         <div class="mb-8 border-b border-white/10 pb-6 flex items-center gap-4">
-            <img src="logo-invila-white.png" class="h-12">
+            <img src="logo-invila-white.png" class="h-12" alt="INVILA" onerror="this.src='logo-invila-white.png'">
             <div>
                 <h1 class="font-brand text-white text-3xl flex">INVILA<span class="tm-style">™</span></h1>
                 <p class="text-[9px] font-black text-blue-400 uppercase tracking-widest">Universal Strategic Platform</p>
@@ -69,7 +85,7 @@
         <div id="pdf-page-1" class="pdf-page">
             <div class="flex justify-between items-start border-b-4 border-[#001b44] pb-8 mb-10">
                 <div class="flex items-start gap-6">
-                    <img src="logo-invila-white.png" style="filter: brightness(0); height: 60px; margin-top: 15px;">
+                    <img src="logo-invila-white.png" style="filter: brightness(0); height: 60px; margin-top: 15px;" crossorigin="anonymous">
                     <div class="flex flex-col">
                         <h1 class="font-brand text-[#001b44] text-5xl flex">INVILA<span class="tm-style" style="color:#001b44;">™</span></h1>
                         <p class="text-[10px] font-bold uppercase tracking-wider text-blue-600">Water as a Service by Zero CapEx</p>
@@ -96,7 +112,7 @@
 
                 <p class="mb-4">Dengan hormat,</p>
                 <p class="mb-4">Melalui surat ini, kami dari <b>INVILA™</b> bermaksud mengajukan penawaran kerjasama strategis dalam pengelolaan air bersih industri dengan model <b>Water as a Service (WaaS)</b> berbasis <b>Zero CapEx</b>.</p>
-                <p class="mb-4">Sistem kami dirancang untuk memproteksi EBITDA perusahaan Anda dengan mengeliminasi struktur biaya kawasan yang fluktuatif (Clean Water & Waste Surcharge) menjadi tarif <i>managed-service</i> yang stabil dan kompetitif. Terlampir pada halaman berikutnya, kami sertakan analisis optimasi biaya berdasarkan parameter operasional di lokasi Anda.</p>
+                <p class="mb-4">Sistem kami dirancang untuk memproteksi EBITDA perusahaan Anda dengan mengeliminasi struktur biaya utilitas air bersih yang fluktuatif menjadi tarif <i>managed-service</i> yang stabil dan kompetitif. Terlampir pada halaman berikutnya, kami sertakan analisis optimasi biaya berdasarkan parameter operasional di lokasi Anda.</p>
                 <p class="mb-4">Besar harapan kami untuk dapat mendiskusikan peluang ini lebih lanjut melalui <i>Site Technical Audit</i> guna memberikan angka efisiensi yang lebih presisi.</p>
                 <p class="mb-10">Demikian penawaran ini kami sampaikan. Atas perhatian dan kerjasamanya, kami ucapkan terima kasih.</p>
 
@@ -113,7 +129,7 @@
         <div id="pdf-page-2" class="pdf-page">
             <div class="flex justify-between items-start border-b-4 border-[#001b44] pb-8 mb-8">
                 <div class="flex items-center gap-6">
-                    <img src="logo-invila-white.png" style="filter: brightness(0); height: 40px; margin-top: 10px;">
+                    <img src="logo-invila-white.png" style="filter: brightness(0); height: 40px; margin-top: 10px;" crossorigin="anonymous">
                     <h1 class="font-brand text-[#001b44] text-3xl">INVILA<span class="tm-style" style="color:#001b44;">™</span></h1>
                 </div>
                 <h2 class="text-xl font-black text-[#001b44] italic">STRATEGIC ADVISORY REPORT</h2>
@@ -183,10 +199,15 @@
         }
 
         function updateAll() {
+            // Auto inject tanggal hari ini ke Surat Penawaran
+            const dateOptions = { day: '2-digit', month: 'long', year: 'numeric' };
+            document.getElementById('pdf_date').innerText = `Bekasi, ${new Date().toLocaleDateString('id-ID', dateOptions)}`;
+
             const name = document.getElementById('client_name').value || "PT Client Name";
             const addr = document.getElementById('client_addr').value || "Address Line";
             const attn = document.getElementById('attn_name').value;
             const role = document.getElementById('attn_role').value;
+            
             const v = parseFloat(document.getElementById('flow').value) || 0;
             const tc = parseFloat(document.getElementById('t_clean').value) || 0;
             const tw = parseFloat(document.getElementById('t_waste').value) || 0;
@@ -210,11 +231,6 @@
             document.getElementById('pdf_total_m3').innerText = "Rp " + legacyTotal.toLocaleString('id-ID');
             document.getElementById('pdf_annual').innerText = fmt(saving);
             document.getElementById('pdf_capex').innerText = fmt((v / 86.4) * 250000000);
-            
-            // Dashboard UI
-            document.getElementById('dash-annual').innerText = fmt(saving);
-            document.getElementById('dash-capex').innerText = fmt((v / 86.4) * 250000000);
-            document.getElementById('dash-5year').innerText = fmt(saving * 5);
         }
 
         async function generateOfficialPDF() {
@@ -223,6 +239,7 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF('p', 'mm', 'a4');
             
+            // Konversi HTML ke Gambar dengan scale 3 (HD)
             const canvas1 = await html2canvas(document.getElementById('pdf-page-1'), { scale: 3, useCORS: true });
             doc.addImage(canvas1.toDataURL('image/png'), 'PNG', 0, 0, 210, 297);
             
@@ -230,7 +247,7 @@
             const canvas2 = await html2canvas(document.getElementById('pdf-page-2'), { scale: 3, useCORS: true });
             doc.addImage(canvas2.toDataURL('image/png'), 'PNG', 0, 0, 210, 297);
             
-            doc.save(`INVILA_Official_Proposal_${document.getElementById('client_name').value}.pdf`);
+            doc.save(`INVILA_Official_Proposal_${document.getElementById('client_name').value.replace(/ /g, "_")}.pdf`);
             btn.innerText = "Generate Official Proposal";
         }
         window.onload = updateAll;
