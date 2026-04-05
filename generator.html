@@ -51,9 +51,14 @@
                         <input type="text" id="gen_name" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white glow-input outline-none transition-all" placeholder="Nama PIC">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-300 mb-1">Jabatan (Role)</label>
-                        <input type="text" id="gen_role" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white glow-input outline-none transition-all" placeholder="CFO / FM / Kosongkan">
+                        <label class="block text-xs font-bold text-slate-300 mb-1">No. WA Target (Internal)</label>
+                        <input type="text" id="gen_phone" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white glow-input outline-none transition-all" placeholder="081234...">
                     </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">Jabatan (Role)</label>
+                    <input type="text" id="gen_role" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white glow-input outline-none transition-all" placeholder="CFO / FM / Kosongkan">
                 </div>
             </div>
 
@@ -106,7 +111,7 @@
                     <tr>
                         <th class="p-4 rounded-tl-xl border-b border-slate-700">Tgl Dibuat</th>
                         <th class="p-4 border-b border-slate-700">Perusahaan</th>
-                        <th class="p-4 border-b border-slate-700">Target (Role)</th>
+                        <th class="p-4 border-b border-slate-700">Target (Role) & WA</th>
                         <th class="p-4 border-b border-slate-700">Routing Mode</th>
                         <th class="p-4 border-b border-slate-700">Status Expire</th>
                         <th class="p-4 rounded-tr-xl border-b border-slate-700">Aksi</th>
@@ -122,8 +127,8 @@
         // URL Master Gateway
         const BASE_URL = "https://invilawatertreatment-blip.github.io/fase-1-fondasi-teknologi-the-strategic-engine/gateway/index.html";
         
-        // URL Google Apps Script Webhook (Lead Monitoring Dashboard)
-        const GAS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxS8FBub7vlgvS-kH_P1NynmvQ6E_2nRsN2kFA_ZtrQ65Q3hltYe8dcsInZ-nuF1H-X/exec";
+        // --- NEW WEBHOOK URL GOOGLE SPREADSHEET ---
+        const GAS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbydM-DSo_m53W8vGw2kVSaj-9WxpBQEyYWMkBJDl6wauE_brD78K5LPhfJdcTDDEvb-/exec";
 
         window.onload = renderHistory;
 
@@ -131,6 +136,7 @@
             const company = document.getElementById('gen_company').value.trim();
             const addr = document.getElementById('gen_addr').value.trim();
             const name = document.getElementById('gen_name').value.trim();
+            const phone = document.getElementById('gen_phone').value.trim();
             const role = document.getElementById('gen_role').value.trim();
             const view = document.getElementById('gen_view').value;
             const expireHours = parseInt(document.getElementById('gen_expire').value);
@@ -142,10 +148,13 @@
             const safeAddr = encodeURIComponent(addr.replace(/\s+/g, '_'));
             const safeName = encodeURIComponent(name.replace(/\s+/g, '_'));
             const safeRole = encodeURIComponent(role.replace(/\s+/g, '_'));
+            const safePhone = encodeURIComponent(phone);
             
             // Generate Waktu Expire & Token Rahasia
             const expireTime = Date.now() + (expireHours * 60 * 60 * 1000);
             const token = Math.random().toString(36).substr(2, 10);
+            
+            // Susun Tautan Klien (PENTING: phone tidak dimasukkan ke dalam link klien)
             const finalUrl = `${BASE_URL}?view=${view}&client=${safeCompany}&addr=${safeAddr}&nama=${safeName}&role=${safeRole}&token=${token}&expire=${expireTime}`;
 
             // 1. Tampilkan Tautan di Layar
@@ -153,25 +162,27 @@
             document.getElementById('result_area').classList.remove('hidden');
             document.getElementById('btn_copy').innerText = "COPY";
 
-            // 2. Simpan Data ke Tabel Lokal
+            // 2. Simpan Data ke Tabel Lokal (Termasuk Nomor HP)
             saveToDatabase({
                 dateStr: new Date().toLocaleString('id-ID', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }),
                 company: company,
                 target: name || "-",
+                phone: phone || "-",
                 role: role || "-",
                 view: view,
                 expireTime: expireTime,
                 link: finalUrl
             });
 
-            // 3. TEMBAK DATA KE GOOGLE SPREADSHEET (Markas Pusat Bapak)
-            const radarUrl = `${GAS_WEBHOOK_URL}?company=${safeCompany}&nama=${safeName}&role=${safeRole}&action=GENERATE%20LINK&link=${encodeURIComponent(finalUrl)}`;
+            // 3. TEMBAK DATA KE GOOGLE SPREADSHEET (Markas Pusat) - Membawa parameter phone
+            const radarUrl = `${GAS_WEBHOOK_URL}?company=${safeCompany}&nama=${safeName}&phone=${safePhone}&role=${safeRole}&action=GENERATE%20LINK&link=${encodeURIComponent(finalUrl)}`;
             fetch(radarUrl, { mode: 'no-cors' })
                 .then(() => console.log("[War Room] Data tersinkronisasi ke Markas Invila."))
                 .catch(e => console.log("[War Room] Gagal sinkronisasi ke Markas:", e));
             
             // Kosongkan sebagian form agar mudah dipakai lagi
             document.getElementById('gen_name').value = "";
+            document.getElementById('gen_phone').value = "";
             document.getElementById('gen_role').value = "";
         }
 
@@ -221,12 +232,15 @@
                     ? `<span class="text-[#d4af37] font-bold">Executive</span>`
                     : `<span class="text-blue-400 font-bold">Technical</span>`;
 
+                // Tampilan role dan phone di tabel
+                const phoneDisplay = item.phone !== "-" ? `<br><span class="text-emerald-400 font-mono text-[10px]">WA: ${item.phone}</span>` : "";
+
                 const tr = document.createElement('tr');
                 tr.className = "border-b border-slate-800 hover:bg-slate-800/40 transition-colors";
                 tr.innerHTML = `
                     <td class="p-4 whitespace-nowrap text-slate-400">${item.dateStr}</td>
                     <td class="p-4 font-black text-white">${item.company}</td>
-                    <td class="p-4">${item.target} <span class="text-slate-500 font-medium">(${item.role})</span></td>
+                    <td class="p-4">${item.target} <span class="text-slate-500 font-medium">(${item.role})</span> ${phoneDisplay}</td>
                     <td class="p-4 uppercase text-[10px]">${viewBadge}</td>
                     <td class="p-4">${statusBadge}</td>
                     <td class="p-4">
