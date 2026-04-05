@@ -119,9 +119,12 @@
     </div>
 
     <script>
+        // URL Master Gateway
         const BASE_URL = "https://invilawatertreatment-blip.github.io/fase-1-fondasi-teknologi-the-strategic-engine/gateway/index.html";
+        
+        // URL Google Apps Script Webhook (Lead Monitoring Dashboard)
+        const GAS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxS8FBub7vlgvS-kH_P1NynmvQ6E_2nRsN2kFA_ZtrQ65Q3hltYe8dcsInZ-nuF1H-X/exec";
 
-        // Tampilkan data saat halaman pertama dimuat
         window.onload = renderHistory;
 
         function generateAndSaveLink() {
@@ -134,23 +137,23 @@
 
             if (!company) { alert("Nama Perusahaan wajib diisi!"); return; }
 
-            // Sanitasi
+            // Sanitasi parameter
             const safeCompany = encodeURIComponent(company.replace(/\s+/g, '_'));
             const safeAddr = encodeURIComponent(addr.replace(/\s+/g, '_'));
             const safeName = encodeURIComponent(name.replace(/\s+/g, '_'));
             const safeRole = encodeURIComponent(role.replace(/\s+/g, '_'));
             
-            // Generate Parameter
+            // Generate Waktu Expire & Token Rahasia
             const expireTime = Date.now() + (expireHours * 60 * 60 * 1000);
             const token = Math.random().toString(36).substr(2, 10);
             const finalUrl = `${BASE_URL}?view=${view}&client=${safeCompany}&addr=${safeAddr}&nama=${safeName}&role=${safeRole}&token=${token}&expire=${expireTime}`;
 
-            // 1. Tampilkan di area Hasil
+            // 1. Tampilkan Tautan di Layar
             document.getElementById('final_link').value = finalUrl;
             document.getElementById('result_area').classList.remove('hidden');
             document.getElementById('btn_copy').innerText = "COPY";
 
-            // 2. Simpan ke Database Lokal
+            // 2. Simpan Data ke Tabel Lokal
             saveToDatabase({
                 dateStr: new Date().toLocaleString('id-ID', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }),
                 company: company,
@@ -160,8 +163,14 @@
                 expireTime: expireTime,
                 link: finalUrl
             });
+
+            // 3. TEMBAK DATA KE GOOGLE SPREADSHEET (Markas Pusat Bapak)
+            const radarUrl = `${GAS_WEBHOOK_URL}?company=${safeCompany}&nama=${safeName}&role=${safeRole}&action=GENERATE%20LINK&link=${encodeURIComponent(finalUrl)}`;
+            fetch(radarUrl, { mode: 'no-cors' })
+                .then(() => console.log("[War Room] Data tersinkronisasi ke Markas Invila."))
+                .catch(e => console.log("[War Room] Gagal sinkronisasi ke Markas:", e));
             
-            // Kosongkan form untuk input berikutnya (opsional, biarkan company tetap agar mudah edit)
+            // Kosongkan sebagian form agar mudah dipakai lagi
             document.getElementById('gen_name').value = "";
             document.getElementById('gen_role').value = "";
         }
@@ -187,7 +196,7 @@
         // --- MANAJEMEN DATABASE LOCAL STORAGE ---
         function saveToDatabase(prospectData) {
             let history = JSON.parse(localStorage.getItem('invila_prospects')) || [];
-            history.unshift(prospectData); // Masukkan data terbaru ke posisi teratas
+            history.unshift(prospectData); 
             localStorage.setItem('invila_prospects', JSON.stringify(history));
             renderHistory();
         }
