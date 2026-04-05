@@ -9,15 +9,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
-        /* Pengaturan Flex-col agar Kartu Hero dan Kartu Kalkulator tersusun vertikal di tengah */
         body { background-color: #060b14; color: #ffffff; font-family: 'Inter', sans-serif; min-height: 100dvh; display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem; }
-        html { scroll-behavior: smooth; } /* Efek scroll halus saat tombol diklik */
-        
+        html { scroll-behavior: smooth; } 
         .font-brand { font-family: 'Noto Serif', serif; line-height: 1; }
         .tm-style { display: inline-block; font-size: 0.55em; font-family: 'Inter', sans-serif; margin-left: 4px; font-weight: 900; transform: translateY(0.15em); }
         .glass-card { background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); }
         
-        /* The PDF Engine Stage */
         .pdf-stage { position: absolute; left: -9999px; top: 0; z-index: -50; opacity: 0; pointer-events: none; }
         .pdf-page { width: 210mm; height: 297mm; padding: 25mm; background: white; color: #001b44; display: flex; flex-direction: column; position: relative; }
         .letter-text { font-size: 11pt; line-height: 1.6; color: #000; text-align: justify; }
@@ -41,7 +38,7 @@
             <img src="../logo-invila-white.png" class="h-12" alt="INVILA" onerror="this.src='logo-invila-white.png'">
             <div>
                 <h1 class="font-brand text-white text-3xl flex">INVILA<span class="tm-style">™</span></h1>
-                <p class="text-[9px] font-black text-blue-400 uppercase tracking-widest">Universal Strategic Platform</p>
+                <p id="ui_view_title" class="text-[9px] font-black text-blue-400 uppercase tracking-widest">Universal Strategic Platform</p>
             </div>
         </div>
 
@@ -53,27 +50,52 @@
                 <input type="text" id="attn_name" value="Bpk. Deni Sumargo" oninput="updateAll()" class="w-full bg-slate-900/50 p-4 rounded-2xl border border-slate-700 outline-none text-white font-bold" placeholder="u.p. (Nama)">
                 <input type="text" id="attn_role" value="CFO" oninput="updateAll()" class="w-full bg-slate-900/50 p-4 rounded-2xl border border-slate-700 outline-none text-white text-sm" placeholder="Jabatan">
             </div>
-            <div class="space-y-4">
-                <h3 class="text-xs font-black text-blue-400 uppercase tracking-widest">Financial Parameters</h3>
-                <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-700">
-                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Usage (m³/day)</label>
-                    <input type="number" id="flow" value="1500" oninput="updateAll()" class="w-full bg-transparent text-white font-black text-xl outline-none">
-                </div>
-                <div class="grid grid-cols-2 gap-4">
+
+            <div>
+                <div id="technical_section" class="space-y-4 transition-all">
+                    <h3 class="text-xs font-black text-blue-400 uppercase tracking-widest">Financial Parameters</h3>
                     <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-700">
-                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Clean Water</label>
-                        <input type="number" id="t_clean" value="14500" oninput="updateAll()" class="w-full bg-transparent text-white font-bold text-lg outline-none">
+                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Usage (m³/day)</label>
+                        <input type="number" id="flow" value="1500" oninput="updateAll()" class="w-full bg-transparent text-white font-black text-xl outline-none">
                     </div>
-                    <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-700">
-                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Waste (85%)</label>
-                        <input type="number" id="t_waste" value="14000" oninput="updateAll()" class="w-full bg-transparent text-white font-bold text-lg outline-none">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-700">
+                            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Clean Water</label>
+                            <input type="number" id="t_clean" value="14500" oninput="updateAll()" class="w-full bg-transparent text-white font-bold text-lg outline-none">
+                        </div>
+                        <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-700">
+                            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Waste (85%)</label>
+                            <input type="number" id="t_waste" value="14000" oninput="updateAll()" class="w-full bg-transparent text-white font-bold text-lg outline-none">
+                        </div>
+                    </div>
+                    <div class="bg-blue-600/20 p-4 rounded-2xl border border-blue-500">
+                        <label class="block text-[10px] font-bold text-blue-400 uppercase mb-1">Invila Managed Rate</label>
+                        <input type="number" id="t_invila" value="5500" oninput="updateAll()" class="w-full bg-transparent text-white font-black text-xl outline-none">
                     </div>
                 </div>
-                <div class="bg-blue-600/20 p-4 rounded-2xl border border-blue-500">
-                    <label class="block text-[10px] font-bold text-blue-400 uppercase mb-1">Invila Managed Rate</label>
-                    <input type="number" id="t_invila" value="5500" oninput="updateAll()" class="w-full bg-transparent text-white font-black text-xl outline-none">
+
+                <div id="executive_section" class="space-y-4 hidden transition-all">
+                    <h3 class="text-xs font-black text-[#d4af37] uppercase tracking-widest">Executive Summary</h3>
+                    <div class="bg-slate-900/50 p-6 rounded-2xl border border-[#d4af37] text-center shadow-lg shadow-[#d4af37]/10">
+                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Projected Annual Savings</label>
+                        <p id="ui_exec_saving" class="text-3xl font-black text-emerald-400">Rp 0</p>
+                    </div>
+                    <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-700 text-center">
+                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">CapEx Avoidance (Off-Balance Sheet)</label>
+                        <p id="ui_exec_capex" class="text-xl font-black text-white">Rp 0</p>
+                    </div>
+                    <p class="text-[10px] text-slate-500 text-center italic">*Parameter teknis telah disimulasikan oleh tim Engineering Anda.</p>
                 </div>
             </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mb-6">
+            <button onclick="forwardLink('executive')" id="btn_fwd_cfo" class="w-full bg-slate-800 text-slate-300 py-3 rounded-xl font-bold uppercase tracking-widest text-[10px] border border-slate-600 hover:bg-slate-700 hover:text-white transition-all hidden">
+                ↗ Share to CFO (Executive)
+            </button>
+            <button onclick="forwardLink('technical')" id="btn_fwd_fm" class="w-full bg-slate-800 text-slate-300 py-3 rounded-xl font-bold uppercase tracking-widest text-[10px] border border-slate-600 hover:bg-slate-700 hover:text-white transition-all hidden">
+                ↗ Share to FM (Technical)
+            </button>
         </div>
 
         <button onclick="generateOfficialPDF()" id="btn-pdf" class="w-full bg-blue-600 text-white py-6 rounded-[2rem] font-black uppercase tracking-[0.2em] text-sm shadow-2xl hover:bg-blue-500 active:scale-95 transition-all">
@@ -199,7 +221,6 @@
         }
 
         function updateAll() {
-            // Auto inject tanggal hari ini ke Surat Penawaran
             const dateOptions = { day: '2-digit', month: 'long', year: 'numeric' };
             document.getElementById('pdf_date').innerText = `Bekasi, ${new Date().toLocaleDateString('id-ID', dateOptions)}`;
 
@@ -215,13 +236,16 @@
 
             const legacyTotal = tc + (0.85 * tw);
             const saving = (legacyTotal - ti) * v * 365;
+            const capex = (v / 86.4) * 250000000;
 
-            // Sync to PDF Page 1 (Letter)
+            // Sync to UI Executive Card
+            document.getElementById('ui_exec_saving').innerText = fmt(saving) + "/thn";
+            document.getElementById('ui_exec_capex').innerText = fmt(capex);
+
+            // Sync to PDF
             document.getElementById('pdf_client_name').innerText = name;
             document.getElementById('pdf_client_addr').innerText = addr;
             document.getElementById('pdf_attn').innerText = `${attn} (${role})`;
-
-            // Sync to PDF Page 2 (Report)
             document.getElementById('pdf_res_name').innerText = name;
             document.getElementById('pdf_con_name').innerText = name;
             document.getElementById('pdf_tc').innerText = "Rp " + tc.toLocaleString('id-ID');
@@ -230,23 +254,20 @@
             document.getElementById('pdf_ti_total').innerText = "Rp " + ti.toLocaleString('id-ID');
             document.getElementById('pdf_total_m3').innerText = "Rp " + legacyTotal.toLocaleString('id-ID');
             document.getElementById('pdf_annual').innerText = fmt(saving);
-            document.getElementById('pdf_capex').innerText = fmt((v / 86.4) * 250000000);
+            document.getElementById('pdf_capex').innerText = fmt(capex);
         }
 
-        // --- PILAR 1: THE SPY RADAR (WEBHOOK) ---
+        // --- PILAR 1: THE SPY RADAR ---
         const GAS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxS8FBub7vlgvS-kH_P1NynmvQ6E_2nRsN2kFA_ZtrQ65Q3hltYe8dcsInZ-nuF1H-X/exec";
 
         function sendSpyRadar(actionType) {
-            // Ambil data yang sedang tampil di layar klien
             const company = encodeURIComponent(document.getElementById('client_name').value || "Unknown");
             const nama = encodeURIComponent(document.getElementById('attn_name').value || "Unknown");
             const role = encodeURIComponent(document.getElementById('attn_role').value || "Unknown");
             const action = encodeURIComponent(actionType);
 
-            // Tembakkan sinyal ke Google Apps Script (doGet endpoint)
             const targetUrl = `${GAS_WEBHOOK_URL}?company=${company}&nama=${nama}&role=${role}&action=${action}`;
 
-            // Silent request di latar belakang (no-cors agar tidak error CORS di browser klien)
             fetch(targetUrl, { mode: 'no-cors' })
                 .then(() => console.log(`[Intel Ops] Sinyal terkirim: ${actionType}`))
                 .catch(err => console.error("[Intel Ops] Radar terganggu:", err));
@@ -255,14 +276,11 @@
         async function generateOfficialPDF() {
             const btn = document.getElementById('btn-pdf');
             btn.innerText = "Processing Official Documents...";
-            
-            // --- PELATUK 2: TEMBAK RADAR SAAT PDF DIUNDUH ---
             sendSpyRadar("Download PDF");
 
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF('p', 'mm', 'a4');
             
-            // Konversi HTML ke Gambar dengan scale 3 (HD)
             const canvas1 = await html2canvas(document.getElementById('pdf-page-1'), { scale: 3, useCORS: true });
             doc.addImage(canvas1.toDataURL('image/png'), 'PNG', 0, 0, 210, 297);
             
@@ -274,27 +292,79 @@
             btn.innerText = "Generate Official Proposal";
         }
 
-        // --- THE INJECTION: FUNGSI PARSER URL ---
+        // --- FITUR FORWARD LINK (FM <-> CFO) ---
+        function forwardLink(targetView) {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // Ubah view target
+            urlParams.set('view', targetView);
+            
+            // Injeksi data inputan saat ini ke dalam URL agar ikut terbawa
+            urlParams.set('flow', document.getElementById('flow').value);
+            urlParams.set('tc', document.getElementById('t_clean').value);
+            urlParams.set('tw', document.getElementById('t_waste').value);
+            urlParams.set('ti', document.getElementById('t_invila').value);
+
+            // Susun URL Baru
+            const forwardUrl = window.location.origin + window.location.pathname + '?' + urlParams.toString();
+            
+            // Copy ke Clipboard
+            navigator.clipboard.writeText(forwardUrl).then(() => {
+                alert(`Tautan Khusus untuk ${targetView.toUpperCase()} berhasil disalin!\n\nSilakan 'Paste' di WhatsApp untuk dikirimkan ke target.`);
+                sendSpyRadar(`Forward Link to ${targetView}`);
+            });
+        }
+
+        // --- PILAR 3: UI ROUTING PARSER ---
         function parseURLParameters() {
             const urlParams = new URLSearchParams(window.location.search);
             
             const pClient = urlParams.get('client');
             const pNama = urlParams.get('nama');
             const pRole = urlParams.get('role');
+            const pView = urlParams.get('view');
 
-            // Jika parameter ditemukan di URL, timpa isi input form (ubah underscore kembali jadi spasi)
+            // Tangkap data teknis jika ini adalah Link Forward
+            const pFlow = urlParams.get('flow');
+            const pTc = urlParams.get('tc');
+            const pTw = urlParams.get('tw');
+            const pTi = urlParams.get('ti');
+
             if (pClient) document.getElementById('client_name').value = decodeURIComponent(pClient).replace(/_/g, ' ');
             if (pNama) document.getElementById('attn_name').value = decodeURIComponent(pNama).replace(/_/g, ' ');
             if (pRole) document.getElementById('attn_role').value = decodeURIComponent(pRole).replace(/_/g, ' ');
+
+            if (pFlow) document.getElementById('flow').value = pFlow;
+            if (pTc) document.getElementById('t_clean').value = pTc;
+            if (pTw) document.getElementById('t_waste').value = pTw;
+            if (pTi) document.getElementById('t_invila').value = pTi;
+
+            // LOGIKA DUAL-FACED UI (BUNGLON DIGITAL)
+            const techSec = document.getElementById('technical_section');
+            const execSec = document.getElementById('executive_section');
+            const btnCfo = document.getElementById('btn_fwd_cfo');
+            const btnFm = document.getElementById('btn_fwd_fm');
+            const title = document.getElementById('ui_view_title');
+
+            if (pView === 'executive') {
+                techSec.classList.add('hidden');
+                execSec.classList.remove('hidden');
+                btnFm.classList.remove('hidden'); // Munculkan tombol untuk lempar balik ke FM
+                title.innerText = "EXECUTIVE FINANCIAL DASHBOARD";
+                title.classList.replace('text-blue-400', 'text-[#d4af37]');
+            } else {
+                // Default ke Technical / FM View
+                techSec.classList.remove('hidden');
+                execSec.classList.add('hidden');
+                btnCfo.classList.remove('hidden'); // Munculkan tombol untuk eskalasi ke CFO
+                title.innerText = "TECHNICAL SCADA VIEW";
+            }
         }
 
-        // --- THE TRIGGER: JALANKAN SAAT HALAMAN DIMUAT ---
         window.onload = function() {
-            parseURLParameters(); // 1. Tangkap dan injeksi parameter URL dulu
-            updateAll();          // 2. Kalkulasi ulang seluruh data untuk PDF
+            parseURLParameters(); 
+            updateAll();          
             
-            // --- PELATUK 1: TEMBAK RADAR SAAT HALAMAN DIBUKA ---
-            // Beri jeda 1 detik agar form sempat terisi oleh parseURLParameters
             setTimeout(() => {
                 sendSpyRadar("Buka Link");
             }, 1000); 
