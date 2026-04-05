@@ -48,7 +48,7 @@
                 <input type="text" id="client_name" value="PT HASSIA PACIFIC" oninput="updateAll()" class="w-full bg-slate-900/50 p-4 rounded-2xl border border-slate-700 outline-none text-white font-bold" placeholder="Nama Perusahaan">
                 <textarea id="client_addr" oninput="updateAll()" class="w-full bg-slate-900/50 p-4 rounded-2xl border border-slate-700 outline-none text-white text-xs h-24 resize-none" placeholder="Alamat Lengkap">Kawasan Industri Jababeka J. Danau Sentanu No. 5 Cikarang-Kabupaten Bekasi 17530.</textarea>
                 <input type="text" id="attn_name" value="Bpk. Deni Sumargo" oninput="updateAll()" class="w-full bg-slate-900/50 p-4 rounded-2xl border border-slate-700 outline-none text-white font-bold" placeholder="u.p. (Nama)">
-                <input type="text" id="attn_role" value="CFO" oninput="updateAll()" class="w-full bg-slate-900/50 p-4 rounded-2xl border border-slate-700 outline-none text-white text-sm" placeholder="Jabatan">
+                <input type="text" id="attn_role" value="" oninput="updateAll()" class="w-full bg-slate-900/50 p-4 rounded-2xl border border-slate-700 outline-none text-white text-sm" placeholder="Jabatan">
             </div>
 
             <div>
@@ -258,7 +258,7 @@
         }
 
         // --- PILAR 1: THE SPY RADAR ---
-        const GAS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxS8FBub7vlgvS-kH_P1NynmvQ6E_2nRsN2kFA_ZtrQ65Q3hltYe8dcsInZ-nuF1H-X/exec";
+        const GAS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbydM-DSo_m53W8vGw2kVSaj-9WxpBQEyYWMkBJDl6wauE_brD78K5LPhfJdcTDDEvb-/exec";
 
         function sendSpyRadar(actionType) {
             const company = encodeURIComponent(document.getElementById('client_name').value || "Unknown");
@@ -320,6 +320,7 @@
             const urlParams = new URLSearchParams(window.location.search);
             
             const pClient = urlParams.get('client');
+            const pAddr = urlParams.get('addr'); // Tambahan Radar Alamat
             const pNama = urlParams.get('nama');
             const pRole = urlParams.get('role');
             const pView = urlParams.get('view');
@@ -331,8 +332,11 @@
             const pTi = urlParams.get('ti');
 
             if (pClient) document.getElementById('client_name').value = decodeURIComponent(pClient).replace(/_/g, ' ');
+            if (pAddr) document.getElementById('client_addr').value = decodeURIComponent(pAddr).replace(/_/g, ' '); // Injeksi Alamat
             if (pNama) document.getElementById('attn_name').value = decodeURIComponent(pNama).replace(/_/g, ' ');
-            if (pRole) document.getElementById('attn_role').value = decodeURIComponent(pRole).replace(/_/g, ' ');
+            
+            // Default Jabatan Kosong
+            document.getElementById('attn_role').value = pRole ? decodeURIComponent(pRole).replace(/_/g, ' ') : "";
 
             if (pFlow) document.getElementById('flow').value = pFlow;
             if (pTc) document.getElementById('t_clean').value = pTc;
