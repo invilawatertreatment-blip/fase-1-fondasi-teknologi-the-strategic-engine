@@ -257,8 +257,8 @@
             document.getElementById('pdf_capex').innerText = fmt(capex);
         }
 
-        // --- PILAR 1: THE SPY RADAR ---
-        const GAS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbydM-DSo_m53W8vGw2kVSaj-9WxpBQEyYWMkBJDl6wauE_brD78K5LPhfJdcTDDEvb-/exec";
+        // --- WEBHOOK BARU ---
+        const GAS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwZN1HDW_S3-npjk-szBJ2K4FqjP2pkWYiuXFPz7vKKZnF-c2oUxTBOBE61MRfT2Hh_/exec";
 
         function sendSpyRadar(actionType) {
             const company = encodeURIComponent(document.getElementById('client_name').value || "Unknown");
@@ -292,50 +292,42 @@
             btn.innerText = "Generate Official Proposal";
         }
 
-        // --- FITUR FORWARD LINK (FM <-> CFO) ---
         function forwardLink(targetView) {
             const urlParams = new URLSearchParams(window.location.search);
             
-            // Ubah view target
             urlParams.set('view', targetView);
             
-            // Injeksi data inputan saat ini ke dalam URL agar ikut terbawa
             urlParams.set('flow', document.getElementById('flow').value);
             urlParams.set('tc', document.getElementById('t_clean').value);
             urlParams.set('tw', document.getElementById('t_waste').value);
             urlParams.set('ti', document.getElementById('t_invila').value);
 
-            // Susun URL Baru
             const forwardUrl = window.location.origin + window.location.pathname + '?' + urlParams.toString();
             
-            // Copy ke Clipboard
             navigator.clipboard.writeText(forwardUrl).then(() => {
                 alert(`Tautan Khusus untuk ${targetView.toUpperCase()} berhasil disalin!\n\nSilakan 'Paste' di WhatsApp untuk dikirimkan ke target.`);
                 sendSpyRadar(`Forward Link to ${targetView}`);
             });
         }
 
-        // --- PILAR 3: UI ROUTING PARSER ---
         function parseURLParameters() {
             const urlParams = new URLSearchParams(window.location.search);
             
             const pClient = urlParams.get('client');
-            const pAddr = urlParams.get('addr'); // Tambahan Radar Alamat
+            const pAddr = urlParams.get('addr'); 
             const pNama = urlParams.get('nama');
             const pRole = urlParams.get('role');
             const pView = urlParams.get('view');
 
-            // Tangkap data teknis jika ini adalah Link Forward
             const pFlow = urlParams.get('flow');
             const pTc = urlParams.get('tc');
             const pTw = urlParams.get('tw');
             const pTi = urlParams.get('ti');
 
             if (pClient) document.getElementById('client_name').value = decodeURIComponent(pClient).replace(/_/g, ' ');
-            if (pAddr) document.getElementById('client_addr').value = decodeURIComponent(pAddr).replace(/_/g, ' '); // Injeksi Alamat
+            if (pAddr) document.getElementById('client_addr').value = decodeURIComponent(pAddr).replace(/_/g, ' '); 
             if (pNama) document.getElementById('attn_name').value = decodeURIComponent(pNama).replace(/_/g, ' ');
             
-            // Default Jabatan Kosong
             document.getElementById('attn_role').value = pRole ? decodeURIComponent(pRole).replace(/_/g, ' ') : "";
 
             if (pFlow) document.getElementById('flow').value = pFlow;
@@ -343,7 +335,6 @@
             if (pTw) document.getElementById('t_waste').value = pTw;
             if (pTi) document.getElementById('t_invila').value = pTi;
 
-            // LOGIKA DUAL-FACED UI (BUNGLON DIGITAL)
             const techSec = document.getElementById('technical_section');
             const execSec = document.getElementById('executive_section');
             const btnCfo = document.getElementById('btn_fwd_cfo');
@@ -353,14 +344,13 @@
             if (pView === 'executive') {
                 techSec.classList.add('hidden');
                 execSec.classList.remove('hidden');
-                btnFm.classList.remove('hidden'); // Munculkan tombol untuk lempar balik ke FM
+                btnFm.classList.remove('hidden');
                 title.innerText = "EXECUTIVE FINANCIAL DASHBOARD";
                 title.classList.replace('text-blue-400', 'text-[#d4af37]');
             } else {
-                // Default ke Technical / FM View
                 techSec.classList.remove('hidden');
                 execSec.classList.add('hidden');
-                btnCfo.classList.remove('hidden'); // Munculkan tombol untuk eskalasi ke CFO
+                btnCfo.classList.remove('hidden'); 
                 title.innerText = "TECHNICAL SCADA VIEW";
             }
         }
