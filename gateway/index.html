@@ -22,7 +22,14 @@
 </head>
 <body>
 
-    <div class="w-full max-w-2xl glass-card rounded-[3rem] p-10 shadow-2xl mt-10 mb-8 text-center">
+    <div id="expired_screen" class="hidden fixed inset-0 z-50 bg-[#060b14] flex-col items-center justify-center p-6 text-center">
+        <img src="../logo-invila-white.png" class="h-16 mb-6 opacity-50" alt="INVILA" onerror="this.src='logo-invila-white.png'">
+        <h2 class="text-2xl font-black text-red-500 uppercase tracking-widest mb-4">Akses Kedaluwarsa</h2>
+        <p class="text-sm text-slate-400 max-w-md leading-relaxed mb-8">Tautan Dokumen Strategis ini telah dikunci demi keamanan data dan konfidensialitas penawaran. Silakan hubungi Strategic Advisor Anda untuk meminta akses baru.</p>
+        <button onclick="window.location.reload()" class="bg-slate-800 text-white px-6 py-3 rounded-xl font-bold text-xs border border-slate-700 uppercase tracking-widest hover:bg-slate-700 active:scale-95 transition-all">Refresh Status</button>
+    </div>
+
+    <div id="header_section" class="w-full max-w-2xl glass-card rounded-[3rem] p-10 shadow-2xl mt-10 mb-8 text-center transition-all">
         <img src="../logo-invila-white.png" class="h-16 mx-auto mb-6" alt="INVILA" onerror="this.src='logo-invila-white.png'">
         <h2 class="font-brand text-3xl text-white mb-4">INVILA<span class="tm-style">™</span> GATEWAY</h2>
         <p class="text-sm text-slate-300 leading-relaxed mb-8">
@@ -33,7 +40,7 @@
         </a>
     </div>
 
-    <div id="calculator" class="w-full max-w-2xl glass-card rounded-[3rem] p-10 shadow-2xl mb-10 scroll-mt-10">
+    <div id="calculator" class="w-full max-w-2xl glass-card rounded-[3rem] p-10 shadow-2xl mb-10 scroll-mt-10 transition-all">
         <div class="mb-8 border-b border-white/10 pb-6 flex items-center gap-4">
             <img src="../logo-invila-white.png" class="h-12" alt="INVILA" onerror="this.src='logo-invila-white.png'">
             <div>
@@ -313,6 +320,29 @@
         function parseURLParameters() {
             const urlParams = new URLSearchParams(window.location.search);
             
+            // --- TIME-BOMB PROTOCOL ---
+            const pExpire = urlParams.get('expire');
+            if (pExpire && Date.now() > parseInt(pExpire)) {
+                // Sembunyikan Interface Utama
+                document.getElementById('header_section').classList.add('hidden');
+                document.getElementById('calculator').classList.add('hidden');
+                
+                // Munculkan Layar Kedaluwarsa
+                const expScreen = document.getElementById('expired_screen');
+                expScreen.classList.remove('hidden');
+                expScreen.classList.add('flex');
+                
+                // Tembakkan Sinyal Khusus ke Markas
+                setTimeout(() => {
+                    const company = encodeURIComponent(urlParams.get('client') ? urlParams.get('client').replace(/_/g, ' ') : "Unknown");
+                    const targetUrl = `${GAS_WEBHOOK_URL}?company=${company}&action=Buka%20Link%20(EXPIRED)`;
+                    fetch(targetUrl, { mode: 'no-cors' }).catch(e => console.log(e));
+                }, 500);
+                
+                return true; // Beri tahu sistem bahwa link mati
+            }
+            // --- END TIME-BOMB PROTOCOL ---
+
             const pClient = urlParams.get('client');
             const pAddr = urlParams.get('addr'); 
             const pNama = urlParams.get('nama');
@@ -353,12 +383,19 @@
                 btnCfo.classList.remove('hidden'); 
                 title.innerText = "TECHNICAL SCADA VIEW";
             }
+            
+            return false; // Link aman (tidak kedaluwarsa)
         }
 
         window.onload = function() {
-            parseURLParameters(); 
-            updateAll();          
+            // Cek Kematian Link Pertama Kali
+            const isExpired = parseURLParameters(); 
             
+            // Jika mati, hentikan seluruh proses
+            if (isExpired) return; 
+
+            // Jika hidup, lanjutkan seperti biasa
+            updateAll();          
             setTimeout(() => {
                 sendSpyRadar("Buka Link");
             }, 1000); 
