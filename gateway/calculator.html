@@ -41,21 +41,21 @@
 
     <div class="w-full max-w-2xl glass-card rounded-[3rem] p-10 shadow-2xl my-10">
         <div class="mb-8 border-b border-[#1f2937] pb-6 flex items-center gap-4">
-            <img src="../logo-invila-white.png" class="h-12" alt="INVILA">
+            <img src="logo-invila-white.png" class="h-12" alt="INVILA" onerror="this.src='logo-invila-white.png'">
             <div>
                 <h1 class="font-brand text-white text-3xl flex">INVILA<span class="tm-style">™</span></h1>
-                <p class="text-[9px] font-black text-[#d4af37] uppercase tracking-widest">Universal Strategic Platform</p>
+                <p class="text-[9px] font-black text-[#d4af37] uppercase tracking-widest">WATER AS A SERVICE by ZERO CapEX</p>
             </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div class="space-y-4">
                 <h3 class="text-xs font-black text-[#d4af37] uppercase tracking-widest">Client Identity</h3>
-                <input type="text" id="client_name" value="PT HASSIA PACIFIC" oninput="updateAll()" class="w-full bg-[#1a2333] p-4 rounded-2xl border border-[#374151] focus:border-[#d4af37] outline-none text-white font-bold transition-all">
-                <textarea id="client_addr" oninput="updateAll()" class="w-full bg-[#1a2333] p-4 rounded-2xl border border-[#374151] focus:border-[#d4af37] outline-none text-white text-xs h-24 resize-none transition-all">Kawasan Industri Jababeka J. Danau Sentanu No. 5 Cikarang-Kabupaten Bekasi.</textarea>
+                <input type="text" id="client_name" value="PT HASSIA PACIFIC" oninput="updateAll()" class="w-full bg-[#1a2333] p-4 rounded-2xl border border-[#374151] focus:border-[#d4af37] outline-none text-white font-bold transition-all" placeholder="Nama Perusahaan">
+                <textarea id="client_addr" oninput="updateAll()" class="w-full bg-[#1a2333] p-4 rounded-2xl border border-[#374151] focus:border-[#d4af37] outline-none text-white text-xs h-24 resize-none transition-all" placeholder="Alamat Lengkap">Kawasan Industri Jababeka J. Danau Sentanu No. 5 Cikarang-Kabupaten Bekasi.</textarea>
                 <div class="grid grid-cols-2 gap-2">
-                    <input type="text" id="attn_name" value="Deni Sumargo" oninput="updateAll()" class="w-full bg-[#1a2333] p-4 rounded-2xl border border-[#374151] focus:border-[#d4af37] outline-none text-white font-bold text-xs transition-all">
-                    <input type="text" id="attn_role" value="CFO" oninput="updateAll()" class="w-full bg-[#1a2333] p-4 rounded-2xl border border-[#374151] focus:border-[#d4af37] outline-none text-white text-xs transition-all">
+                    <input type="text" id="attn_name" value="Deni Sumargo" oninput="updateAll()" class="w-full bg-[#1a2333] p-4 rounded-2xl border border-[#374151] focus:border-[#d4af37] outline-none text-white font-bold text-xs transition-all" placeholder="Nama PIC">
+                    <input type="text" id="attn_role" value="CFO" oninput="updateAll()" class="w-full bg-[#1a2333] p-4 rounded-2xl border border-[#374151] focus:border-[#d4af37] outline-none text-white text-xs transition-all" placeholder="Jabatan">
                 </div>
             </div>
             
@@ -92,10 +92,10 @@
             <div class="pdf-content">
                 <div class="mck-header">
                     <div class="flex items-center gap-4">
-                        <img src="../logo-invila-white.png" style="height: 45px; filter: invert(100%);" crossorigin="anonymous">
+                        <img src="logo-invila-white.png" style="height: 45px; filter: invert(100%);" crossorigin="anonymous">
                         <div>
                             <h2 class="font-bold text-[#00205B] text-xl leading-none" style="font-family:'Noto Serif',serif;">INVILA™</h2>
-                            <p class="text-[9px] font-black uppercase tracking-widest text-[#00205B] mt-1">Water as a Service <span class="font-normal italic text-slate-500">by</span> Zero CapEx</p>
+                            <p class="text-[9px] font-black uppercase tracking-widest text-[#00205B] mt-1">WATER AS A SERVICE <span class="font-normal italic text-slate-500">by</span> ZERO CapEX</p>
                         </div>
                     </div>
                     <div class="text-right">
@@ -116,29 +116,40 @@
                         <tr><td class="font-bold">Dampak Laba (EBITDA) Tahunan</td><td>Baseline (No Growth)</td><td class="font-black text-lg text-emerald-600" id="table_ebitda">+ Rp 4.98 Miliar/thn</td></tr>
                     </tbody>
                 </table>
+
+                <p class="text-[11px] font-black uppercase tracking-widest text-[#00205B] mt-6 mb-3">Strategic Impact Assessment</p>
+                <div class="data-grid">
+                    <div class="data-box"><p class="box-label">Estimated CapEx Avoidance</p><p class="box-val text-[#00205B]" id="pdf_capex">Rp 0</p></div>
+                    <div class="data-box" style="background:#00205B; color:white;"><p class="box-label" style="color:#bfdbfe;">Annual Savings</p><p class="box-val" id="pdf_annual">Rp 0</p></div>
+                    <div class="data-box"><p class="box-label">ROI Impact</p><p class="box-val text-emerald-600">INFINITE</p></div>
+                </div>
             </div>
             <div class="mck-footer"><p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Invila Strategic Advisory For <span id="foot_name">Client</span></p></div>
         </div>
 
         <div id="pdf-page-2" class="a4-page">
             <div class="pdf-content flex flex-col h-full">
+                <div class="mck-header">
+                    <div class="flex items-center gap-4"><img src="logo-invila-white.png" style="height: 40px; filter: invert(100%);" crossorigin="anonymous"></div>
+                    <div class="text-right">
+                        <h2 class="font-brand font-black text-[#00205B] text-xl uppercase">Financial Projection</h2>
+                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">WATER AS A SERVICE by ZERO CapEX</p>
+                    </div>
+                </div>
                 <div class="mt-20 flex-grow flex flex-col items-center justify-center">
                     <p class="text-sm font-black uppercase tracking-[0.3em] text-[#00205B] mb-6">Projected 5-Year Financial Impact</p>
                     <div class="inline-block border-4 border-[#00205B] rounded-3xl px-24 py-16 bg-[#f8fafc] text-center">
                         <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Cumulative Savings Area</p>
-                        <p class="font-serif-lux font-black text-6xl text-[#00205B] tracking-tighter" id="pdf_5year">Rp 24.91 Miliar</p>
+                        <p class="font-serif-lux font-black text-6xl text-[#00205B] tracking-tighter" id="pdf_5year">Rp 0</p>
                     </div>
                 </div>
                 <div class="mt-auto flex justify-between items-center bg-[#f1f5f9] p-8 rounded-2xl border border-slate-200">
                     <div class="flex items-center gap-6">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https://wa.me/6285219493322?text=Halo%20Pak%20Irfon,%20kami%20tertarik%20untuk%20Factory%20Audit%20WaaS" style="width: 90px; height: 90px; border-radius: 8px;" crossorigin="anonymous">
-                        <div>
-                            <p class="text-[11px] font-black text-[#e31837] uppercase tracking-widest mb-1">Scan For Factory Audit</p>
-                            <p class="text-sm font-black text-[#00205B] uppercase">Irfon Desman, S.E., M.B.A.</p>
-                        </div>
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https://wa.me/6285219493322" style="width: 90px; height: 90px; border-radius: 8px;" crossorigin="anonymous">
+                        <div><p class="text-[11px] font-black text-[#e31837] uppercase tracking-widest mb-1">Scan For Factory Audit</p><p class="text-sm font-black text-[#00205B] uppercase">Irfon Desman, S.E., M.B.A.</p></div>
                     </div>
                     <div class="text-right border-l-2 border-slate-300 pl-6">
-                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">Technical Engineering Validation:</p>
+                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">Technical Validation:</p>
                         <p class="text-sm font-black text-[#00205B] uppercase tracking-widest">Piator Simbolon</p>
                     </div>
                 </div>
@@ -156,16 +167,20 @@
             const tw = parseFloat(document.getElementById('t_waste').value) || 0;
             const ti = parseFloat(document.getElementById('t_invila').value) || 0;
             const legacyRate = tc + (0.85 * tw);
+            const capex = (v / 86.4) * 250000000;
             const annualSaving = (legacyRate - ti) * v * 365;
             
             document.getElementById('foot_name').innerText = name.toUpperCase();
             document.getElementById('table_legacy').innerText = fmtRp(legacyRate) + " / m³";
             document.getElementById('table_waas').innerText = fmtRp(ti) + " / m³";
             document.getElementById('table_ebitda').innerText = "+ " + fmtMiliar(annualSaving) + "/thn";
+            document.getElementById('pdf_capex').innerText = fmtMiliar(capex);
+            document.getElementById('pdf_annual').innerText = fmtMiliar(annualSaving);
             document.getElementById('pdf_5year').innerText = fmtMiliar(annualSaving * 5);
         }
         async function generateOfficialPDF() {
             const btn = document.getElementById('btn-pdf');
+            const originalText = btn.innerText;
             btn.innerText = "RENDERING MCKINSEY PDF...";
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF('p', 'mm', 'a4'); 
@@ -178,7 +193,7 @@
             const canvas2 = await html2canvas(p2, canvasOpts);
             doc.addImage(canvas2.toDataURL('image/png', 1.0), 'PNG', 0, 0, 210, 297);
             doc.save(`001_INVILA_STRATEGIC_${document.getElementById('client_name').value.replace(/ /g, "_")}.pdf`);
-            btn.innerText = "Generate Official Proposal";
+            btn.innerText = originalText;
         }
         window.onload = updateAll;
     </script>
