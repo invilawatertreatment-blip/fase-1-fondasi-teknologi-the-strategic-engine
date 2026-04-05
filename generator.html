@@ -3,76 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invila™ Internal Link Generator</title>
+    <title>INVILA™ | Internal Link Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        body { background-color: #020617; color: #f8fafc; font-family: 'Inter', sans-serif; }
+        .glass-panel { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid #1e293b; }
+        .glow-input:focus { box-shadow: 0 0 15px rgba(37, 99, 235, 0.3); border-color: #3b82f6; }
     </style>
 </head>
-<body class="p-6 md:p-12 flex justify-center items-center min-h-screen">
-    <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-slate-200 relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-full h-2 bg-blue-600"></div>
-        <h2 class="text-2xl font-black text-slate-800 mb-1 tracking-tight">Link Generator</h2>
-        <p class="text-sm text-slate-500 mb-6 font-medium">Internal Tool for Sales Team Invila™</p>
-        <div class="space-y-4">
+<body class="min-h-screen flex items-center justify-center p-6">
+
+    <div class="w-full max-w-3xl glass-panel rounded-3xl p-8 shadow-2xl">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-6 mb-8">
             <div>
-                <label class="block text-xs font-bold text-slate-700 mb-1 uppercase tracking-wider">Nama Prospek</label>
-                <input type="text" id="input-name" placeholder="Contoh: Beni" class="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+                <h1 class="text-2xl font-black tracking-tighter text-blue-500 uppercase">Invila™ War Room</h1>
+                <p class="text-xs font-bold text-slate-500 tracking-widest mt-1">SMART LINK GENERATOR - RESTRICTED ACCESS</p>
             </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 mb-1 uppercase tracking-wider">Jabatan (Role)</label>
-                <select id="input-role" class="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all font-medium">
-                    <option value="FM">FM (Fokus Operasional/Mesin)</option>
-                    <option value="CFO">CFO (Fokus Keuangan/EBITDA)</option>
-                </select>
-            </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 mb-1 uppercase tracking-wider">Perusahaan</label>
-                <input type="text" id="input-comp" placeholder="Contoh: KIW" class="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+            <div class="text-right">
+                <span class="inline-block px-3 py-1 bg-red-500/10 text-red-500 border border-red-500/20 rounded-full text-[10px] font-black uppercase tracking-widest">
+                    Live Ops
+                </span>
             </div>
         </div>
-        <div class="mt-8 p-4 bg-slate-100 border border-slate-200 rounded-xl">
-            <label class="block text-[10px] font-bold text-slate-400 mb-2 uppercase tracking-widest">Generated Smart Link:</label>
-            <textarea id="output-link" readonly class="w-full p-2 text-sm bg-transparent border-none text-blue-700 font-medium break-all resize-none h-24 outline-none focus:ring-0"></textarea>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="space-y-4">
+                <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Target Identity</h3>
+                
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">Nama Perusahaan (Client)</label>
+                    <input type="text" id="gen_company" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white glow-input outline-none transition-all" placeholder="Contoh: PT Hassia Pacific" required>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1">Nama Target</label>
+                        <input type="text" id="gen_name" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white glow-input outline-none transition-all" placeholder="Deni Sumargo">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1">Jabatan (Role)</label>
+                        <input type="text" id="gen_role" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white glow-input outline-none transition-all" placeholder="CFO / FM">
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Routing & Security Protocol</h3>
+                
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">Tampilan Tujuan (Routing)</label>
+                    <select id="gen_view" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white glow-input outline-none appearance-none">
+                        <option value="executive">EXECUTIVE VIEW (Fokus Finansial / CFO)</option>
+                        <option value="technical">TECHNICAL VIEW (Fokus SCADA / FM)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">Masa Berlaku Tautan (Time-Bomb)</label>
+                    <select id="gen_expire" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white glow-input outline-none appearance-none">
+                        <option value="24">24 Jam (Urgent)</option>
+                        <option value="48" selected>48 Jam (Standar)</option>
+                        <option value="168">7 Hari (Long-Term)</option>
+                    </select>
+                </div>
+            </div>
         </div>
-        <div class="mt-4 flex gap-3">
-            <button onclick="copyLink()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-black uppercase tracking-wider text-sm py-4 px-4 rounded-xl transition-transform active:scale-95 shadow-lg shadow-blue-500/30">Copy Link</button>
-            <a id="btn-test" href="#" target="_blank" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold uppercase tracking-wider text-sm py-4 px-6 rounded-xl transition-all text-center flex items-center justify-center">Test</a>
+
+        <button onclick="generateLink()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-black uppercase tracking-[0.2em] text-xs py-4 rounded-xl shadow-lg shadow-blue-900/50 transition-all active:scale-95 mb-8">
+            Inject Parameters & Generate Link
+        </button>
+
+        <div id="result_area" class="hidden border-t border-slate-800 pt-6">
+            <h3 class="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-3">Encrypted Payload Ready</h3>
+            <div class="flex items-center gap-3">
+                <input type="text" id="final_link" readonly class="w-full bg-black/50 border border-emerald-900/50 rounded-xl p-4 text-xs font-mono text-emerald-400 outline-none selection:bg-emerald-900">
+                <button onclick="copyLink()" id="btn_copy" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-4 px-6 rounded-xl transition-all whitespace-nowrap">
+                    COPY
+                </button>
+            </div>
+            <p class="text-[10px] text-slate-500 mt-3 font-mono" id="token_info"></p>
         </div>
-        <p id="copy-msg" class="text-emerald-600 text-sm text-center mt-4 hidden font-bold bg-emerald-50 py-2 rounded-lg">✓ Link disalin ke clipboard!</p>
     </div>
 
     <script>
-        // RUBAHAN UTAMA: Link sekarang mengarah ke folder gateway/
-        const baseUrl = "https://zerocapexwaterinfrastructure.com/gateway/";
+        // Sesuaikan dengan URL Github Pages Bapak
+        const BASE_URL = "https://invilawatertreatment-blip.github.io/fase-1-fondasi-teknologi-the-strategic-engine/gateway/index.html";
+
+        function generateToken() {
+            return Math.random().toString(36).substr(2, 8) + Math.random().toString(36).substr(2, 8);
+        }
 
         function generateLink() {
-            const name = document.getElementById('input-name').value.trim() || "Prospek";
-            const role = document.getElementById('input-role').value;
-            const comp = document.getElementById('input-comp').value.trim() || "Perusahaan";
+            const company = document.getElementById('gen_company').value.trim();
+            const name = document.getElementById('gen_name').value.trim();
+            const role = document.getElementById('gen_role').value.trim();
+            const view = document.getElementById('gen_view').value;
+            const expireHours = parseInt(document.getElementById('gen_expire').value);
 
-            const finalUrl = `${baseUrl}?name=${encodeURIComponent(name)}&role=${encodeURIComponent(role)}&comp=${encodeURIComponent(comp)}`;
+            if (!company) {
+                alert("Nama Perusahaan (Client) wajib diisi!");
+                return;
+            }
+
+            // Sanitasi spasi menjadi underscore untuk URL yang rapi
+            const safeCompany = encodeURIComponent(company.replace(/\s+/g, '_'));
+            const safeName = encodeURIComponent(name.replace(/\s+/g, '_'));
+            const safeRole = encodeURIComponent(role.replace(/\s+/g, '_'));
             
-            document.getElementById('output-link').value = finalUrl;
-            document.getElementById('btn-test').href = finalUrl;
-        }
+            // Kalkulasi Bom Waktu (Epoch Timestamp)
+            const expireTime = Date.now() + (expireHours * 60 * 60 * 1000);
+            const token = generateToken();
 
-        document.getElementById('input-name').addEventListener('input', generateLink);
-        document.getElementById('input-role').addEventListener('change', generateLink);
-        document.getElementById('input-comp').addEventListener('input', generateLink);
+            // Susun Smart Link
+            const finalUrl = `${BASE_URL}?view=${view}&client=${safeCompany}&nama=${safeName}&role=${safeRole}&token=${token}&expire=${expireTime}`;
+
+            // Tampilkan Hasil
+            document.getElementById('final_link').value = finalUrl;
+            document.getElementById('result_area').classList.remove('hidden');
+            
+            document.getElementById('token_info').innerHTML = 
+                `> AUTH_TOKEN: ${token.toUpperCase()} <br> > EXPIRES_AT: ${new Date(expireTime).toLocaleString('id-ID')}`;
+            
+            // Reset tombol copy
+            const btnCopy = document.getElementById('btn_copy');
+            btnCopy.innerText = "COPY";
+            btnCopy.className = "bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs py-4 px-6 rounded-xl transition-all whitespace-nowrap";
+        }
 
         function copyLink() {
-            const linkText = document.getElementById('output-link');
-            linkText.select();
-            document.execCommand("copy");
-            
-            const msg = document.getElementById('copy-msg');
-            msg.classList.remove('hidden');
-            setTimeout(() => msg.classList.add('hidden'), 2500);
-        }
+            const linkInput = document.getElementById('final_link');
+            linkInput.select();
+            linkInput.setSelectionRange(0, 99999); // Untuk HP
+            navigator.clipboard.writeText(linkInput.value);
 
-        generateLink();
+            const btnCopy = document.getElementById('btn_copy');
+            btnCopy.innerText = "COPIED!";
+            btnCopy.className = "bg-slate-700 text-white font-bold text-xs py-4 px-6 rounded-xl transition-all whitespace-nowrap";
+        }
     </script>
 </body>
 </html>
