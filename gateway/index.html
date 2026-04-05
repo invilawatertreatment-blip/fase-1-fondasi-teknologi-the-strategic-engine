@@ -233,9 +233,32 @@
             document.getElementById('pdf_capex').innerText = fmt((v / 86.4) * 250000000);
         }
 
+        // --- PILAR 1: THE SPY RADAR (WEBHOOK) ---
+        const GAS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxS8FBub7vlgvS-kH_P1NynmvQ6E_2nRsN2kFA_ZtrQ65Q3hltYe8dcsInZ-nuF1H-X/exec";
+
+        function sendSpyRadar(actionType) {
+            // Ambil data yang sedang tampil di layar klien
+            const company = encodeURIComponent(document.getElementById('client_name').value || "Unknown");
+            const nama = encodeURIComponent(document.getElementById('attn_name').value || "Unknown");
+            const role = encodeURIComponent(document.getElementById('attn_role').value || "Unknown");
+            const action = encodeURIComponent(actionType);
+
+            // Tembakkan sinyal ke Google Apps Script (doGet endpoint)
+            const targetUrl = `${GAS_WEBHOOK_URL}?company=${company}&nama=${nama}&role=${role}&action=${action}`;
+
+            // Silent request di latar belakang (no-cors agar tidak error CORS di browser klien)
+            fetch(targetUrl, { mode: 'no-cors' })
+                .then(() => console.log(`[Intel Ops] Sinyal terkirim: ${actionType}`))
+                .catch(err => console.error("[Intel Ops] Radar terganggu:", err));
+        }
+
         async function generateOfficialPDF() {
             const btn = document.getElementById('btn-pdf');
             btn.innerText = "Processing Official Documents...";
+            
+            // --- PELATUK 2: TEMBAK RADAR SAAT PDF DIUNDUH ---
+            sendSpyRadar("Download PDF");
+
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF('p', 'mm', 'a4');
             
@@ -269,6 +292,12 @@
         window.onload = function() {
             parseURLParameters(); // 1. Tangkap dan injeksi parameter URL dulu
             updateAll();          // 2. Kalkulasi ulang seluruh data untuk PDF
+            
+            // --- PELATUK 1: TEMBAK RADAR SAAT HALAMAN DIBUKA ---
+            // Beri jeda 1 detik agar form sempat terisi oleh parseURLParameters
+            setTimeout(() => {
+                sendSpyRadar("Buka Link");
+            }, 1000); 
         };
     </script>
 </body>
