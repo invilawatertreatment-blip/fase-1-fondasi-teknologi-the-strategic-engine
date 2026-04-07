@@ -45,7 +45,7 @@
 
         /* Setup Laporan PDF Strict McKinsey Memo Layout - 2 Halaman A4 */
         .pdf-stage { position: absolute; left: -99999px; top: 0; z-index: -999; width: 210mm; background-color: #ffffff; pointer-events: none; }
-        .pdf-page { width: 210mm; height: 297mm; padding: 15mm; background: #ffffff; color: #001b44; position: relative; box-sizing: border-box; display: flex; flex-direction: column; justify-content: flex-start; }
+        .pdf-page { width: 210mm; height: 297mm; padding: 15mm 20mm; background: #ffffff; color: #001b44; position: relative; box-sizing: border-box; display: flex; flex-direction: column; justify-content: flex-start; }
         .pdf-table th { background-color: #001b44; color: white; border: 1px solid #001b44; padding: 10px 12px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; }
         .pdf-table td { border: 1px solid #cbd5e1; padding: 12px 10px; font-size: 11px; }
     </style>
@@ -77,7 +77,7 @@
                         <h2 class="text-[34px] font-black font-serif text-white leading-none tracking-tight">INVILA</h2>
                         <span class="text-[16px] font-sans font-bold text-white leading-none mt-1 ml-0.5">™</span>
                     </div>
-                    <p class="text-[7.5px] font-bold text-blue-400 tracking-[0.16em] uppercase mt-1.5 whitespace-nowrap ml-0.5">WATER AS A SERVICE <span class="text-white italic lowercase font-serif tracking-normal">by</span> ZERO CapEX</p>
+                    <p class="text-[7.5px] font-bold text-blue-400 tracking-[0.16em] uppercase mt-2 whitespace-nowrap ml-0.5">WATER AS A SERVICE <span class="text-white italic lowercase font-serif tracking-normal">by</span> ZERO CapEX</p>
                 </div>
             </div>
 
@@ -200,22 +200,21 @@
             <div class="lg:col-span-4 glass-panel p-6 md:p-8 border-t-4 border-blue-500 rounded-xl flex flex-col relative overflow-hidden shadow-2xl view-technical hidden">
                 <div class="absolute -right-20 -top-20 w-64 h-64 bg-blue-500/10 blur-[80px] rounded-full pointer-events-none"></div>
                 <div class="border-b border-white/10 pb-4 mb-6 relative z-10">
-                    <h3 class="text-base md:text-lg font-bold text-blue-400 font-serif tracking-widest uppercase">III. Technical Specs</h3>
-                    <p class="text-[10px] text-slate-400 mt-1">Estimasi kapasitas infrastruktur Invila™.</p>
+                    <h3 class="text-base md:text-lg font-bold text-blue-400 font-serif tracking-widest uppercase">III. Technical & Financial Impact</h3>
+                    <p class="text-[10px] text-slate-400 mt-1">Estimasi kapasitas & penghematan OPEX pabrik.</p>
                 </div>
                 <div class="flex flex-col justify-center flex-grow relative z-10 space-y-4">
                     <div class="bg-[#081221] border border-blue-500/30 p-4 rounded-lg shadow-inner text-center border-l-4 border-l-blue-500">
                         <p class="text-[9px] text-slate-400 uppercase tracking-widest font-bold mb-1">Kapasitas Mesin Disyaratkan (LPS)</p>
-                        <h1 id="out-tech-lps" class="text-4xl font-bold font-mono text-white tracking-tight py-2">0</h1>
-                        <p class="text-[9px] text-slate-500 uppercase tracking-widest">Liter Per Detik</p>
+                        <h1 id="out-tech-lps" class="text-3xl font-bold font-mono text-white tracking-tight py-1">0</h1>
                     </div>
-                    <div class="bg-[#081221] border border-white/5 p-4 rounded-lg shadow-inner flex justify-between items-center">
-                        <p class="text-[9px] text-slate-400 uppercase tracking-widest font-bold">Vol. Daur Ulang / Bln</p>
-                        <p id="out-tech-recycle" class="text-base font-bold text-blue-400 font-mono">0 <span class="text-xs text-slate-500">m³</span></p>
+                    <div class="bg-[#081221] border border-successGreen/30 p-4 rounded-lg shadow-inner text-center border-l-4 border-l-successGreen mt-2">
+                        <p class="text-[9px] text-slate-400 uppercase tracking-widest font-bold mb-1">Laba Bersih Tahunan (EBITDA Gain)</p>
+                        <h1 id="out-tech-annual" class="text-2xl lg:text-3xl font-bold font-serif text-successGreen tracking-tight py-1">Rp 0</h1>
                     </div>
-                    <div class="bg-[#081221] border border-white/5 p-4 rounded-lg shadow-inner flex justify-between items-center">
-                        <p class="text-[9px] text-slate-400 uppercase tracking-widest font-bold">Sisa Vol. Pasokan PDAM</p>
-                        <p id="out-tech-makeup" class="text-base font-bold text-slate-400 font-mono">0 <span class="text-xs text-slate-500">m³</span></p>
+                    <div class="bg-[#081221] border border-white/5 p-3 rounded-lg shadow-inner flex justify-between items-center">
+                        <p class="text-[9px] text-slate-400 uppercase tracking-widest font-bold">Pemulihan Kas / Bln</p>
+                        <p id="out-tech-monthly" class="text-sm font-bold text-successGreen font-mono">Rp 0</p>
                     </div>
                 </div>
             </div>
@@ -303,9 +302,9 @@
                 <span class="absolute top-0 left-0 w-full h-1 bg-white/50 group-hover:bg-white/20 transition-colors"></span>
                 <div class="flex items-center gap-2 relative z-10">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
-                    CALCULATE FINANCIAL IMPACT
+                    FORWARD FINANCIAL IMPACT TO CFO
                 </div>
-                <span class="text-[9px] font-bold tracking-widest text-white/80 uppercase relative z-10">Generate Tautan Eksekutif Untuk CFO</span>
+                <span class="text-[9px] font-bold tracking-widest text-white/80 uppercase relative z-10">Generate Tautan Eksekutif Level Direksi</span>
             </button>
         </div>
 
@@ -322,6 +321,7 @@
         <div id="pdf-page-1" class="pdf-page">
             <div class="border-b-4 border-mckNavy pb-3 mb-5 flex justify-between items-end">
                 <div class="flex items-center gap-6">
+                    
                     <div class="flex items-center gap-3 shrink-0">
                         <img src="logo-invila-white.png" class="h-12 object-contain" alt="Invila" style="filter: brightness(0);" crossorigin="anonymous" onerror="this.style.display='none'">
                         <div class="flex flex-col justify-center" style="transform: translateY(-2px);">
@@ -329,16 +329,16 @@
                                 <h2 class="text-[34px] font-black font-serif text-black leading-none tracking-tight">INVILA</h2>
                                 <span class="text-[16px] font-sans font-bold leading-none mt-1 ml-0.5">™</span>
                             </div>
-                            <p class="text-[7.5px] font-bold text-[#0047AB] tracking-[0.16em] uppercase mt-1.5 whitespace-nowrap ml-0.5">WATER AS A SERVICE <span class="text-black italic lowercase font-serif tracking-normal">by</span> ZERO CapEX</p>
+                            <p class="text-[7.5px] font-bold text-[#0047AB] tracking-[0.16em] uppercase mt-2 whitespace-nowrap ml-0.5">WATER AS A SERVICE <span class="text-black italic lowercase font-serif tracking-normal">by</span> ZERO CapEX</p>
                         </div>
                     </div>
+
                     <div class="border-l-4 border-[#C5A059] pl-4">
                         <h1 class="text-[22px] font-black text-mckNavy uppercase tracking-tighter font-serif leading-none mb-1">THE STRATEGIC FINANCIAL MEMO</h1>
                         <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest leading-none">Invila™ EBITDA Recovery Dashboard</p>
                     </div>
                 </div>
                 <div class="text-right shrink-0">
-                    <p class="text-[8px] font-bold text-legacyRed uppercase tracking-widest mb-1 border border-legacyRed px-1.5 py-0.5 inline-block bg-legacyRed/5">Strictly Confidential</p>
                     <p id="pdf-date" class="text-[9px] text-slate-500 font-mono mt-1 uppercase">DATE: DD/MM/YYYY</p>
                     <p id="pdf-ref" class="text-[10px] font-bold text-mckNavy uppercase tracking-widest font-mono mt-0.5">REF: AUTOGEN</p>
                 </div>
@@ -389,7 +389,7 @@
             </div>
 
             <div class="border-t border-slate-300 pt-2 text-[7px] font-bold text-slate-400 uppercase tracking-widest text-center mt-4">
-                Strictly Confidential | Page 1 of 2
+                Page 1 of 2
             </div>
         </div>
 
@@ -448,7 +448,7 @@
                         <div class="space-y-3 font-sans">
                             <div class="flex justify-between border-b border-slate-100 pb-1.5"><span class="text-[10px] text-slate-600 font-bold">Project ROI</span><span class="text-[11px] font-black text-successGreen tracking-widest uppercase">Infinite</span></div>
                             <div class="flex justify-between border-b border-slate-100 pb-1.5"><span class="text-[10px] text-slate-600 font-bold">Payback Period</span><span class="text-[11px] font-black text-mckNavy uppercase">Day-1 Positive</span></div>
-                            <div class="flex justify-between"><span class="text-[10px] text-slate-600 font-bold">OPEX Reduction</span><span id="pdf-v-pct" class="text-[13px] font-black text-white bg-successGreen px-3 py-1 rounded inline-block" style="transform: translateY(-2px);">0%</span></div>
+                            <div class="flex justify-between items-center"><span class="text-[10px] text-slate-600 font-bold">OPEX Reduction</span><span id="pdf-v-pct" class="text-[13px] font-black text-white bg-successGreen px-3 py-1 rounded inline-block" style="transform: translateY(-2px);">0%</span></div>
                         </div>
                     </div>
                     
@@ -478,7 +478,7 @@
             </div>
 
             <div class="border-t border-slate-300 pt-2 flex justify-between items-center mt-4">
-                <p class="text-[7px] font-bold text-slate-400 uppercase tracking-widest">Strictly Confidential | Page 2 of 2</p>
+                <p class="text-[7px] font-bold text-slate-400 uppercase tracking-widest">Page 2 of 2</p>
                 <img src="logo-invila-white.png" style="filter: brightness(0); opacity: 0.5;" crossorigin="anonymous" class="h-4 object-contain" alt="Logo" onerror="this.style.display='none'">
             </div>
         </div>
@@ -587,15 +587,18 @@
             }
             setTxt('pdf-desc-tbl-in-water', `Substitusi ${Math.round(recycleRate * 100)}% + Cadangan`);
 
+            // WEB UI UPDATE (CFO)
             setTxt('out-capex', fmtMakro(capexCovered));
             setTxt('out-annual', fmtMakro(saveYearly));
             setTxt('out-monthly', fmtRp(saveMonthly));
             setTxt('out-5year', fmtMakro(save5Year));
 
+            // WEB UI UPDATE (FM - BISA MELIHAT SAVINGS DI SINI TAPI TIDAK BISA CETAK PDF)
             setTxt('out-tech-lps', lps.toLocaleString('id-ID', {minimumFractionDigits: 1, maximumFractionDigits: 2}));
-            setTxt('out-tech-recycle', numFormat(vol * recycleRate * days));
-            setTxt('out-tech-makeup', numFormat(vol * (1 - recycleRate) * days));
+            setTxt('out-tech-annual', fmtMakro(saveYearly));
+            setTxt('out-tech-monthly', fmtRp(saveMonthly));
 
+            // PDF STAGE UPDATE (Page 1 & 2)
             setTxt('pdf-sum-annual', fmtMakro(saveYearly));
             setTxt('pdf-sum-monthly', fmtRp(saveMonthly));
             setTxt('pdf-sum-capex', fmtMakro(capexCovered));
@@ -648,7 +651,7 @@
                 techEls.forEach(el => el.classList.add('hidden'));
                 
                 document.getElementById('badge-text').innerText = "CFO STRATEGIC DESK";
-                document.getElementById('badge-text').className = "text-brandGold font-bold tracking-[0.25em] uppercase text-[10px] md:text-xs";
+                document.getElementById('badge-text').className = "text-brandGold font-bold tracking-[0.25em] uppercase text-[10px] md:text-xs transition-colors duration-500";
                 document.getElementById('badge-dot').className = "w-2 h-2 bg-brandGold rounded-full animate-pulse shadow-[0_0_8px_#C5A059]";
                 document.getElementById('main-title').innerHTML = `EBITDA Recovery <span class="italic text-brandGold">Simulator.</span>`;
                 document.getElementById('main-desc').innerHTML = `Model finansial untuk mengevaluasi <strong class="text-white">Baseline Utility OPEX</strong> dan mencetak margin Laba Bersih baru melalui kerangka investasi <strong class="text-white font-medium border-b border-brandGold">Asset-Light Strategy (Zero CapEx)</strong>.`;
@@ -673,7 +676,7 @@
                 techEls.forEach(el => el.classList.remove('hidden'));
 
                 document.getElementById('badge-text').innerText = "FM TECHNICAL & SCADA DESK";
-                document.getElementById('badge-text').className = "text-blue-400 font-bold tracking-[0.25em] uppercase text-[10px] md:text-xs";
+                document.getElementById('badge-text').className = "text-blue-400 font-bold tracking-[0.25em] uppercase text-[10px] md:text-xs transition-colors duration-500";
                 document.getElementById('badge-dot').className = "w-2 h-2 bg-blue-500 rounded-full animate-pulse shadow-[0_0_8px_#3b82f6]";
                 document.getElementById('main-title').innerHTML = `Water Sovereignty <span class="italic text-blue-400">Architecture.</span>`;
                 document.getElementById('main-desc').innerHTML = `Bebaskan fasilitas produksi Anda dari ketergantungan air eksternal yang liar. Ubah air sisa produksi menjadi <strong class="text-white">Air Baku Internal</strong> yang presisi melalui <strong class="text-blue-300 font-medium">Invila™ Hybrid Ecosystem</strong>.`;
