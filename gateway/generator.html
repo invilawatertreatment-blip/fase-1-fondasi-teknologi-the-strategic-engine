@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invila™ | The War Room (Link Generator V4.2)</title>
+    <title>Invila™ | The War Room (Link Generator V4.3)</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -37,7 +37,7 @@
         <div class="border-b border-white/10 pb-6 mb-8 flex justify-between items-center">
             <div>
                 <h1 class="text-2xl font-black text-white tracking-widest uppercase">INVILA<sup class="text-xs">™</sup> WAR ROOM</h1>
-                <p class="text-xs text-brandGold tracking-widest font-mono mt-1 text-sm">STRATEGIC LINK GENERATOR V4.2</p>
+                <p class="text-xs text-brandGold tracking-widest font-mono mt-1 text-sm">STRATEGIC LINK GENERATOR V4.3</p>
             </div>
             <div class="text-right">
                 <div class="bg-legacyRed/10 border border-legacyRed px-3 py-1 rounded text-[9px] font-bold text-legacyRed uppercase tracking-widest animate-pulse mb-2 cursor-pointer flex items-center gap-2" onclick="openHQDoor()" title="HQ Access Only">
@@ -87,9 +87,9 @@
                 <h3 class="text-sm font-bold text-brandGold uppercase tracking-widest border-b border-white/5 pb-2">2. Baseline Parameters</h3>
                 
                 <div class="grid grid-cols-2 gap-4">
-                    <div><label>Volume (m³/Hari)</label><input type="number" id="gen-flow" value="1500"></div>
+                    <div><label>Pemakaian Air (m³/Bulan)</label><input type="number" id="gen-flow" value="36000" placeholder="Sesuai Invoice"></div>
                     <div><label>Siklus (Hari/Bln)</label><input type="number" id="gen-days" value="24"></div>
-                    <div><label>Tarif PDAM (Rp)</label><input type="number" id="gen-pdam" value="14500"></div>
+                    <div><label>Tarif PDAM/Kawasan (Rp/m³)</label><input type="number" id="gen-pdam" value="14500"></div>
                     <div><label>Tarif Limbah (Rp)</label><input type="number" id="gen-waste" value="14000"></div>
                     <div><label>Waste Factor (%)</label><input type="number" id="gen-wfactor" value="85"></div>
                     <div><label>Target WaaS (Rp)</label><input type="number" id="gen-waas" value="6000"></div>
@@ -98,7 +98,7 @@
                 
                 <div class="bg-black/30 p-4 rounded-lg border border-white/5 mt-6">
                     <p class="text-[9px] text-slate-400 italic leading-relaxed">
-                        *Data Intelijen akan direkam secara otomatis ke Google Sheets Markas untuk pemantauan tim Sales Pusat saat tombol generate ditekan.
+                        *Data Intelijen akan direkam secara otomatis ke Google Sheets Markas. Volume bulanan (Invoice) akan dikonversi otomatis ke rasio harian di mesin klien.
                     </p>
                 </div>
             </div>
@@ -139,13 +139,10 @@
     </div>
 
     <script>
-        // WEBHOOK UNTUK LOG KE SPREADSHEET (SAMA DENGAN DI SCRIPT.GOOGLE.COM)
         const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwZN1HDW_S3-npjk-szBJ2K4FqjP2pkWYiuXFPz7vKKZnF-c2oUxTBOBE61MRfT2Hh_/exec";
 
-        // --- SISTEM PINTU RAHASIA (HQ ACCESS) ---
         function openHQDoor() {
             const pin = prompt("RESTRICTED ACCESS. Masukkan PIN Otorisasi Pusat:");
-            // PIN RAHASIA ADALAH: INVILA2026
             if (pin === "INVILA2026") {
                 document.getElementById('hq-panel').classList.remove('hidden');
                 fetchHQData();
@@ -159,7 +156,6 @@
         }
 
         function fetchHQData() {
-            // Gunakan metode GET ke Webhook Apps Script
             fetch(WEBHOOK_URL + "?mode=read")
                 .then(response => response.json())
                 .then(data => {
@@ -168,7 +164,6 @@
                         return;
                     }
                     
-                    // Render Headings (Baris Pertama Spreadsheet)
                     let theadHTML = "<tr>";
                     data[0].forEach(header => {
                         theadHTML += `<th>${header}</th>`;
@@ -176,16 +171,13 @@
                     theadHTML += "</tr>";
                     document.getElementById('hq-thead').innerHTML = theadHTML;
 
-                    // Render Data Rows (Mulai dari indeks 1, dan kita Reverse agar yang terbaru di atas)
                     let tbodyHTML = "";
                     for(let i = data.length - 1; i > 0; i--) {
                         let row = data[i];
-                        // Hindari baris yang benar-benar kosong
                         if(row[0] === "" && row[1] === "") continue; 
                         
                         tbodyHTML += "<tr>";
                         row.forEach(cell => {
-                            // Beri warna hijau khusus pada kata kunci aktivitas positif
                             let cellText = cell;
                             if (typeof cellText === 'string' && cellText.includes("Cetak PDF")) {
                                 cellText = `<span class="text-successGreen font-bold">${cellText}</span>`;
@@ -204,7 +196,6 @@
                 });
         }
 
-        // --- SISTEM GENERATE LINK ---
         function generateStrategicLink() {
             const btn = document.getElementById('btn-generate');
             btn.innerText = "SYNCING TO MARKAS...";
@@ -213,7 +204,6 @@
             const baseUrl = window.location.href.replace('generator.html', 'index.html');
             const params = new URLSearchParams();
 
-            // Ambil Data Intelijen
             const client = document.getElementById('gen-client').value || "Unnamed_Company";
             const address = document.getElementById('gen-address').value || "-";
             const nama = document.getElementById('gen-nama').value || "-";
@@ -221,23 +211,24 @@
             const role = document.getElementById('gen-role').value || "-";
             const view = document.getElementById('gen-view').value;
 
-            // Masukkan ke URL Params
             params.append('client', encodeURIComponent(client.replace(/ /g, '_')));
             params.append('nama', encodeURIComponent(nama.replace(/ /g, '_')));
             params.append('role', encodeURIComponent(role.replace(/ /g, '_')));
             params.append('view', view);
-            // Info kontak hanya dikirim ke markas, tidak dipasang di URL untuk klien agar tidak panjang
             
-            // Parameter Teknis
-            params.append('flow', document.getElementById('gen-flow').value);
+            // KONVERSI M3/BULAN KE M3/HARI UNTUK MESIN INDEX.HTML
+            const monthlyVolume = parseFloat(document.getElementById('gen-flow').value) || 0;
+            const days = parseFloat(document.getElementById('gen-days').value) || 1;
+            const dailyFlow = monthlyVolume > 0 ? (monthlyVolume / days).toFixed(2) : 0;
+            
+            params.append('flow', dailyFlow); // Tetap dikirim sebagai daily flow agar kompatibel
             params.append('pdam', document.getElementById('gen-pdam').value);
             params.append('waste', document.getElementById('gen-waste').value);
             params.append('wfactor', document.getElementById('gen-wfactor').value);
             params.append('recycle', document.getElementById('gen-recycle').value);
             params.append('waas', document.getElementById('gen-waas').value);
-            params.append('days', document.getElementById('gen-days').value);
+            params.append('days', days);
 
-            // Time Bomb
             const expireHours = parseInt(document.getElementById('gen-expire').value);
             if(expireHours > 0) {
                 const expireTimestamp = Date.now() + (expireHours * 60 * 60 * 1000);
@@ -246,7 +237,6 @@
 
             const finalUrl = `${baseUrl}?${params.toString()}`;
 
-            // KIRIM DATA KE GOOGLE SHEETS MARKAS
             const targetUrl = `${WEBHOOK_URL}?company=${encodeURIComponent(client)}&nama=${encodeURIComponent(nama)}&role=${encodeURIComponent(role)}&action=Generate%20Link%20(${view.toUpperCase()})&phone=${encodeURIComponent(phone)}&address=${encodeURIComponent(address)}`;
             
             fetch(targetUrl, { mode: 'no-cors' })
