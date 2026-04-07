@@ -1,28 +1,277 @@
-// GANTI DENGAN ID SPREADSHEET BAPAK (SUDAH SAYA MASUKKAN)
-const SHEET_ID = '1PbmF4qevWS2G4DU0hkbZrAGouz37smFSs8BI30a_PNI';
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invila™ | The War Room (Link Generator V4.2)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { luxuryNavy: '#0A192F', brandGold: '#C5A059', successGreen: '#10b981', legacyRed: '#f43f5e' },
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0A192F; color: #e2e8f0; }
+        .bg-grid-slate { background-size: 40px 40px; background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px); }
+        .glass-panel { background: rgba(17, 34, 64, 0.95); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+        input, select, textarea { background: #081221; border: 1px solid #334155; color: white; padding: 10px 15px; border-radius: 8px; width: 100%; outline: none; transition: all 0.3s; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+        input:focus, select:focus, textarea:focus { border-color: #C5A059; box-shadow: 0 0 10px rgba(197, 160, 89, 0.2); }
+        label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #94a3b8; margin-bottom: 5px; display: block; }
+        
+        /* Table Styles for HQ Dashboard */
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th { background: #001b44; color: #C5A059; padding: 12px; font-size: 10px; text-transform: uppercase; text-align: left; border: 1px solid #334155; }
+        td { padding: 12px; font-size: 11px; border: 1px solid #334155; color: #cbd5e1; }
+        tr:nth-child(even) { background: rgba(255,255,255,0.02); }
+    </style>
+</head>
+<body class="bg-grid-slate min-h-screen py-10 px-4 font-sans flex items-center justify-center flex-col">
 
-function doGet(e) {
-  const sheet = SpreadsheetApp.openById(SHEET_ID).getActiveSheet();
-  
-  // 1. MODE BACA DATA (KHUSUS UNTUK PUSAT / HQ)
-  if (e.parameter.mode === 'read') {
-    const data = sheet.getDataRange().getValues();
-    return ContentService.createTextOutput(JSON.stringify(data))
-      .setMimeType(ContentService.MimeType.JSON);
-  }
+    <div id="main-panel" class="max-w-5xl w-full glass-panel p-8 rounded-2xl relative overflow-hidden transition-all">
+        <div class="border-b border-white/10 pb-6 mb-8 flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-black text-white tracking-widest uppercase">INVILA<sup class="text-xs">™</sup> WAR ROOM</h1>
+                <p class="text-xs text-brandGold tracking-widest font-mono mt-1 text-sm">STRATEGIC LINK GENERATOR V4.2</p>
+            </div>
+            <div class="text-right">
+                <div class="bg-legacyRed/10 border border-legacyRed px-3 py-1 rounded text-[9px] font-bold text-legacyRed uppercase tracking-widest animate-pulse mb-2 cursor-pointer flex items-center gap-2" onclick="openHQDoor()" title="HQ Access Only">
+                    <span>Strictly Confidential</span> <span>🔒</span>
+                </div>
+                <p class="text-[8px] text-slate-500 font-mono">RADAR ACTIVE: Connected to Markas</p>
+            </div>
+        </div>
 
-  // 2. MODE TULIS DATA (RADAR DARI SALES & KLIEN)
-  const timestamp = new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' });
-  const company = e.parameter.company || "-";
-  const address = e.parameter.address || "-";
-  const nama = e.parameter.nama || "-";
-  const phone = e.parameter.phone || "-";
-  const role = e.parameter.role || "-";
-  const action = e.parameter.action || "-";
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="space-y-4">
+                <h3 class="text-sm font-bold text-brandGold uppercase tracking-widest border-b border-white/5 pb-2">1. Target Intelligence</h3>
+                
+                <div class="grid grid-cols-1 gap-4">
+                    <div><label>Nama Perusahaan Klien</label><input type="text" id="gen-client" placeholder="PT Contoh Industri Tbk"></div>
+                    <div><label>Alamat Perusahaan</label><textarea id="gen-address" rows="2" placeholder="Kawasan Industri..."></textarea></div>
+                </div>
 
-  // Format Kolom: A=Waktu, B=Perusahaan, C=Alamat, D=Kontak, E=No HP, F=Jabatan, G=Aktivitas
-  sheet.appendRow([timestamp, company, address, nama, phone, role, action]);
+                <div class="grid grid-cols-2 gap-4">
+                    <div><label>Attention To (Nama)</label><input type="text" id="gen-nama" placeholder="Bpk. John Doe"></div>
+                    <div><label>Nomor HP / WhatsApp</label><input type="text" id="gen-phone" placeholder="0812xxxxxxxx"></div>
+                </div>
 
-  return ContentService.createTextOutput(JSON.stringify({"status": "sukses"}))
-    .setMimeType(ContentService.MimeType.JSON);
-}
+                <div class="grid grid-cols-2 gap-4">
+                    <div><label>Jabatan (Role)</label><input type="text" id="gen-role" placeholder="Plant Manager"></div>
+                    <div>
+                        <label>Mode Tampilan (Persona)</label>
+                        <select id="gen-view" class="text-brandGold font-bold">
+                            <option value="technical">FM SCADA VIEW (Technical)</option>
+                            <option value="executive">CFO STRATEGIC DESK (Executive)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="text-legacyRed">Time-Bomb (Kedaluwarsa Link)</label>
+                    <select id="gen-expire" class="border-legacyRed/50 text-legacyRed">
+                        <option value="48">48 Jam (Recommended)</option>
+                        <option value="24">24 Jam (Urgent)</option>
+                        <option value="168">7 Hari (Standard)</option>
+                        <option value="0">Unlimited (Beresiko)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="text-sm font-bold text-brandGold uppercase tracking-widest border-b border-white/5 pb-2">2. Baseline Parameters</h3>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div><label>Volume (m³/Hari)</label><input type="number" id="gen-flow" value="1500"></div>
+                    <div><label>Siklus (Hari/Bln)</label><input type="number" id="gen-days" value="24"></div>
+                    <div><label>Tarif PDAM (Rp)</label><input type="number" id="gen-pdam" value="14500"></div>
+                    <div><label>Tarif Limbah (Rp)</label><input type="number" id="gen-waste" value="14000"></div>
+                    <div><label>Waste Factor (%)</label><input type="number" id="gen-wfactor" value="85"></div>
+                    <div><label>Target WaaS (Rp)</label><input type="number" id="gen-waas" value="6000"></div>
+                </div>
+                <div><label>Target Recycling (%)</label><input type="number" id="gen-recycle" value="80"></div>
+                
+                <div class="bg-black/30 p-4 rounded-lg border border-white/5 mt-6">
+                    <p class="text-[9px] text-slate-400 italic leading-relaxed">
+                        *Data Intelijen akan direkam secara otomatis ke Google Sheets Markas untuk pemantauan tim Sales Pusat saat tombol generate ditekan.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-10 border-t border-white/10 pt-8 text-center">
+            <button id="btn-generate" onclick="generateStrategicLink()" class="w-full md:w-auto px-12 bg-brandGold text-[#0A192F] py-4 rounded-xl font-black uppercase tracking-[0.15em] text-sm hover:bg-white active:scale-95 transition-all shadow-[0_0_20px_rgba(197,160,89,0.4)]">
+                ⚙️ Generate & Sync to Markas
+            </button>
+        </div>
+
+        <div id="result-box" class="hidden mt-8 bg-successGreen/10 border border-successGreen p-6 rounded-xl text-center transition-all">
+            <p class="text-[10px] font-bold text-successGreen uppercase tracking-widest mb-3">Tautan Berhasil Dirakit! (Klik Untuk Menyalin)</p>
+            <div onclick="copyToClipboard()" class="bg-[#081221] p-4 rounded border border-slate-700 cursor-pointer hover:border-successGreen transition-colors group relative overflow-hidden break-all">
+                <p id="final-link" class="font-mono text-sm text-slate-300 group-hover:text-white relative z-10"></p>
+                <div class="absolute inset-0 bg-successGreen/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            </div>
+            <p id="copy-msg" class="text-[10px] font-bold text-brandGold uppercase tracking-widest mt-3 hidden">✅ Tautan Disalin ke Clipboard!</p>
+        </div>
+    </div>
+
+    <div id="hq-panel" class="hidden max-w-6xl w-full glass-panel p-8 rounded-2xl relative overflow-hidden mt-8 border-t-4 border-brandGold">
+        <div class="flex justify-between items-center border-b border-white/10 pb-4 mb-4">
+            <h2 class="text-xl font-black text-brandGold uppercase tracking-widest">📡 HQ Radar Dashboard</h2>
+            <button onclick="closeHQDoor()" class="text-xs text-slate-400 hover:text-white uppercase tracking-widest font-bold">Tutup X</button>
+        </div>
+        <p class="text-[10px] text-slate-400 mb-4">Berikut adalah rekam jejak aktivitas klien yang ditarik langsung secara live dari Markas.</p>
+        
+        <div class="overflow-x-auto">
+            <table id="hq-table">
+                <thead id="hq-thead">
+                    </thead>
+                <tbody id="hq-tbody">
+                    <tr><td colspan="7" class="text-center text-brandGold animate-pulse">Menarik data dari satelit Markas...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // WEBHOOK UNTUK LOG KE SPREADSHEET (SAMA DENGAN DI SCRIPT.GOOGLE.COM)
+        const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwZN1HDW_S3-npjk-szBJ2K4FqjP2pkWYiuXFPz7vKKZnF-c2oUxTBOBE61MRfT2Hh_/exec";
+
+        // --- SISTEM PINTU RAHASIA (HQ ACCESS) ---
+        function openHQDoor() {
+            const pin = prompt("RESTRICTED ACCESS. Masukkan PIN Otorisasi Pusat:");
+            // PIN RAHASIA ADALAH: INVILA2026
+            if (pin === "INVILA2026") {
+                document.getElementById('hq-panel').classList.remove('hidden');
+                fetchHQData();
+            } else if (pin !== null) {
+                alert("PIN Salah! Akses ditolak.");
+            }
+        }
+
+        function closeHQDoor() {
+            document.getElementById('hq-panel').classList.add('hidden');
+        }
+
+        function fetchHQData() {
+            // Gunakan metode GET ke Webhook Apps Script
+            fetch(WEBHOOK_URL + "?mode=read")
+                .then(response => response.json())
+                .then(data => {
+                    if(data.length === 0) {
+                        document.getElementById('hq-tbody').innerHTML = '<tr><td colspan="7" class="text-center">Data kosong.</td></tr>';
+                        return;
+                    }
+                    
+                    // Render Headings (Baris Pertama Spreadsheet)
+                    let theadHTML = "<tr>";
+                    data[0].forEach(header => {
+                        theadHTML += `<th>${header}</th>`;
+                    });
+                    theadHTML += "</tr>";
+                    document.getElementById('hq-thead').innerHTML = theadHTML;
+
+                    // Render Data Rows (Mulai dari indeks 1, dan kita Reverse agar yang terbaru di atas)
+                    let tbodyHTML = "";
+                    for(let i = data.length - 1; i > 0; i--) {
+                        let row = data[i];
+                        // Hindari baris yang benar-benar kosong
+                        if(row[0] === "" && row[1] === "") continue; 
+                        
+                        tbodyHTML += "<tr>";
+                        row.forEach(cell => {
+                            // Beri warna hijau khusus pada kata kunci aktivitas positif
+                            let cellText = cell;
+                            if (typeof cellText === 'string' && cellText.includes("Cetak PDF")) {
+                                cellText = `<span class="text-successGreen font-bold">${cellText}</span>`;
+                            } else if (typeof cellText === 'string' && cellText.includes("EXPIRED")) {
+                                cellText = `<span class="text-legacyRed font-bold">${cellText}</span>`;
+                            }
+                            tbodyHTML += `<td>${cellText}</td>`;
+                        });
+                        tbodyHTML += "</tr>";
+                    }
+                    document.getElementById('hq-tbody').innerHTML = tbodyHTML;
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                    document.getElementById('hq-tbody').innerHTML = '<tr><td colspan="7" class="text-center text-legacyRed">Gagal terhubung ke Markas. Cek koneksi Anda.</td></tr>';
+                });
+        }
+
+        // --- SISTEM GENERATE LINK ---
+        function generateStrategicLink() {
+            const btn = document.getElementById('btn-generate');
+            btn.innerText = "SYNCING TO MARKAS...";
+            btn.classList.add("opacity-50", "pointer-events-none");
+
+            const baseUrl = window.location.href.replace('generator.html', 'index.html');
+            const params = new URLSearchParams();
+
+            // Ambil Data Intelijen
+            const client = document.getElementById('gen-client').value || "Unnamed_Company";
+            const address = document.getElementById('gen-address').value || "-";
+            const nama = document.getElementById('gen-nama').value || "-";
+            const phone = document.getElementById('gen-phone').value || "-";
+            const role = document.getElementById('gen-role').value || "-";
+            const view = document.getElementById('gen-view').value;
+
+            // Masukkan ke URL Params
+            params.append('client', encodeURIComponent(client.replace(/ /g, '_')));
+            params.append('nama', encodeURIComponent(nama.replace(/ /g, '_')));
+            params.append('role', encodeURIComponent(role.replace(/ /g, '_')));
+            params.append('view', view);
+            // Info kontak hanya dikirim ke markas, tidak dipasang di URL untuk klien agar tidak panjang
+            
+            // Parameter Teknis
+            params.append('flow', document.getElementById('gen-flow').value);
+            params.append('pdam', document.getElementById('gen-pdam').value);
+            params.append('waste', document.getElementById('gen-waste').value);
+            params.append('wfactor', document.getElementById('gen-wfactor').value);
+            params.append('recycle', document.getElementById('gen-recycle').value);
+            params.append('waas', document.getElementById('gen-waas').value);
+            params.append('days', document.getElementById('gen-days').value);
+
+            // Time Bomb
+            const expireHours = parseInt(document.getElementById('gen-expire').value);
+            if(expireHours > 0) {
+                const expireTimestamp = Date.now() + (expireHours * 60 * 60 * 1000);
+                params.append('expire', expireTimestamp);
+            }
+
+            const finalUrl = `${baseUrl}?${params.toString()}`;
+
+            // KIRIM DATA KE GOOGLE SHEETS MARKAS
+            const targetUrl = `${WEBHOOK_URL}?company=${encodeURIComponent(client)}&nama=${encodeURIComponent(nama)}&role=${encodeURIComponent(role)}&action=Generate%20Link%20(${view.toUpperCase()})&phone=${encodeURIComponent(phone)}&address=${encodeURIComponent(address)}`;
+            
+            fetch(targetUrl, { mode: 'no-cors' })
+                .then(() => {
+                    document.getElementById('final-link').innerText = finalUrl;
+                    document.getElementById('result-box').classList.remove('hidden');
+                    btn.innerText = "⚙️ Generate & Sync to Markas";
+                    btn.classList.remove("opacity-50", "pointer-events-none");
+                })
+                .catch(() => {
+                    alert("Gagal terhubung ke web, tapi link tetap dibuat.");
+                    document.getElementById('final-link').innerText = finalUrl;
+                    document.getElementById('result-box').classList.remove('hidden');
+                    btn.classList.remove("opacity-50", "pointer-events-none");
+                });
+        }
+
+        function copyToClipboard() {
+            const linkText = document.getElementById('final-link').innerText;
+            navigator.clipboard.writeText(linkText).then(() => {
+                const msg = document.getElementById('copy-msg');
+                msg.classList.remove('hidden');
+                setTimeout(() => msg.classList.add('hidden'), 3000);
+            });
+        }
+    </script>
+</body>
+</html>
