@@ -85,7 +85,7 @@
                 EBITDA Recovery <span class="italic text-brandGold">Simulator.</span>
             </h1>
             <p id="main-desc" class="text-sm md:text-lg text-slate-400 font-light leading-relaxed max-w-4xl mx-auto transition-all duration-500">
-                Model finansial untuk mengevaluasi <strong class="text-white">Baseline Utility OPEX</strong> dan mencetak margin Laba Bersih baru melalui kerangka investasi <strong class="text-white font-medium border-b border-brandGold">Asset-Light Strategy (Zero CapEx)</strong>.
+                Bukan sekadar utilitas air, ini adalah mitigasi risiko absolut. Dipercaya oleh industri nasional hingga sektor publik (PDAM), Invila™ mengonversi ketahanan operasional menjadi perisai finansial yang mengamankan <strong class="text-white">margin EBITDA</strong> Anda melalui <strong class="text-white font-medium border-b border-brandGold">Asset-Light Strategy (Zero CapEx)</strong>.
             </p>
         </div>
 
@@ -245,8 +245,8 @@
                         <li class="flex items-start gap-4">
                             <div class="w-8 h-8 rounded bg-blue-500/20 border border-blue-500/50 flex items-center justify-center shrink-0"><span class="text-blue-400 text-xs font-bold font-mono">02</span></div>
                             <div>
-                                <h4 class="text-sm font-bold text-blue-300 uppercase tracking-widest mb-1.5">Zero Downtime (Plug & Play)</h4>
-                                <p class="text-xs text-slate-400 leading-relaxed text-justify">Seluruh proses instalasi dan integrasi dilakukan secara paralel tanpa sedikit pun menghentikan operasional produksi fasilitas Anda.</p>
+                                <h4 class="text-sm font-bold text-blue-300 uppercase tracking-widest mb-1.5">Zero Downtime & Terintegrasi Mulus</h4>
+                                <p class="text-xs text-slate-400 leading-relaxed text-justify">Seluruh proses instalasi dilakukan dengan jaminan <b>Zero Downtime</b> dan dirancang untuk terintegrasi mulus dengan sistem <i>existing</i> pabrik Anda tanpa menghentikan operasional produksi.</p>
                             </div>
                         </li>
                         <li class="flex items-start gap-4">
@@ -570,16 +570,17 @@
 
             renderPdfChart(exWaterCostMonthly, exWasteCostMonthly, inWaterTotalMonthly, inWasteCostMonthly);
 
+            // PENAMBAHAN NARASI PDAM / INDUSTRI NASIONAL PADA PDF
             if (waste === 0) {
                 setTxt('pdf-narrative-leakage', `Fasilitas saat ini terkunci dalam ketergantungan absolut pada pasokan air komersial dengan harga premium. Ketiadaan kemandirian pasokan (<i>Water Sovereignty</i>) ini menciptakan in-efisiensi Harga Pokok Produksi (HPP) senilai <strong class="text-legacyRed font-mono">${fmtRp(exTotalMonthly)}/bulan</strong>, yang mengekspos perusahaan pada pembengkakan OPEX dan risiko gangguan operasional tanpa <i>hedge</i> yang memadai.`);
-                setTxt('pdf-narrative-solution', `Model <strong class="text-mckNavy">Invila™ WaaS</strong> mengeksekusi <i>Tariff Arbitrage</i> dengan mensubstitusi ${Math.round(recycleRate * 100)}% pasokan air melalui infrastruktur daur ulang mandiri (Tarif Tetap <strong class="text-successGreen font-mono">Rp ${numFormat(waasTariff)}/m³</strong>). Dieksekusi melalui <i>Asset-Light Strategy</i> (Zero CapEx) dan murni <i>Off-Balance Sheet</i>, manuver ini menyuntikkan likuiditas ke Laba Bersih perusahaan sejak Hari Pertama.`);
+                setTxt('pdf-narrative-solution', `Dipercaya oleh industri nasional hingga publik (PDAM), model <strong class="text-mckNavy">Invila™ WaaS</strong> mengeksekusi <i>Tariff Arbitrage</i> dengan mensubstitusi ${Math.round(recycleRate * 100)}% pasokan air melalui infrastruktur mandiri (Tarif <strong class="text-successGreen font-mono">Rp ${numFormat(waasTariff)}/m³</strong>). Dieksekusi melalui <i>Asset-Light Strategy</i> (Zero CapEx), manuver ini menyuntikkan likuiditas ke Laba Bersih sejak Hari Pertama.`);
                 
                 setTxt('pdf-tbl-title-waste', `Surcharge Air Limbah (${Math.round(wasteFactor * 100)}%)`);
                 setTxt('pdf-desc-tbl-ex-waste', "Pabrik Non-Kawasan");
                 setTxt('pdf-desc-tbl-in-waste', "Bebas Surcharge Kawasan");
             } else {
                 setTxt('pdf-narrative-leakage', `Berdasarkan audit komparatif, fasilitas beroperasi di bawah in-efisiensi struktural akibat "Beban Ganda": Tarif Air Komersial ditambah <i>Fixed Wastewater Surcharge</i> kawasan. Surcharge limbah ini dipatok kaku dari 100% volume air yang dibeli, menciptakan <i>sunk cost</i> sebesar <strong class="text-legacyRed font-mono">${fmtRp(exTotalMonthly)}/bulan</strong> yang secara masif dan permanen menggerus margin EBITDA perusahaan.`);
-                setTxt('pdf-narrative-solution', `Sebagai sebuah mahakarya rekayasa finansial, <strong class="text-mckNavy">Invila™ WaaS</strong> mendisrupsi struktur biaya ini. Dengan mensubstitusi ${Math.round(recycleRate * 100)}% pasokan air (Tarif Tetap <strong class="text-successGreen font-mono">Rp ${numFormat(waasTariff)}/m³</strong>), Invila otomatis <b>meruntuhkan dasar perhitungan tagihan limbah kawasan</b>. <i>Waterfall Surcharge Hack</i> ini menyuntikkan laba instan secara <i>Off-Balance Sheet</i> tanpa pengeluaran investasi.`);
+                setTxt('pdf-narrative-solution', `Sebagai arsitektur rekayasa finansial yang dipercaya industri nasional dan publik (PDAM), <strong class="text-mckNavy">Invila™ WaaS</strong> mendisrupsi struktur biaya ini. Mensubstitusi ${Math.round(recycleRate * 100)}% pasokan air (Tarif <strong class="text-successGreen font-mono">Rp ${numFormat(waasTariff)}/m³</strong>), Invila otomatis <b>meruntuhkan tagihan limbah kawasan</b>. Menyuntikkan laba instan murni <i>Off-Balance Sheet</i> tanpa investasi.`);
                 
                 setTxt('pdf-tbl-title-waste', `Wastewater Surcharge (${Math.round(wasteFactor * 100)}%)`);
                 setTxt('pdf-desc-tbl-ex-waste', "Dihitung dari 100% Vol Air Kawasan");
@@ -654,7 +655,9 @@
                 document.getElementById('badge-text').className = "text-brandGold font-bold tracking-[0.25em] uppercase text-[10px] md:text-xs transition-colors duration-500";
                 document.getElementById('badge-dot').className = "w-2 h-2 bg-brandGold rounded-full animate-pulse shadow-[0_0_8px_#C5A059]";
                 document.getElementById('main-title').innerHTML = `EBITDA Recovery <span class="italic text-brandGold">Simulator.</span>`;
-                document.getElementById('main-desc').innerHTML = `Model finansial untuk mengevaluasi <strong class="text-white">Baseline Utility OPEX</strong> dan mencetak margin Laba Bersih baru melalui kerangka investasi <strong class="text-white font-medium border-b border-brandGold">Asset-Light Strategy (Zero CapEx)</strong>.`;
+                
+                // PENAMBAHAN NARASI CREDIBILITY KE CEO/CFO
+                document.getElementById('main-desc').innerHTML = `Bukan sekadar utilitas air, ini adalah mitigasi risiko absolut. Dipercaya oleh industri nasional hingga sektor publik (PDAM), Invila™ mengonversi ketahanan operasional menjadi perisai finansial yang mengamankan <strong class="text-white">margin EBITDA</strong> Anda melalui <strong class="text-white font-medium border-b border-brandGold">Asset-Light Strategy (Zero CapEx)</strong>.`;
                 
                 document.getElementById('panel-input').classList.replace('border-blue-500', 'border-slate-500');
                 document.getElementById('panel-logic').classList.replace('border-blue-500', 'border-brandGold');
@@ -679,7 +682,9 @@
                 document.getElementById('badge-text').className = "text-blue-400 font-bold tracking-[0.25em] uppercase text-[10px] md:text-xs transition-colors duration-500";
                 document.getElementById('badge-dot').className = "w-2 h-2 bg-blue-500 rounded-full animate-pulse shadow-[0_0_8px_#3b82f6]";
                 document.getElementById('main-title').innerHTML = `Water Sovereignty <span class="italic text-blue-400">Architecture.</span>`;
-                document.getElementById('main-desc').innerHTML = `Bebaskan fasilitas produksi Anda dari ketergantungan air eksternal yang liar. Ubah air sisa produksi menjadi <strong class="text-white">Air Baku Internal</strong> yang presisi melalui <strong class="text-blue-300 font-medium">Invila™ Hybrid Ecosystem</strong>.`;
+                
+                // PENAMBAHAN NARASI CREDIBILITY KE FM
+                document.getElementById('main-desc').innerHTML = `Bukan sekadar utilitas air, ini adalah mitigasi risiko absolut. Bebaskan fasilitas produksi Anda dari ketergantungan air eksternal. Ubah air sisa produksi menjadi <strong class="text-white">Air Baku Internal</strong> yang presisi melalui <strong class="text-blue-300 font-medium">Invila™ Hybrid Ecosystem</strong>.`;
                 
                 document.getElementById('panel-input').classList.replace('border-slate-500', 'border-blue-500');
                 document.getElementById('panel-logic').classList.replace('border-brandGold', 'border-blue-500');
@@ -711,6 +716,7 @@
             return false;
         }
 
+        // FITUR AUTO-COPY DRAF WHATSAPP SAAT TOMBOL FM DITEKAN
         function forwardToCFO() {
             const urlParams = new URLSearchParams(window.location.search);
             urlParams.set('view', 'executive');
@@ -724,8 +730,10 @@
 
             const forwardUrl = window.location.origin + window.location.pathname + '?' + urlParams.toString();
             
-            navigator.clipboard.writeText(forwardUrl).then(() => {
-                alert(`Tautan Khusus untuk CFO berhasil disalin!\n\nSilakan 'Paste' di WhatsApp untuk diteruskan ke Direksi Anda.`);
+            const waText = `Selamat Pagi/Siang Bapak/Ibu, mohon izin menyampaikan.\n\nTim engineering telah mengevaluasi proposal efisiensi utilitas air dari Invila. Secara teknis kami merekomendasikan sistem ini karena menjamin *Zero Downtime saat instalasi* dan dirancang untuk *terintegrasi mulus dengan sistem existing kita*.\n\nSelain sangat aman bagi kelancaran produksi, ada potensi penghematan OPEX yang signifikan melalui skema *Zero CapEx*. Simulasi finansialnya telah saya siapkan khusus untuk review Bapak/Ibu di tautan ini:\n👉 ${forwardUrl}\n\nJika proyeksi angka tersebut sesuai dengan target perusahaan, mohon arahan Bapak/Ibu untuk tindak lanjutnya. Terima kasih.`;
+            
+            navigator.clipboard.writeText(waText).then(() => {
+                alert(`Draf Pesan WhatsApp & Tautan Khusus untuk CFO berhasil disalin!\n\nSilakan langsung 'Paste' (Tempel) di chat WhatsApp untuk diteruskan ke pimpinan Direksi Anda.`);
                 const clientName = document.getElementById('client_name').value;
                 const targetUrl = `${WEBHOOK_URL}?company=${encodeURIComponent(clientName)}&nama=FM&role=Technical&action=Share%20Link%20CFO`;
                 fetch(targetUrl, { mode: 'no-cors' }).catch(e => console.log(e));
