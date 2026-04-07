@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invila™ | The War Room (Link Generator V4.3)</title>
+    <title>Invila™ | The War Room (Link Generator V5.1)</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -37,7 +37,7 @@
         <div class="border-b border-white/10 pb-6 mb-8 flex justify-between items-center">
             <div>
                 <h1 class="text-2xl font-black text-white tracking-widest uppercase">INVILA<sup class="text-xs">™</sup> WAR ROOM</h1>
-                <p class="text-xs text-brandGold tracking-widest font-mono mt-1 text-sm">STRATEGIC LINK GENERATOR V4.3</p>
+                <p class="text-xs text-brandGold tracking-widest font-mono mt-1 text-sm">STRATEGIC LINK GENERATOR V5.1 (BILINGUAL)</p>
             </div>
             <div class="text-right">
                 <div class="bg-legacyRed/10 border border-legacyRed px-3 py-1 rounded text-[9px] font-bold text-legacyRed uppercase tracking-widest animate-pulse mb-2 cursor-pointer flex items-center gap-2" onclick="openHQDoor()" title="HQ Access Only">
@@ -72,14 +72,23 @@
                     </div>
                 </div>
 
-                <div>
-                    <label class="text-legacyRed">Time-Bomb (Kedaluwarsa Link)</label>
-                    <select id="gen-expire" class="border-legacyRed/50 text-legacyRed">
-                        <option value="48">48 Jam (Recommended)</option>
-                        <option value="24">24 Jam (Urgent)</option>
-                        <option value="168">7 Hari (Standard)</option>
-                        <option value="0">Unlimited (Beresiko)</option>
-                    </select>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-legacyRed">Time-Bomb (Kedaluwarsa)</label>
+                        <select id="gen-expire" class="border-legacyRed/50 text-legacyRed">
+                            <option value="48">48 Jam (Recommended)</option>
+                            <option value="24">24 Jam (Urgent)</option>
+                            <option value="168">7 Hari (Standard)</option>
+                            <option value="0">Unlimited (Beresiko)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Bahasa PDF (Language)</label>
+                        <select id="gen-lang" class="text-white font-bold">
+                            <option value="id">Indonesian (Standar)</option>
+                            <option value="en">English (MNC / Expat)</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
@@ -210,18 +219,24 @@
             const phone = document.getElementById('gen-phone').value || "-";
             const role = document.getElementById('gen-role').value || "-";
             const view = document.getElementById('gen-view').value;
+            const lang = document.getElementById('gen-lang').value;
 
             params.append('client', encodeURIComponent(client.replace(/ /g, '_')));
             params.append('nama', encodeURIComponent(nama.replace(/ /g, '_')));
             params.append('role', encodeURIComponent(role.replace(/ /g, '_')));
             params.append('view', view);
             
+            // Sisipkan parameter Bahasa jika dipilih English
+            if (lang === 'en') {
+                params.append('lang', 'en');
+            }
+            
             // KONVERSI M3/BULAN KE M3/HARI UNTUK MESIN INDEX.HTML
             const monthlyVolume = parseFloat(document.getElementById('gen-flow').value) || 0;
             const days = parseFloat(document.getElementById('gen-days').value) || 1;
             const dailyFlow = monthlyVolume > 0 ? (monthlyVolume / days).toFixed(2) : 0;
             
-            params.append('flow', dailyFlow); // Tetap dikirim sebagai daily flow agar kompatibel
+            params.append('flow', dailyFlow); 
             params.append('pdam', document.getElementById('gen-pdam').value);
             params.append('waste', document.getElementById('gen-waste').value);
             params.append('wfactor', document.getElementById('gen-wfactor').value);
@@ -237,7 +252,7 @@
 
             const finalUrl = `${baseUrl}?${params.toString()}`;
 
-            const targetUrl = `${WEBHOOK_URL}?company=${encodeURIComponent(client)}&nama=${encodeURIComponent(nama)}&role=${encodeURIComponent(role)}&action=Generate%20Link%20(${view.toUpperCase()})&phone=${encodeURIComponent(phone)}&address=${encodeURIComponent(address)}`;
+            const targetUrl = `${WEBHOOK_URL}?company=${encodeURIComponent(client)}&nama=${encodeURIComponent(nama)}&role=${encodeURIComponent(role)}&action=Generate%20Link%20(${view.toUpperCase()}${lang === 'en' ? ' - EN' : ''})&phone=${encodeURIComponent(phone)}&address=${encodeURIComponent(address)}`;
             
             fetch(targetUrl, { mode: 'no-cors' })
                 .then(() => {
