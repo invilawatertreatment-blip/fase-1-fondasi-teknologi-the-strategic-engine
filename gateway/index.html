@@ -39,6 +39,8 @@
         .glass-panel { background: rgba(17, 34, 64, 0.95); border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
         .luxury-input-group { transition: all 0.3s ease; }
         .luxury-input-group:focus-within { border-color: #C5A059; box-shadow: 0 0 20px rgba(197, 160, 89, 0.15); transform: translateY(-2px); }
+        
+        /* Tema Biru Untuk Input FM */
         .luxury-input-group.tech-mode:focus-within { border-color: #3b82f6; box-shadow: 0 0 20px rgba(59, 130, 246, 0.15); transform: translateY(-2px); }
 
         /* Setup Laporan PDF Strict McKinsey Memo Layout - 2 Halaman A4 */
@@ -481,13 +483,12 @@
     </div>
 
     <script>
-        const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwZN1HDW_S3-npjk-szBJ2K4FqjP2pkWYconst WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbzjz63op1nseIdENMfaxlpf30GLjzyl9L1gJqgQ99K8gShxYY_5wd0gUh5Xofj6nxRX/exec";iuXFPz7vKKZnF-c2oUxTBOBE61MRfT2Hh_/exec";
+        const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbzjz63op1nseIdENMfaxlpf30GLjzyl9L1gJqgQ99K8gShxYY_5wd0gUh5Xofj6nxRX/exec";
         const CAPEX_PER_LPS = 300000000;      
 
         let globalRef = "";
         let pdfChartInstance = null;
         
-        // Pengecekan Bahasa PDF dari URL
         const urlParams = new URLSearchParams(window.location.search);
         const isEnglish = urlParams.get('lang') === 'en';
 
@@ -520,15 +521,12 @@
             return globalRef;
         }
 
-        // BILINGUAL STATIC DICTIONARY
         function applyBilingualDictionary() {
             if (!isEnglish) return;
             
-            // Web Button (CFO View)
             setTxt('btn-txt-print', 'PRINT STRATEGIC MEMO');
             setTxt('btn-sub-print', 'Download C-Level Report (Visual Chart & Matrix)');
             
-            // PDF Page 1
             setTxt('pdf-h-sec1', 'Part I: Executive Summary (The Bottom Line)');
             setTxt('pdf-lbl-annual', 'Annual Net Profit Injection');
             setTxt('pdf-lbl-monthly', 'Monthly Cash Flow Recovery');
@@ -538,7 +536,6 @@
             setTxt('pdf-lbl-leakage', 'The Leakage (Status Quo)');
             setTxt('pdf-lbl-solution', 'The Invila™ Solution');
             
-            // PDF Page 2
             setTxt('pdf-h-sec4', 'Part IV: Waterfall Savings Matrix (OPEX Breakdown)');
             setTxt('pdf-th-comp', 'Cost Component (Monthly Basis)');
             setTxt('pdf-th-sq', 'Status Quo (Without Invila)');
@@ -678,7 +675,7 @@
         }
 
         function parseURLParameters() {
-            if (isEnglish) document.title = "Invila™ | CFO Strategic Financial Engine"; // Title Update
+            if (isEnglish) document.title = "Invila™ | CFO Strategic Financial Engine";
             
             const pExpire = urlParams.get('expire');
             if (pExpire && Date.now() > parseInt(pExpire)) {
@@ -784,7 +781,6 @@
             urlParams.set('waas', document.getElementById('inp-waas').value);
             urlParams.set('days', document.getElementById('inp-days').value);
 
-            // Pass the language parameter forward if it exists
             if (isEnglish) urlParams.set('lang', 'en');
 
             const forwardUrl = window.location.origin + window.location.pathname + '?' + urlParams.toString();
