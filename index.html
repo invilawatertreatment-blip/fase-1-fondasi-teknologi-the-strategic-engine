@@ -55,22 +55,22 @@
             <div class="flex items-center gap-2 md:gap-5">
                 <img src="logo-invila-white.png" alt="Invila" class="h-10 md:h-20 object-contain drop-shadow-sm">
                 <div class="flex flex-col leading-none">
-                    <h1 class="text-[24px] md:text-[55px] font-black text-black uppercase tracking-tighter noto-serif flex items-start">
-                        INVILA<sup class="text-[0.4em] font-bold align-super ml-0.5">TM</sup>
+                    <h1 class="text-[20px] md:text-[55px] font-black text-black uppercase tracking-tighter noto-serif flex items-start">
+                        INVILA<sup class="text-[0.4em] font-bold align-super ml-0.5 md:ml-1 mt-0.5 md:mt-2">TM</sup>
                     </h1>
                     <p class="text-[9px] md:text-[30px] font-bold text-royalBlue noto-serif whitespace-nowrap mt-1">
                         WATER AS A SERVICE <span class="font-light italic text-black/30 px-0.5">by</span> ZERO CapEX
                     </p>
                 </div>
             </div>
-            <a href="#audit-section" class="bg-royalBlue text-white px-5 md:px-10 py-2.5 md:py-4 rounded-full text-[9px] md:text-sm font-black uppercase tracking-widest shadow-md hover:scale-105 hover:bg-mckNavy active:scale-95 transition-all">
+            <a href="#audit-section" class="bg-royalBlue text-white px-5 md:px-10 py-3 md:py-4 rounded-full text-[9px] md:text-sm font-black uppercase tracking-widest shadow-md hover:scale-105 hover:bg-mckNavy active:scale-95 transition-all">
                 Site Audit
             </a>
         </div>
     </nav>
 
-    <section class="relative min-h-[100dvh] w-full flex flex-col justify-center items-center pt-32 md:pt-48 pb-16 px-6 overflow-hidden bg-white">
-        <video id="heroVideo" muted playsinline preload="auto" class="absolute inset-0 z-10 w-full h-full object-cover">
+    <section class="relative min-h-[100dvh] w-full flex flex-col justify-center items-center pt-32 md:pt-48 pb-16 px-4 overflow-hidden bg-white">
+        <video id="heroVideo" autoplay muted playsinline preload="auto" class="absolute inset-0 z-10 w-full h-full object-cover">
             <source src="landingpage_front_optimized.mp4" type="video/mp4">
         </video>
         <div id="heroImage" class="absolute inset-0 z-10 hidden bg-hero opacity-30">
@@ -79,7 +79,7 @@
 
         <div id="contentOverlay" class="relative z-40 text-center w-full max-w-6xl hidden opacity-0">
             
-            <div class="bg-[#020617] rounded-[2rem] p-8 md:p-12 shadow-[0_20px_50px_rgba(0,0,0,0.3)] mx-auto max-w-4xl border border-slate-800 mb-12">
+            <div class="bg-[#020617] rounded-[2rem] p-8 md:p-12 shadow-[0_20px_50px_rgba(0,0,0,0.3)] mx-auto max-w-4xl border border-slate-800 mb-12 w-full">
                 <div class="flex justify-center mb-6">
                     <div class="inline-flex items-center space-x-2 bg-blue-900/30 border border-blue-800/50 px-4 py-1.5 rounded-full">
                         <i data-lucide="shield-check" class="w-3.5 h-3.5 text-blue-500"></i>
@@ -87,18 +87,18 @@
                     </div>
                 </div>
 
-                <h2 class="text-2xl md:text-4xl font-black text-white mb-6 tracking-tight leading-tight uppercase text-center">
+                <h2 class="text-xl sm:text-2xl md:text-4xl font-black text-white mb-6 tracking-tight leading-tight uppercase text-center">
                     Total Akumulasi Kapasitas<br class="hidden sm:block"> Pengolahan Terpasang
                 </h2>
 
                 <div class="flex flex-col items-center justify-center mb-6">
-                    <div class="flex items-baseline justify-center gap-2 md:gap-3">
+                    <div class="flex flex-col sm:flex-row items-center sm:items-baseline justify-center gap-1 sm:gap-3">
                         <span class="main-odometer-dark text-5xl sm:text-7xl md:text-[6.5rem] font-black text-white tabular-nums tracking-tighter" data-start="79150000" data-target="79154776">79.150.000</span>
                         <span class="text-xl sm:text-3xl md:text-4xl font-bold text-blue-500">m³/Tahun</span>
                     </div>
                     
                     <div class="mt-4 text-center">
-                        <p class="text-[9px] md:text-[11px] text-slate-300 font-bold uppercase tracking-[0.15em] leading-relaxed">
+                        <p class="text-[8px] md:text-[11px] text-slate-300 font-bold uppercase tracking-[0.15em] leading-relaxed">
                             Setara ± <span class="main-odometer-sub text-white tabular-nums" data-target="216862" data-decimals="1">0</span> m³/hari <br class="md:hidden">
                             <span class="text-blue-500 ml-1">9 Khusus WTP Air Bersih (Diluar IPAL Medis)</span>
                         </p>
@@ -106,20 +106,20 @@
                 </div>
 
                 <div class="flex justify-center mt-8">
-                    <button id="main-recalculate-btn" class="flex items-center space-x-2 bg-transparent hover:bg-blue-900/40 border border-slate-700 hover:border-blue-500/50 text-slate-400 hover:text-white px-6 py-2.5 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all active:scale-95 group">
+                    <button id="main-recalculate-btn" class="flex items-center space-x-2 bg-transparent hover:bg-blue-900/40 border border-slate-700 hover:border-blue-500/50 text-slate-400 hover:text-white px-8 py-3 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all active:scale-95 group">
                         <i data-lucide="refresh-cw" class="w-4 h-4 group-hover:rotate-180 transition-transform"></i>
                         <span>Recalculate</span>
                     </button>
                 </div>
             </div>
             
-            <div class="max-w-4xl mx-auto mb-16 md:mb-24 text-center">
-                <p class="text-xl md:text-4xl font-light leading-snug text-black/90">
+            <div class="max-w-4xl mx-auto mb-16 md:mb-24 text-center px-2">
+                <p class="text-lg md:text-4xl font-light leading-snug text-black/90">
                     Lebih dari sekadar utilitas air, ini adalah <strong class="font-black border-b-4 border-royalBlue text-black">mitigasi risiko absolut.</strong> Dipercaya oleh industri nasional hingga sektor publik (PDAM), Invila™ menerjemahkan ketahanan operasional menjadi perisai finansial yang secara instan mengamankan margin EBITDA Anda.
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 text-left border-t border-black/10 pt-12 mb-20 md:mb-32">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 text-left border-t border-black/10 pt-12 mb-20 md:mb-32 px-4 md:px-0">
                 <div class="space-y-3">
                     <h4 class="font-black text-royalBlue uppercase text-xs md:text-xl tracking-widest noto-serif">Financial</h4>
                     <p class="text-sm md:text-lg leading-relaxed text-black/80 font-medium"><strong class="text-black">Zero Capex Model.</strong> 100% Off-Balance Sheet.</p>
@@ -134,36 +134,36 @@
                 </div>
             </div>
 
-            <div id="ebitda-anchor" class="border-t-4 border-black pt-12 text-left w-full">
+            <div id="ebitda-anchor" class="border-t-4 border-black pt-12 text-left w-full px-4 md:px-0">
                 <div class="max-w-4xl">
-                    <h3 class="text-2xl md:text-6xl font-black tracking-tight text-black leading-[1.1] mb-8 noto-serif">Protecting your <span class="text-royalBlue">EBITDA</span> is our standard.</h3>
+                    <h3 class="text-3xl md:text-6xl font-black tracking-tight text-black leading-[1.1] mb-6 md:mb-8 noto-serif">Protecting your <span class="text-royalBlue">EBITDA</span> is our standard.</h3>
                     <p class="text-base md:text-2xl text-black/60 font-light max-w-2xl leading-relaxed mb-10">Bisnis Anda tumbuh tanpa hambatan <strong class="text-black/80">infrastruktur air bersih.</strong></p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="bg-white py-20 border-t border-black/5 overflow-hidden fade-in-section">
+    <section class="bg-white py-12 md:py-20 border-t border-black/5 overflow-hidden fade-in-section">
         <div class="scroller">
             <div class="scroller__inner">
-                <img src="asasta%20legong.png" alt="Asasta" class="client-logo-scroll h-8 md:h-14">
-                <img src="dinkes%20depok.png" alt="Dinkes" class="client-logo-scroll h-8 md:h-14">
-                <img src="kievit.png" alt="Kievit" class="client-logo-scroll h-8 md:h-14">
-                <img src="kiw.png" alt="KIW" class="client-logo-scroll h-8 md:h-14">
-                <img src="patria-maritim-perkasa.png" alt="Patria" class="client-logo-scroll h-8 md:h-14">
-                <img src="petrokimia-gresik.png" alt="Petrokimia" class="client-logo-scroll h-8 md:h-14">
-                <img src="tirtanadi.png" alt="Tirtanadi" class="client-logo-scroll h-8 md:h-14">
-                <img src="united-tractors.png" alt="UT" class="client-logo-scroll h-8 md:h-14">
-                <img src="wika.png" alt="Wika" class="client-logo-scroll h-8 md:h-14">
-                <img src="asasta%20legong.png" alt="Asasta" class="client-logo-scroll h-8 md:h-14">
-                <img src="dinkes%20depok.png" alt="Dinkes" class="client-logo-scroll h-8 md:h-14">
-                <img src="kievit.png" alt="Kievit" class="client-logo-scroll h-8 md:h-14">
-                <img src="kiw.png" alt="KIW" class="client-logo-scroll h-8 md:h-14">
-                <img src="patria-maritim-perkasa.png" alt="Patria" class="client-logo-scroll h-8 md:h-14">
-                <img src="petrokimia-gresik.png" alt="Petrokimia" class="client-logo-scroll h-8 md:h-14">
-                <img src="tirtanadi.png" alt="Tirtanadi" class="client-logo-scroll h-8 md:h-14">
-                <img src="united-tractors.png" alt="UT" class="client-logo-scroll h-8 md:h-14">
-                <img src="wika.png" alt="Wika" class="client-logo-scroll h-8 md:h-14">
+                <img src="asasta%20legong.png" alt="Asasta" class="client-logo-scroll h-6 md:h-14">
+                <img src="dinkes%20depok.png" alt="Dinkes" class="client-logo-scroll h-6 md:h-14">
+                <img src="kievit.png" alt="Kievit" class="client-logo-scroll h-6 md:h-14">
+                <img src="kiw.png" alt="KIW" class="client-logo-scroll h-6 md:h-14">
+                <img src="patria-maritim-perkasa.png" alt="Patria" class="client-logo-scroll h-6 md:h-14">
+                <img src="petrokimia-gresik.png" alt="Petrokimia" class="client-logo-scroll h-6 md:h-14">
+                <img src="tirtanadi.png" alt="Tirtanadi" class="client-logo-scroll h-6 md:h-14">
+                <img src="united-tractors.png" alt="UT" class="client-logo-scroll h-6 md:h-14">
+                <img src="wika.png" alt="Wika" class="client-logo-scroll h-6 md:h-14">
+                <img src="asasta%20legong.png" alt="Asasta" class="client-logo-scroll h-6 md:h-14">
+                <img src="dinkes%20depok.png" alt="Dinkes" class="client-logo-scroll h-6 md:h-14">
+                <img src="kievit.png" alt="Kievit" class="client-logo-scroll h-6 md:h-14">
+                <img src="kiw.png" alt="KIW" class="client-logo-scroll h-6 md:h-14">
+                <img src="patria-maritim-perkasa.png" alt="Patria" class="client-logo-scroll h-6 md:h-14">
+                <img src="petrokimia-gresik.png" alt="Petrokimia" class="client-logo-scroll h-6 md:h-14">
+                <img src="tirtanadi.png" alt="Tirtanadi" class="client-logo-scroll h-6 md:h-14">
+                <img src="united-tractors.png" alt="UT" class="client-logo-scroll h-6 md:h-14">
+                <img src="wika.png" alt="Wika" class="client-logo-scroll h-6 md:h-14">
             </div>
         </div>
     </section>
@@ -178,7 +178,7 @@
                 Real Infrastructure.<br><span class="text-black/80">Real Industrial Results.</span>
             </h3>
             <div class="w-20 h-1 bg-invilaGold mx-auto mb-6 shadow-md"></div>
-            <p class="text-black/90 text-base md:text-xl font-light leading-relaxed max-w-3xl mx-auto font-medium">
+            <p class="text-black/90 text-base md:text-xl font-light leading-relaxed max-w-3xl mx-auto font-medium shadow-white/50 shadow-sm">
                 Membangun kedaulatan air industri bukan sekadar narasi simulasi. Ini adalah eksekusi skala presisi dan realitas operasional berat yang tim kami bangun serta kelola setiap hari.
             </p>
         </div>
@@ -197,29 +197,29 @@
                     <div>
                         <div class="flex items-center justify-between mb-12"><span class="text-royalBlue font-black text-5xl opacity-20 group-hover:opacity-100 transition-opacity">01</span><span class="text-[9px] font-black uppercase tracking-widest border border-black/10 px-3 py-1 text-red-600 bg-red-50">License Risk</span></div>
                         <h3 class="text-2xl md:text-3xl font-black mb-6 uppercase tracking-tighter noto-serif">Regulatory Compliance</h3>
-                        <p class="text-black/50 text-lg md:text-xl font-light leading-relaxed mb-12">
+                        <p class="text-black/50 text-base md:text-xl font-light leading-relaxed mb-12">
                             Risiko Operasional terhadap kebijakan pembatasan kuota ABT memaksa pabrik mengalihkan beban ke PDAM yang memprioritaskan masyarakat—<strong class="text-black/80 font-bold">memicu Eskalasi Risiko Legalitas.</strong>
                         </p>
                     </div>
-                    <div class="bg-white border border-black/5 p-6 rounded-lg group-hover:bg-royalBlue/5 transition-colors shadow-sm"><p class="text-royalBlue font-black text-[10px] uppercase tracking-widest mb-2">Invila Value Prop:</p><p class="text-black font-semibold text-base leading-tight">Total Risk Transfer. Kami mengamankan legalitas sumber air sebagai aset strategis Anda.</p></div>
+                    <div class="bg-white border border-black/5 p-6 rounded-lg group-hover:bg-royalBlue/5 transition-colors shadow-sm"><p class="text-royalBlue font-black text-[10px] uppercase tracking-widest mb-2">Invila Value Prop:</p><p class="text-black font-semibold text-sm md:text-base leading-tight">Total Risk Transfer. Kami mengamankan legalitas sumber air sebagai aset strategis Anda.</p></div>
                 </div>
 
                 <div class="group flex flex-col justify-between border-t-2 border-black/5 pt-10 hover:border-royalBlue transition-all duration-700">
                     <div>
                         <div class="flex items-center justify-between mb-12"><span class="text-royalBlue font-black text-5xl opacity-20 group-hover:opacity-100 transition-opacity">02</span><span class="text-[9px] font-black uppercase tracking-widest border border-black/10 px-3 py-1 text-orange-600 bg-orange-50">Profit Leak</span></div>
                         <h3 class="text-2xl md:text-3xl font-black mb-6 uppercase tracking-tighter noto-serif">OPEX Explosion</h3>
-                        <p class="text-black/50 text-lg md:text-xl font-light leading-relaxed mb-12">Transisi paksa ke <strong class="text-black/80 font-bold">Tarif PDAM Industri mencapai 300%</strong> lebih tinggi dari RT. Ketidakpastian biaya yang secara masif memangkas laba bersih kuartalan Anda.</p>
+                        <p class="text-black/50 text-base md:text-xl font-light leading-relaxed mb-12">Transisi paksa ke <strong class="text-black/80 font-bold">Tarif PDAM Industri mencapai 300%</strong> lebih tinggi dari RT. Ketidakpastian biaya yang secara masif memangkas laba bersih kuartalan Anda.</p>
                     </div>
-                    <div class="bg-white border border-black/5 p-6 rounded-lg group-hover:bg-royalBlue/5 transition-colors shadow-sm"><p class="text-royalBlue font-black text-[10px] uppercase tracking-widest mb-2">Invila Value Prop:</p><p class="text-black font-semibold text-base leading-tight">Single-Rate Guarantee. Satu harga tetap industrial-grade tanpa kejutan tagihan bulanan.</p></div>
+                    <div class="bg-white border border-black/5 p-6 rounded-lg group-hover:bg-royalBlue/5 transition-colors shadow-sm"><p class="text-royalBlue font-black text-[10px] uppercase tracking-widest mb-2">Invila Value Prop:</p><p class="text-black font-semibold text-sm md:text-base leading-tight">Single-Rate Guarantee. Satu harga tetap industrial-grade tanpa kejutan tagihan bulanan.</p></div>
                 </div>
 
                 <div class="group flex flex-col justify-between border-t-2 border-black/5 pt-10 hover:border-royalBlue transition-all duration-700">
                     <div>
                         <div class="flex items-center justify-between mb-12"><span class="text-royalBlue font-black text-5xl opacity-20 group-hover:opacity-100 transition-opacity">03</span><span class="text-[9px] font-black uppercase tracking-widest border border-black/10 px-3 py-1 text-blue-600 bg-blue-50">Balance Sheet</span></div>
                         <h3 class="text-2xl md:text-3xl font-black mb-6 uppercase tracking-tighter noto-serif">ROI & Capital</h3>
-                        <p class="text-black/50 text-lg md:text-xl font-light leading-relaxed mb-12">Modal kerja terkunci pada aset non-core yang menyusut nilainya. Liabilitas infrastruktur yang menghambat <strong class="text-black/80 font-bold">fleksibilitas ekspansi</strong> bisnis inti.</p>
+                        <p class="text-black/50 text-base md:text-xl font-light leading-relaxed mb-12">Modal kerja terkunci pada aset non-core yang menyusut nilainya. Liabilitas infrastruktur yang menghambat <strong class="text-black/80 font-bold">fleksibilitas ekspansi</strong> bisnis inti.</p>
                     </div>
-                    <div class="bg-white border border-black/5 p-6 rounded-lg group-hover:bg-royalBlue/5 transition-colors shadow-sm"><p class="text-royalBlue font-black text-[10px] uppercase tracking-widest mb-2">Invila Value Prop:</p><p class="text-black font-semibold text-base leading-tight">Zero Investment Model. CAPEX menjadi efisiensi operasional murni (Off-Balance Sheet).</p></div>
+                    <div class="bg-white border border-black/5 p-6 rounded-lg group-hover:bg-royalBlue/5 transition-colors shadow-sm"><p class="text-royalBlue font-black text-[10px] uppercase tracking-widest mb-2">Invila Value Prop:</p><p class="text-black font-semibold text-sm md:text-base leading-tight">Zero Investment Model. CAPEX menjadi efisiensi operasional murni (Off-Balance Sheet).</p></div>
                 </div>
             </div>
         </div>
@@ -236,6 +236,7 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24">
+                
                 <div class="space-y-12">
                     <div class="border-b-2 border-black/10 pb-5 mb-10">
                         <h3 class="text-2xl md:text-3xl font-black text-mckNavy uppercase tracking-tighter noto-serif">Financial Clarity</h3>
@@ -305,49 +306,7 @@
         </div>
     </section>
 
-    <section id="exclusivity-clause" class="bg-white py-20 md:py-32 px-6 border-t border-black/10 relative overflow-hidden fade-in-section">
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-invilaGold/5 blur-[100px] pointer-events-none"></div>
-
-        <div class="max-w-4xl mx-auto relative z-10">
-            <div class="border border-black/10 bg-white p-8 md:p-16 rounded-3xl text-center shadow-[0_10px_40px_rgba(0,0,0,0.05)]">
-                <div class="inline-flex items-center gap-3 bg-legacyRed/10 border border-legacyRed/20 text-legacyRed px-4 py-2 rounded-full mb-8">
-                    <span class="w-2 h-2 rounded-full bg-legacyRed animate-pulse"></span>
-                    <span class="text-[10px] md:text-xs font-black uppercase tracking-widest text-legacyRed">Kapasitas Eksekusi Terbatas</span>
-                </div>
-
-                <h2 class="text-3xl md:text-5xl font-black text-black noto-serif leading-[1.1] tracking-tight mb-8">
-                    Hanya <span class="text-invilaGold">2 (Dua) Proyek</span> Skala Penuh Kuartal Ini.
-                </h2>
-                
-                <div class="text-base md:text-xl text-black/70 font-light leading-relaxed space-y-6 text-justify md:text-center">
-                    <p>Kami bukan vendor penyedia mesin massal. Model bisnis 100% <strong class="text-black font-bold italic">Zero-CapEx</strong> berarti <strong class="border-b border-invilaGold text-black">kami menanggung miliaran Rupiah di depan</strong> untuk memitigasi risiko pabrik Anda.</p>
-                    <p>Demi menjaga standar kualitas <i class="text-black/50">Zero-Downtime</i> dan fokus <i class="text-black/50">Engineering</i> yang absolut, sumber daya operasional dan pendanaan kami saat ini <strong class="text-black font-black">dikunci secara eksklusif hanya untuk mengeksekusi 2 (dua) proyek WaaS secara bersamaan.</strong></p>
-                </div>
-
-                <div class="bg-slate-50 p-6 md:p-8 rounded-2xl border border-black/5 mt-10 text-left">
-                    <h3 class="text-invilaGold font-black uppercase tracking-[0.2em] text-[10px] md:text-xs mb-4">Mekanisme Alokasi Prioritas (The LOI Gate)</h3>
-                    <p class="text-sm md:text-base text-black/80 font-light leading-relaxed">
-                        Kami tidak merespon antrean standar. Kemitraan strategis ini diprioritaskan ketat berdasarkan penerimaan <strong class="text-black font-bold uppercase">Letter of Intent (LOI)</strong> resmi dari manajemen Anda pasca-audit. 
-                    </p>
-                    <div class="mt-6 pt-6 border-t border-black/10 text-center">
-                        <p class="text-base md:text-lg text-black font-black noto-serif italic">"Amankan kuota audit Anda hari ini, atau saksikan kompetitor Anda menikmati efisiensi EBITDA ini."</p>
-                    </div>
-                </div>
-
-                <div class="mt-12 flex flex-col sm:flex-row justify-center items-center gap-6">
-                    <a href="https://wa.me/6285219493322?text=Selamat..." target="_blank" class="w-full sm:w-auto bg-invilaGold text-white px-10 py-5 rounded-full text-xs font-black uppercase tracking-[0.2em] shadow-lg hover:bg-black hover:scale-105 active:scale-95 transition-all text-center">
-                        Kunci Kuota Audit Anda →
-                    </a>
-                </div>
-            </div>
-            
-            <div class="mt-12 text-center">
-                <p class="text-[9px] font-bold text-black/30 uppercase tracking-[0.3em]">Invila™ Strategic Room | strictly confidential</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="strategic-portfolio" class="bg-deepInk py-24 md:py-32 px-6 border-t border-black/5 relative overflow-hidden fade-in-section">
+    <section id="strategic-portfolio" class="bg-deepInk py-24 md:py-32 px-4 sm:px-6 border-t border-black/5 relative overflow-hidden fade-in-section">
         <div class="max-w-7xl mx-auto relative z-10">
             
             <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-20 gap-6">
@@ -357,7 +316,7 @@
                     <p class="text-white/50 text-[10px] md:text-sm mt-3 font-medium tracking-wide">Instalasi pengolahan berskala industrial di seluruh Indonesia.</p>
                 </div>
                 <div class="hidden md:block h-px flex-1 mx-12 bg-white/10"></div>
-                <div class="flex items-center space-x-3 text-invilaGold border border-white/10 bg-white/5 px-4 py-2 rounded-lg">
+                <div class="inline-flex items-center space-x-3 text-invilaGold border border-white/10 bg-white/5 px-4 py-2 rounded-lg self-start md:self-auto">
                     <i data-lucide="droplets" class="w-4 h-4"></i>
                     <span class="text-[9px] md:text-xs font-black uppercase tracking-[0.2em]">WTP & RECYCLE</span>
                 </div>
@@ -369,31 +328,73 @@
         </div>
     </section>
 
-    <section id="final-legacy" class="bg-white pt-28 pb-12 px-6 relative overflow-hidden border-t border-black/5">
+    <section id="exclusivity-clause" class="bg-white py-20 md:py-32 px-4 sm:px-6 border-t border-black/10 relative overflow-hidden fade-in-section">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-invilaGold/5 blur-[100px] pointer-events-none"></div>
+
+        <div class="max-w-4xl mx-auto relative z-10">
+            <div class="border border-black/10 bg-white p-6 sm:p-8 md:p-16 rounded-3xl text-center shadow-[0_10px_40px_rgba(0,0,0,0.05)]">
+                <div class="inline-flex items-center gap-3 bg-legacyRed/10 border border-legacyRed/20 text-legacyRed px-4 py-2 rounded-full mb-8">
+                    <span class="w-2 h-2 rounded-full bg-legacyRed animate-pulse"></span>
+                    <span class="text-[9px] md:text-xs font-black uppercase tracking-widest text-legacyRed">Kapasitas Eksekusi Terbatas</span>
+                </div>
+
+                <h2 class="text-2xl sm:text-3xl md:text-5xl font-black text-black noto-serif leading-[1.1] tracking-tight mb-8">
+                    Hanya <span class="text-invilaGold">2 (Dua) Proyek</span> Skala Penuh Kuartal Ini.
+                </h2>
+                
+                <div class="text-sm sm:text-base md:text-xl text-black/70 font-light leading-relaxed space-y-6 text-justify md:text-center">
+                    <p>Kami bukan vendor penyedia mesin massal. Model bisnis 100% <strong class="text-black font-bold italic">Zero-CapEx</strong> berarti <strong class="border-b border-invilaGold text-black">kami menanggung miliaran Rupiah di depan</strong> untuk memitigasi risiko pabrik Anda.</p>
+                    <p>Demi menjaga standar kualitas <i class="text-black/50">Zero-Downtime</i> dan fokus <i class="text-black/50">Engineering</i> yang absolut, sumber daya operasional dan pendanaan kami saat ini <strong class="text-black font-black">dikunci secara eksklusif hanya untuk mengeksekusi 2 (dua) proyek WaaS secara bersamaan.</strong></p>
+                </div>
+
+                <div class="bg-slate-50 p-6 md:p-8 rounded-2xl border border-black/5 mt-10 text-left">
+                    <h3 class="text-invilaGold font-black uppercase tracking-[0.2em] text-[10px] md:text-xs mb-4">Mekanisme Alokasi Prioritas (The LOI Gate)</h3>
+                    <p class="text-xs sm:text-sm md:text-base text-black/80 font-light leading-relaxed">
+                        Kami tidak merespon antrean standar. Kemitraan strategis ini diprioritaskan ketat berdasarkan penerimaan <strong class="text-black font-bold uppercase">Letter of Intent (LOI)</strong> resmi dari manajemen Anda pasca-audit. 
+                    </p>
+                    <div class="mt-6 pt-6 border-t border-black/10 text-center">
+                        <p class="text-sm sm:text-base md:text-lg text-black font-black noto-serif italic">"Amankan kuota audit Anda hari ini, atau saksikan kompetitor Anda menikmati efisiensi EBITDA ini."</p>
+                    </div>
+                </div>
+
+                <div class="mt-12 flex justify-center items-center w-full">
+                    <a href="https://wa.me/6285219493322?text=Selamat%20%5Bpagi%2Fsiang%5D%2C%20Pak%20Irfon%20(Strategic%20Room).%0A%0AMenindaklanjuti%20informasi%20keterbatasan%20kuota%20eksekusi%20Invila%E2%84%A2%20kuartal%20ini%2C%20saya%20bermaksud%20mengamankan%20slot%20prioritas%20*Strategic%20Site%20Audit*%20untuk%20fasilitas%20kami%20terkait%20transisi%20model%20*Zero-CapEx*%20(WaaS).%0A%0ASebagai%20*baseline*%20kualifikasi%2C%20berikut%20data%20kami%3A%0A-%20Nama%3A%20%0A-%20Jabatan%3A%20(CEO%20%2F%20BOD%20%2F%20Plant%20Manager)%0A-%20Perusahaan%3A%20PT.%20%0A-%20Estimasi%20Debit%20(m%C2%B3%2Fhari)%3A%20%0A%0AMohon%20arahannya%20terkait%20prosedur%20penerbitan%20LOI%20(Letter%20of%20Intent)%20dan%20ketersediaan%20waktu%20tim%20*Engineering*%20Bapak%20untuk%20visit%20ke%20lokasi%20kami.%20Terima%20kasih." target="_blank" class="w-full md:w-auto inline-block bg-invilaGold text-white px-8 md:px-10 py-4 md:py-5 rounded-full text-[10px] md:text-xs font-black uppercase tracking-[0.2em] shadow-lg hover:bg-black hover:scale-105 active:scale-95 transition-all text-center">
+                        Kunci Kuota Audit Anda →
+                    </a>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center">
+                <p class="text-[8px] sm:text-[9px] font-bold text-black/30 uppercase tracking-[0.3em]">Invila™ Strategic Room | strictly confidential</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="final-legacy" class="bg-white pt-20 sm:pt-28 pb-12 px-6 relative overflow-hidden border-t border-black/5">
         <div class="max-w-5xl mx-auto text-center relative z-10">
             <div class="text-center mb-16 mt-10">
-                 <h1 class="text-4xl md:text-6xl font-black text-black uppercase tracking-tighter noto-serif flex items-start justify-center">
-                    INVILA<sup class="text-[0.4em] font-bold align-super ml-1 mt-1 md:mt-2">TM</sup>
+                 <h1 class="text-4xl md:text-6xl font-black text-black uppercase tracking-tighter noto-serif inline-block">
+                    INVILA<sup class="text-[0.4em] font-bold align-super ml-0.5 md:ml-1">TM</sup>
                  </h1>
-                 <p class="text-[9px] md:text-xs font-bold text-invilaGold uppercase tracking-[0.6em] mt-2">Protecting The Core of Industry</p>
+                 <p class="text-[8px] sm:text-[9px] md:text-xs font-bold text-invilaGold uppercase tracking-[0.6em] mt-2 block">Protecting The Core of Industry</p>
             </div>
 
-            <div class="border-t border-black/10 pt-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-10">
+            <div class="border-t border-black/10 pt-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 md:gap-10">
                 <div class="text-left">
                     <p class="text-black text-sm font-black mb-1 tracking-wider uppercase">PT. Invila Tirta Nusantara</p>
-                    <p class="text-black/60 text-sm font-light leading-relaxed">
+                    <p class="text-black/60 text-xs sm:text-sm font-light leading-relaxed">
                         Ruko Sentra Niaga 2, No 5<br>
                         Harapan Indah, Kota Bekasi 17131 Indonesia
                     </p>
-                    <p class="text-black/60 text-sm font-light mt-3 border-t border-black/10 pt-2 flex flex-col gap-1">
+                    <p class="text-black/60 text-xs sm:text-sm font-light mt-3 border-t border-black/10 pt-2 flex flex-col gap-1">
                         <span><span class="font-bold text-black/40 uppercase tracking-widest text-[10px] mr-2 inline-block w-12">Phone</span> +62 21 88866168</span>
-                        <span><span class="font-bold text-black/40 uppercase tracking-widest text-[10px] mr-2 inline-block w-12">Email</span> <a href="mailto:invilawatertreatment@gmail.com" class="hover:text-invilaGold transition-colors text-black">invilawatertreatment@gmail.com</a></span>
+                        <span><span class="font-bold text-black/40 uppercase tracking-widest text-[10px] mr-2 inline-block w-12">Email</span> <a href="mailto:invilawatertreatment@gmail.com" class="hover:text-invilaGold transition-colors text-black break-all">invilawatertreatment@gmail.com</a></span>
                     </p>
                 </div>
                 
-                <div class="text-left md:text-right">
+                <div class="text-left md:text-right w-full md:w-auto border-t md:border-t-0 border-black/10 pt-6 md:pt-0">
                     <p class="text-black/40 text-[10px] font-bold uppercase tracking-widest mb-4">© 2026 All Rights Reserved.</p>
-                    <div class="flex gap-6">
+                    <div class="flex flex-wrap gap-4 md:gap-6">
                         <a href="#" class="text-black/50 hover:text-invilaGold text-[10px] font-medium uppercase tracking-widest transition-colors">Privacy Policy</a>
                         <a href="#" class="text-black/50 hover:text-invilaGold text-[10px] font-medium uppercase tracking-widest transition-colors">Terms of Service</a>
                     </div>
@@ -534,6 +535,7 @@
 
             // ==========================================
             // LOGIKA RENDER PORTFOLIO C1 / MCKINSEY STYLE
+            // DIUBAH: String Escaping Aman untuk Onerror Image
             // ==========================================
             const projectData = [
                 { no: 1, name: "Clarifier 6 PDAM Tirtanadi", loc: "Medan-Sunggal", client: "PDAM Tirtanadi", cap: "43.200", lps: 500, year: "2013–2014", logo: "tirtanadi.png", type: "IPA" },
@@ -553,15 +555,17 @@
             if(container) {
                 projectData.forEach(p => {
                     const card = document.createElement('div');
-                    // Styling Card Executive: Background gelap pekat, border tipis elegan, hover emas
                     card.className = "group border border-white/10 bg-[#0a0f1a] p-6 md:p-8 hover:border-invilaGold transition-all duration-500 flex flex-col justify-between h-full";
-                    const fallbackHTML = `<i data-lucide='${typeIcons[p.type] || "factory"}' class='w-5 h-5 text-blue-500'></i>`;
                     
+                    const iconName = typeIcons[p.type] || 'factory';
+                    // Fallback yang aman 100% untuk DOM
+                    const onErrorStr = `this.outerHTML='<i data-lucide=\\'${iconName}\\' class=\\'w-5 h-5 text-blue-500\\'></i>'`;
+
                     card.innerHTML = `
                         <div>
                             <div class="flex justify-between items-center mb-6">
                                 <div class="bg-white p-2 w-10 h-10 flex items-center justify-center rounded shadow-sm">
-                                    <img src="${p.logo}" alt="${p.client}" class="max-w-full max-h-full object-contain" onerror="this.parentElement.innerHTML=\`${fallbackHTML}\`">
+                                    <img src="${p.logo}" alt="${p.client}" class="max-w-full max-h-full object-contain" onerror="${onErrorStr}">
                                 </div>
                                 <span class="text-[10px] text-white/50 tracking-widest font-mono">${p.year}</span>
                             </div>
@@ -585,6 +589,8 @@
                         </div>`;
                     container.appendChild(card);
                 });
+                
+                // Panggil lucide setelah append card selesai agar icon fallback ter-render
                 if(typeof lucide !== 'undefined') { lucide.createIcons(); }
             }
         };
