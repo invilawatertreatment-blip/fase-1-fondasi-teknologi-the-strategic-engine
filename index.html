@@ -55,7 +55,7 @@
             <div class="flex items-center gap-2 md:gap-5">
                 <img src="logo-invila-white.png" alt="Invila" class="h-10 md:h-20 object-contain drop-shadow-sm">
                 <div class="flex flex-col leading-none">
-                    <h1 class="text-[24px] md:text-[55px] font-black text-black uppercase tracking-tighter noto-serif">
+                    <h1 class="text-[24px] md:text-[55px] font-black text-black uppercase tracking-tighter noto-serif flex items-start">
                         INVILA<sup class="text-[0.4em] font-bold align-super ml-0.5">TM</sup>
                     </h1>
                     <p class="text-[9px] md:text-[30px] font-bold text-royalBlue noto-serif whitespace-nowrap mt-1">
@@ -80,7 +80,6 @@
         <div id="contentOverlay" class="relative z-40 text-center w-full max-w-6xl hidden opacity-0">
             
             <div class="bg-[#020617] rounded-[2rem] p-8 md:p-12 shadow-[0_20px_50px_rgba(0,0,0,0.3)] mx-auto max-w-4xl border border-slate-800 mb-12">
-                
                 <div class="flex justify-center mb-6">
                     <div class="inline-flex items-center space-x-2 bg-blue-900/30 border border-blue-800/50 px-4 py-1.5 rounded-full">
                         <i data-lucide="shield-check" class="w-3.5 h-3.5 text-blue-500"></i>
@@ -348,11 +347,33 @@
         </div>
     </section>
 
+    <section id="strategic-portfolio" class="bg-deepInk py-24 md:py-32 px-6 border-t border-black/5 relative overflow-hidden fade-in-section">
+        <div class="max-w-7xl mx-auto relative z-10">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-20 gap-6">
+                <div>
+                    <h4 class="text-royalBlue font-black tracking-[0.4em] uppercase text-[10px] md:text-xs mb-4">Strategic Portfolio</h4>
+                    <h2 class="text-3xl md:text-5xl font-black text-white uppercase tracking-tight">Pengalaman Proyek</h2>
+                    <p class="text-white/50 text-[10px] md:text-sm mt-3 font-medium tracking-wide">Instalasi pengolahan berskala industrial di seluruh Indonesia.</p>
+                </div>
+                <div class="hidden md:block h-px flex-1 mx-12 bg-white/10"></div>
+                <div class="flex items-center space-x-3 text-invilaGold border border-white/10 bg-white/5 px-4 py-2 rounded-lg">
+                    <i data-lucide="droplets" class="w-4 h-4"></i>
+                    <span class="text-[9px] md:text-xs font-black uppercase tracking-[0.2em]">WTP & RECYCLE</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8" id="project-container">
+                </div>
+            
+        </div>
+    </section>
+
     <section id="final-legacy" class="bg-white pt-28 pb-12 px-6 relative overflow-hidden border-t border-black/5">
         <div class="max-w-5xl mx-auto text-center relative z-10">
             <div class="text-center mb-16 mt-10">
-                 <h1 class="text-4xl md:text-6xl font-black text-black uppercase tracking-tighter noto-serif">
-                    INVILA<sup class="text-[0.4em] font-bold align-super ml-1">TM</sup>
+                 <h1 class="text-4xl md:text-6xl font-black text-black uppercase tracking-tighter noto-serif flex items-start justify-center">
+                    INVILA<sup class="text-[0.4em] font-bold align-super ml-1 mt-1 md:mt-2">TM</sup>
                  </h1>
                  <p class="text-[9px] md:text-xs font-bold text-invilaGold uppercase tracking-[0.6em] mt-2">Protecting The Core of Industry</p>
             </div>
@@ -406,7 +427,7 @@
         const animateOdometer = (el) => {
             const target = parseFloat(el.getAttribute('data-target'));
             const start = parseFloat(el.getAttribute('data-start') || 0);
-            const duration = 4000; // 4 Detik agar pas
+            const duration = 4000;
             const startTime = performance.now();
             
             const update = (now) => {
@@ -452,11 +473,6 @@
                 contentOverlay.classList.remove('hidden');
                 contentOverlay.style.opacity = "1";
                 triggerMainOdometer();
-                
-                const urlParams = new URLSearchParams(window.location.search);
-                if (urlParams.get('skipvideo') === 'true') {
-                    setTimeout(() => document.getElementById('ebitda-anchor').scrollIntoView(), 600);
-                }
             } else {
                 heroVideo.style.transition = "opacity 0.8s ease";
                 heroVideo.style.opacity = "0";
@@ -468,7 +484,7 @@
                     contentOverlay.classList.remove('hidden');
                     setTimeout(() => {
                         contentOverlay.style.opacity = "1";
-                        triggerMainOdometer(); // Animasi angka saat konten muncul
+                        triggerMainOdometer();
                     }, 100);
                 }, 800);
             }
@@ -485,12 +501,10 @@
                 setTimeout(() => { if (contentOverlay.classList.contains('hidden')) reveal(true); }, 6000);
             }
 
-            // Tombol Recalculate Odometer Utama (Dark Widget)
+            // Tombol Recalculate Odometer Utama
             const mainRecalcBtn = document.getElementById('main-recalculate-btn');
             if(mainRecalcBtn) {
-                mainRecalcBtn.addEventListener('click', () => {
-                    triggerMainOdometer();
-                });
+                mainRecalcBtn.addEventListener('click', () => { triggerMainOdometer(); });
             }
 
             // Video Proof KIW1
@@ -517,6 +531,62 @@
                     }
                 });
             });
+
+            // ==========================================
+            // LOGIKA RENDER PORTFOLIO C1 / MCKINSEY STYLE
+            // ==========================================
+            const projectData = [
+                { no: 1, name: "Clarifier 6 PDAM Tirtanadi", loc: "Medan-Sunggal", client: "PDAM Tirtanadi", cap: "43.200", lps: 500, year: "2013–2014", logo: "tirtanadi.png", type: "IPA" },
+                { no: 2, name: "Clarifier 1 PDAM Tirtanadi", loc: "Medan-Sunggal", client: "PDAM Tirtanadi", cap: "43.200", lps: 500, year: "2013–2014", logo: "tirtanadi.png", type: "IPA" },
+                { no: 3, name: "WTP PDAM Tirta Asasta Legong", loc: "Depok", client: "PDAM", cap: "25.920", lps: 300, year: "2016", logo: "tirta-asasta-depok.png", type: "WTP" },
+                { no: 4, name: "WTP PDAM Tirta Asasta Citayam", loc: "Depok", client: "PDAM", cap: "25.920", lps: 300, year: "2016", logo: "tirta-asasta-depok.png", type: "WTP" },
+                { no: 5, name: "WTP Gunung Sari Petro Kimia", loc: "Surabaya", client: "PT Petro Kimia Gresik", cap: "71.971", lps: 833, year: "2016", logo: "petrokimia-gresik.png", type: "WTP" },
+                { no: 6, name: "WTP KI Wijayakusuma", loc: "Semarang", client: "PT Indisi", cap: "4.320", lps: 50, year: "2017–2018", logo: "kiw.png", type: "WTP" },
+                { no: 7, name: "IPAL-IPA Recycle Kievit", loc: "Salatiga", client: "PT Kievit Indonesia", cap: "259", lps: 3, year: "2017–2018", logo: "kievit.png", type: "RECYCLE" },
+                { no: 8, name: "WTP Patria Maritim Perkasa", loc: "Wijayakusuma", client: "PT PMP", cap: "2.160", lps: 25, year: "2024", logo: "patria-maritim-perkasa.png", type: "WTP" },
+                { no: 9, name: "WTP KI Wijayakusuma Phase II", loc: "Semarang", client: "PT KIW", cap: "4.320", lps: 50, year: "2026", logo: "kiw.png", type: "FUTURE" }
+            ];
+
+            const typeIcons = { IPA: 'droplets', WTP: 'factory', RECYCLE: 'refresh-ccw', FUTURE: 'cpu' };
+            const container = document.getElementById('project-container');
+            
+            if(container) {
+                projectData.forEach(p => {
+                    const card = document.createElement('div');
+                    // Styling Card Executive: Background gelap pekat, border tipis elegan, hover emas
+                    card.className = "group border border-white/10 bg-[#0a0f1a] p-6 md:p-8 hover:border-invilaGold transition-all duration-500 flex flex-col justify-between h-full";
+                    const fallbackHTML = `<i data-lucide='${typeIcons[p.type] || "factory"}' class='w-5 h-5 text-blue-500'></i>`;
+                    
+                    card.innerHTML = `
+                        <div>
+                            <div class="flex justify-between items-center mb-6">
+                                <div class="bg-white p-2 w-10 h-10 flex items-center justify-center rounded shadow-sm">
+                                    <img src="${p.logo}" alt="${p.client}" class="max-w-full max-h-full object-contain" onerror="this.parentElement.innerHTML=\`${fallbackHTML}\`">
+                                </div>
+                                <span class="text-[10px] text-white/50 tracking-widest font-mono">${p.year}</span>
+                            </div>
+                            <p class="text-[9px] font-bold text-royalBlue uppercase tracking-[0.2em] mb-2">${p.client}</p>
+                            <h3 class="text-lg md:text-xl font-black text-white leading-snug mb-4 noto-serif">${p.name}</h3>
+                            <p class="text-[10px] text-white/60 flex items-center gap-1.5 uppercase tracking-widest mb-6">
+                                <i data-lucide="map-pin" class="w-3 h-3 text-white/40"></i> ${p.loc}
+                            </p>
+                        </div>
+                        <div class="border-t border-white/10 pt-5 flex justify-between items-end mt-4">
+                            <div>
+                                <p class="text-[8px] text-white/40 uppercase tracking-[0.2em] mb-1 font-bold">Kapasitas</p>
+                                <div class="flex items-baseline space-x-1.5">
+                                    <span class="text-2xl md:text-3xl font-black text-white tracking-tighter">${p.cap}</span>
+                                    <span class="text-[9px] text-white/50">m³/hari</span>
+                                </div>
+                            </div>
+                            <div class="bg-white/5 border border-white/10 px-3 py-1 text-invilaGold text-[10px] font-bold uppercase tracking-widest rounded-sm">
+                                ${p.lps} LPS
+                            </div>
+                        </div>`;
+                    container.appendChild(card);
+                });
+                if(typeof lucide !== 'undefined') { lucide.createIcons(); }
+            }
         };
     </script>
 </body>
