@@ -283,9 +283,9 @@
             </div>
         </div>
 
-        <div class="w-full flex justify-center pb-12 transition-all view-executive hidden">
-            <div class="w-full text-center">
-                <button onclick="executeStrategicDownload()" id="btn-pdf" class="w-full max-w-md bg-brandGold text-[#001b44] py-5 rounded-xl font-black uppercase tracking-[0.15em] text-xs hover:bg-white active:scale-95 transition-all shadow-[0_10px_30px_-10px_rgba(197,160,89,0.6)] cursor-pointer flex flex-col items-center justify-center gap-2 border-2 border-brandGold relative overflow-hidden group mx-auto">
+        <div class="w-full flex flex-col items-center pb-12 transition-all view-executive hidden">
+            <div class="w-full text-center max-w-md mb-5">
+                <button onclick="executeStrategicDownload()" id="btn-pdf" class="w-full bg-brandGold text-[#001b44] py-5 rounded-xl font-black uppercase tracking-[0.15em] text-xs hover:bg-white active:scale-95 transition-all shadow-[0_10px_30px_-10px_rgba(197,160,89,0.6)] cursor-pointer flex flex-col items-center justify-center gap-2 border-2 border-brandGold relative overflow-hidden group">
                     <span class="absolute top-0 left-0 w-full h-1 bg-white/50 group-hover:bg-[#001b44]/10 transition-colors"></span>
                     <div class="flex items-center gap-2 relative z-10">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
@@ -294,6 +294,16 @@
                     <span id="btn-sub-print" class="text-[9px] font-bold tracking-widest text-[#001b44]/70 uppercase relative z-10">Unduh Laporan C-Level (Visual Chart & Matrix)</span>
                 </button>
                 <p id="status-msg" class="text-[10px] text-center uppercase tracking-widest text-successGreen font-bold hidden animate-pulse mt-3">Menyiapkan Dokumen Board-Level...</p>
+            </div>
+            
+            <div class="w-full text-center max-w-md border-t border-white/10 pt-5">
+                <button onclick="forwardToFM()" class="w-full bg-transparent border border-blue-500/50 text-blue-400 py-4 rounded-xl font-black uppercase tracking-[0.15em] text-[11px] hover:bg-blue-500/10 active:scale-95 transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 group">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                        <span id="btn-txt-delegate">FORWARD TECHNICAL VALIDATION TO FM</span>
+                    </div>
+                    <span id="btn-sub-delegate" class="text-[8px] font-bold tracking-widest text-blue-400/50 uppercase">Delegasikan Analisa SCADA ke Kepala Pabrik</span>
+                </button>
             </div>
         </div>
 
@@ -526,6 +536,8 @@
             
             setTxt('btn-txt-print', 'PRINT STRATEGIC MEMO');
             setTxt('btn-sub-print', 'Download C-Level Report (Visual Chart & Matrix)');
+            setTxt('btn-txt-delegate', 'DELEGATE TECHNICAL VALIDATION TO FM');
+            setTxt('btn-sub-delegate', 'Generate Technical Dashboard Link for Plant Manager');
             
             setTxt('pdf-h-sec1', 'Part I: Executive Summary (The Bottom Line)');
             setTxt('pdf-lbl-annual', 'Annual Net Profit Injection');
@@ -791,6 +803,31 @@
                 alert(`Draf Pesan WhatsApp & Tautan Khusus untuk CFO berhasil disalin!\n\nSilakan langsung 'Paste' (Tempel) di chat WhatsApp untuk diteruskan ke pimpinan Direksi Anda.`);
                 const clientName = document.getElementById('client_name').value;
                 const targetUrl = `${WEBHOOK_URL}?company=${encodeURIComponent(clientName)}&nama=FM&role=Technical&action=Share%20Link%20CFO`;
+                fetch(targetUrl, { mode: 'no-cors' }).catch(e => console.log(e));
+            });
+        }
+
+        // FUNGSI BARU: DELEGASI TOP-DOWN DARI CFO KE FM
+        function forwardToFM() {
+            urlParams.set('view', 'technical');
+            urlParams.set('flow', document.getElementById('inp-flow').value);
+            urlParams.set('pdam', document.getElementById('inp-pdam').value);
+            urlParams.set('waste', document.getElementById('inp-waste').value);
+            urlParams.set('wfactor', document.getElementById('inp-waste-factor').value);
+            urlParams.set('recycle', document.getElementById('inp-recycle').value);
+            urlParams.set('waas', document.getElementById('inp-waas').value);
+            urlParams.set('days', document.getElementById('inp-days').value);
+
+            if (isEnglish) urlParams.set('lang', 'en');
+
+            const forwardUrl = window.location.origin + window.location.pathname + '?' + urlParams.toString();
+            
+            const waText = `Tolong pelajari proposal infrastruktur utilitas air dari Invila ini.\n\nSecara proyeksi finansial (skema Zero CapEx), model mereka berpotensi memangkas OPEX kita secara signifikan. Namun sebelum saya setujui, saya butuh validasi teknis mutlak dari tim Anda.\n\nSilakan review arsitektur operasional mereka di dashboard teknis berikut:\n👉 ${forwardUrl}\n\nFokus analisa Anda: Pastikan klaim 'Zero Downtime' saat instalasi mereka valid, dan integrasinya 100% aman tanpa mengganggu target produksi pabrik kita.\n\nPelajari dan kabari saya hasil review-nya segera.`;
+            
+            navigator.clipboard.writeText(waText).then(() => {
+                alert(`Draf Instruksi WhatsApp & Tautan Teknis berhasil disalin!\n\nSilakan langsung 'Paste' (Tempel) di chat WhatsApp untuk mendelegasikan tugas review teknis ini kepada Kepala Pabrik (FM) Anda.`);
+                const clientName = document.getElementById('client_name').value;
+                const targetUrl = `${WEBHOOK_URL}?company=${encodeURIComponent(clientName)}&nama=CFO&role=Executive&action=Delegate%20Link%20FM`;
                 fetch(targetUrl, { mode: 'no-cors' }).catch(e => console.log(e));
             });
         }
