@@ -293,7 +293,7 @@
                 <p id="status-msg" class="text-[10px] text-center uppercase tracking-widest text-successGreen font-bold hidden animate-pulse mt-3">Menyiapkan Dokumen Board-Level...</p>
             </div>
             
-            <div class="w-full text-center max-w-md border-t border-white/10 pt-5">
+            <div id="btn-delegate-wrapper" class="w-full text-center max-w-md border-t border-white/10 pt-5">
                 <button onclick="forwardToFM()" class="w-full bg-transparent border border-blue-500/50 text-blue-400 py-4 rounded-xl font-black uppercase tracking-[0.15em] text-[11px] hover:bg-blue-500/10 active:scale-95 transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 group">
                     <div class="flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
@@ -494,7 +494,10 @@
         
         const urlParams = new URLSearchParams(window.location.search);
         const isEnglish = urlParams.get('lang') === 'en';
-        const isFromCFO = urlParams.get('source') === 'cfo'; // PELACAK JEJAK (TOP-DOWN)
+        
+        // PENDETEKSI JEJAK
+        const isFromCFO = urlParams.get('source') === 'cfo'; 
+        const isFromFM = urlParams.get('source') === 'fm'; 
 
         function fmtRp(angka) { 
             const prefix = isEnglish ? 'IDR ' : 'Rp ';
@@ -661,7 +664,6 @@
             
             setTxt('pdf-desc-tbl-in-water', isEnglish ? `Substitution ${Math.round(recycleRate * 100)}% + Backup` : `Substitusi ${Math.round(recycleRate * 100)}% + Cadangan`);
 
-            // WEB UI UPDATE
             setTxt('out-capex', fmtMakro(capexCovered));
             setTxt('out-annual', fmtMakro(saveYearly));
             setTxt('out-monthly', fmtRp(saveMonthly));
@@ -671,7 +673,6 @@
             setTxt('out-tech-annual', fmtMakro(saveYearly));
             setTxt('out-tech-monthly', fmtRp(saveMonthly));
 
-            // PDF STAGE UPDATE
             setTxt('pdf-sum-annual', fmtMakro(saveYearly));
             setTxt('pdf-sum-monthly', fmtRp(saveMonthly));
             setTxt('pdf-sum-capex', fmtMakro(capexCovered));
@@ -745,6 +746,13 @@
                 document.getElementById('glow-1').className = "fixed top-[-10%] right-[-5%] w-[400px] h-[400px] bg-successGreen/5 blur-[150px] rounded-full pointer-events-none z-0 transition-colors duration-1000";
                 document.getElementById('glow-2').className = "fixed bottom-[-10%] left-[-5%] w-[400px] h-[400px] bg-brandGold/5 blur-[150px] rounded-full pointer-events-none z-0 transition-colors duration-1000";
 
+                // LOGIKA JALAN BUNTU: Jika ini adalah balasan dari FM, SEMBUNYIKAN tombol Delegate
+                if (isFromFM) {
+                    document.getElementById('btn-delegate-wrapper').classList.add('hidden');
+                } else {
+                    document.getElementById('btn-delegate-wrapper').classList.remove('hidden');
+                }
+
             } else {
                 execEls.forEach(el => el.classList.add('hidden'));
                 techEls.forEach(el => el.classList.remove('hidden'));
@@ -771,7 +779,6 @@
                 document.getElementById('glow-1').className = "fixed top-[-10%] right-[-5%] w-[400px] h-[400px] bg-blue-500/10 blur-[150px] rounded-full pointer-events-none z-0 transition-colors duration-1000";
                 document.getElementById('glow-2').className = "fixed bottom-[-10%] left-[-5%] w-[400px] h-[400px] bg-slate-500/5 blur-[150px] rounded-full pointer-events-none z-0 transition-colors duration-1000";
                 
-                // UBAH TOMBOL BERDASARKAN JEJAK (DARI SALES ATAU DARI CFO)
                 if (isFromCFO) {
                     setTxt('btn-txt-fm', isEnglish ? 'SUBMIT TECHNICAL REVIEW TO CFO' : 'SUBMIT TECHNICAL REVIEW TO CFO');
                     setTxt('btn-sub-fm', isEnglish ? 'Report Validation Result to Executive' : 'Laporkan Hasil Validasi Ke Direksi');
@@ -795,10 +802,11 @@
             return false;
         }
 
-        // FUNGSI TOMBOL FM (JALUR 1: KE CFO ATAU JALUR 2: BALAS KE CFO)
+        // FUNGSI TOMBOL FM
         function forwardToCFO() {
-            urlParams.delete('source'); // Bersihkan jejak dari URL
             urlParams.set('view', 'executive');
+            urlParams.set('source', 'fm'); // SET JALAN BUNTU UNTUK CFO
+            
             urlParams.set('flow', document.getElementById('inp-flow').value);
             urlParams.set('pdam', document.getElementById('inp-pdam').value);
             urlParams.set('waste', document.getElementById('inp-waste').value);
@@ -813,11 +821,9 @@
             
             let waText = "";
             if (isFromCFO) {
-                // Skenario 2: Balasan dari FM ke Bos
                 waText = `Selamat Pagi/Siang Bapak/Ibu.\n\nSesuai arahan, saya telah melakukan review mendalam terhadap arsitektur utilitas air Invila. Secara teknis, klaim *Zero Downtime* mereka valid karena menggunakan sistem paralel yang tidak akan menghentikan operasional produksi kita saat instalasi.\n\nDengan adanya jaminan SLA 99.98% dan pengalihan 100% risiko maintenance ke pihak Invila, sistem ini sangat aman dan tangguh untuk pabrik kita.\n\nDari sisi operasional saya memberikan lampu hijau (Approved). Silakan Bapak/Ibu tindak lanjuti eksekusi komersialnya melalui Executive Dashboard berikut:\n👉 ${forwardUrl}`;
             } else {
-                // Skenario 1: Laporan inisiatif FM ke Bos
-                waText = `Selamat Pagi/Siang Bapak/Ibu, mohon izin menyampaikan.\n\nTim engineering telah mengevaluasi proposal efisiensi utilitas air dari Invila. Secara teknis kami merekomendasikan sistem ini karena menjamin *Zero Downtime saat instalasi* dan dirancang untuk *terintegrasi mulus dengan sistem existing kita*.\n\nSelain sangat aman bagi kelancaran produksi, ada potensi penghematan OPEX yang signifikan melalui skema *Zero CapEx*. Simulasi finansialnya telah saya siapkan khusus untuk review Bapak/Ibu di tautan ini:\n👉 ${forwardUrl}\n\nJika proyeksi angka tersebut sesuai dengan target perusahaan, mohon arahan Bapak/Ibu untuk tindak lanjutnya. Terima kasih.`;
+                waText = `Selamat Pagi/Siang Bapak/Ibu, mohon izin melaporkan.\n\nTim engineering baru saja mengevaluasi proposal restrukturisasi utilitas air dari Invila. Secara teknis, kami sangat merekomendasikan sistem ini karena mereka menjamin keamanan *Zero Downtime* saat instalasi dan 100% risiko maintenance dialihkan ke mereka.\n\nSelain operasional yang lebih tangguh, ada potensi pemotongan OPEX utilitas yang sangat masif untuk pabrik kita melalui skema *Zero CapEx*. Simulasi dampaknya terhadap Laba Bersih sudah saya siapkan khusus untuk review Bapak/Ibu di dashboard berikut:\n👉 ${forwardUrl}\n\nDari sisi operasional, sistem ini sudah clear dan aman. Mengingat besarnya potensi penghematan ini, saran saya mari kita undang tim Invila untuk meeting, jika Bapak/Ibu ada ketersediaan waktu minggu depan. Terima kasih.`;
             }
             
             navigator.clipboard.writeText(waText).then(() => {
@@ -829,10 +835,11 @@
             });
         }
 
-        // FUNGSI DELEGASI TOP-DOWN DARI CFO KE FM
+        // FUNGSI TOMBOL CFO
         function forwardToFM() {
             urlParams.set('view', 'technical');
-            urlParams.set('source', 'cfo'); // TINGGALKAN JEJAK BAHWA INI DARI BOS
+            urlParams.set('source', 'cfo'); // TINGGALKAN JEJAK DARI BOS
+            
             urlParams.set('flow', document.getElementById('inp-flow').value);
             urlParams.set('pdam', document.getElementById('inp-pdam').value);
             urlParams.set('waste', document.getElementById('inp-waste').value);
